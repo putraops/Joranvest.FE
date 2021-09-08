@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import {axios} from 'axios'
+import axiosApi from '../../config/axiosConfig';
 
 class Register extends React.Component {
     state = {
@@ -26,16 +26,17 @@ class Register extends React.Component {
         console.log(this.state)
     }
 
-    Login = event => {
+    Register = event => {
         var data = {
             username: this.state.username,
             password: this.state.password
         };
-        axios.post(`http://localhost:10000/api/auth/login`, data)
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
-        })
+
+        axiosApi.post(`/application_user/register`, 
+            this.state
+        ).then(r => {
+          console.log(r);
+        });
     }
 
     render() {
@@ -86,7 +87,7 @@ class Register extends React.Component {
                                                             </div>
                                                         </Col>
                                                     </Row>
-                                                    <button type="button" className="btn btn-primary btn-block btn-lg waves-effect waves-themed">Register <i className="fab fa-google"></i></button>            
+                                                    <button type="button" className="btn btn-primary btn-block btn-lg waves-effect waves-themed" onClick={this.Register}>Register <i className="fab fa-google"></i></button>            
                                                 </div>
                                                 <div className="card-footer bg-white text-muted text-center">
                                                     <div>

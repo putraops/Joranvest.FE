@@ -23,12 +23,12 @@ class Login extends React.Component {
             password: this.state.password
         };
 
-        axiosApi.post(`/api/auth/login`, 
+        axiosApi.post(`/auth/login`, 
             data
         ).then(r => {
           console.log(r);
         });
-      }
+    }
     render() {
         return (
             <React.Fragment>

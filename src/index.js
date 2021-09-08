@@ -16,7 +16,7 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-1`} component={Index1}/>   */}
                         <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
-                        <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>  
+                        <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-2`} component={Index2}/>  
                         <Route path={`${process.env.PUBLIC_URL}/index-3`} component={Index3}/>  
                         <Route path={`${process.env.PUBLIC_URL}/index-4`} component={Index4}/>  

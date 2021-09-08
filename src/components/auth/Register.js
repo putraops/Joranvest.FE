@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axiosApi from '../../config/axiosConfig';
 
 class Register extends React.Component {
@@ -25,6 +25,21 @@ class Register extends React.Component {
 
         console.log(this.state)
     }
+    
+    Login = event => {
+        var data = {
+            email: this.state.email,
+            password: this.state.password
+        };
+
+        axiosApi.post(`/auth/login`, 
+            data
+        ).then(r => {
+            if (r.data.status) {
+                this.props.history.push('/');
+            }
+        });
+    }
 
     Register = event => {
         var data = {
@@ -35,9 +50,12 @@ class Register extends React.Component {
         axiosApi.post(`/application_user/register`, 
             this.state
         ).then(r => {
-          console.log(r);
+            if (r.data.status) {
+                this.Login();
+            }
         });
     }
+
 
     render() {
         return (

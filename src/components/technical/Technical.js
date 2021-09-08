@@ -42,7 +42,7 @@ class Technical extends React.Component {
         this.LoadData();
     }
 
-    LoadData = ()=>
+    LoadData = () =>
     {
         const {payload} = this.state; 
         axiosApi.post(`/technical_analysis/getPagination`, payload).then(r => {
@@ -53,36 +53,6 @@ class Technical extends React.Component {
         });
     }
 
-    GetByPagination = event => {
-        const {payload} = this.state;
-
-        axiosApi.post(`/technical_analysis/getPagination`,
-            payload
-        ).then(r => {
-        console.log(r.data);
-        if (r.data.total > 0) {
-                // tempListData = r.data;
-                // for (let i = 0; i < r.data.total; i++) {
-                //     tempListData.push({
-                //         href: 'https://ant.design',
-                //         title: `Malika, RFA, RFC, WPPE, WMI ${i}`,
-                //         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                //         signal: "Uptrend",
-                //         emiten: "GGRM",
-                //         buy: "4050 - 4999",
-                //         sell: "4050 - 4999",
-                //         stopLoss: "35.000 - 99.999",
-                //         riskReward: "1 : 3",
-                //         description: 'Ant Designer',
-                //         content:
-                //         'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-                //     });
-                // }
-                this.setState({...this.state, listData:r.data});
-            }
-        });
-    }
-
     handlePage = event => {
         const {payload} = this.state;
         payload.page = event;
@@ -90,21 +60,14 @@ class Technical extends React.Component {
     }
     
     render() {
-        //this.GetByPagination();
         const { listData, payload } = this.state;
-        console.log(listData,"load data");
-        const gridStyle = {
-            width: '25%',
-            textAlign: 'center',
-        };
-
         const gridAnalysis = {
             left: 0,
             right: 0,
             // margin: '0 0px',
             padding: '15px',
-            WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 10%)',
-            boxShadow: '0 0 5px 0px rgb(0 0 0 / 10%)',
+            WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
+            boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
             borderRadius: '0px',
             top: '-25px',
             WebkitTransition: 'all 0.5s',
@@ -125,7 +88,7 @@ class Technical extends React.Component {
                     <div className="container mt-5">
                         <Row className="">
                             <Col md="12">
-                            <strong className="mb-2">Riset Analisa Teknikal</strong>
+                            <strong className="mb-2 f-20">Riset Analisa Teknikal</strong>
 					        <p>Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu</p>
                             
                             <Button type="primary" className="mr-2">Semua</Button>
@@ -151,16 +114,15 @@ class Technical extends React.Component {
                                         actions={[
                                         ]}>
                                         <List.Item.Meta className="mt-0"
-                                        avatar={<Avatar src={item.timeframe} />}
-                                        title={<a href={item.timeframe}>{item.user_create}</a>}
-                                        description={
-                                            <div className="row">
-                                                <div className= "col-md-12">
-                                                    <span className="font-weight-bold">{item.emiten_name}</span>
+                                            avatar={<Avatar src={item.timeframe} />}
+                                            title={<a href={item.timeframe}>{item.user_create}</a>}
+                                            description={
+                                                <div className="row">
+                                                    <div className= "col-md-12">
+                                                        <span className="font-weight-bold">{item.emiten_name}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
-                                        />
+                                            } />
                                         {
                                             <Row className="ml-2 mr-2 mb-4">
                                                 <Col md="12">

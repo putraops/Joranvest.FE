@@ -42,7 +42,6 @@ class BlogSection extends React.Component {
                         </Row>
 
                         <div className="row">
-
                             {this.state.BlogList.map((blog, index)=> {
                                 return <Col lg="4" key={index}>
                                     <div className="blog position-relative">

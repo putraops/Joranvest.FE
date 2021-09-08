@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
+import axiosApi from '../../config/axiosConfig';
 
 class Login extends React.Component {
     state = {
@@ -22,12 +23,11 @@ class Login extends React.Component {
             password: this.state.password
         };
 
-        axios.post(`http://localhost:10000/api/auth/login`, data)
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
-        })
-      
+        axiosApi.post(`/api/auth/login`, 
+            data
+        ).then(r => {
+          console.log(r);
+        });
       }
     render() {
         return (

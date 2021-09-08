@@ -1,8 +1,43 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {axios} from 'axios'
 
 class Register extends React.Component {
+    state = {
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
+    }
+
+    handleChange = event => {
+        const target = event.target;
+        const name = target.name;
+
+        if (name == "repassword") {
+            console.log("repassword");
+        } else {
+            this.setState({
+                [name]: target.value
+            });
+        }
+
+        console.log(this.state)
+    }
+
+    Login = event => {
+        var data = {
+            username: this.state.username,
+            password: this.state.password
+        };
+        axios.post(`http://localhost:10000/api/auth/login`, data)
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -23,31 +58,31 @@ class Register extends React.Component {
                                                         <Col lg="6" sm="12">
                                                             <div className="form-group">
                                                                 <label className="text-muted" htmlFor="">Nama Depan</label>
-                                                                <input type="text" className="form-control" name="first_name" required />
+                                                                <input type="text" className="form-control" name="first_name" required="" onChange={this.handleChange} />
                                                             </div>
                                                         </Col>
                                                         <Col lg="6" sm="12">
                                                             <div className="form-group">
                                                                 <label className="text-muted" htmlFor="">Nama Belakang</label>
-                                                                <input type="text" className="form-control" name="last_name" required />
+                                                                <input type="text" className="form-control" name="last_name" required="" onChange={this.handleChange} />
                                                             </div>
                                                         </Col>
                                                         <Col md="12">
                                                             <div className="form-group">
                                                                 <label className="text-muted" htmlFor="">Email</label>
-                                                                <input type="text" className="form-control" name="email" />
+                                                                <input type="text" className="form-control" name="email" required="" onChange={this.handleChange} />
                                                             </div>
                                                         </Col>
                                                         <Col md="12">
                                                             <div className="form-group">
                                                             <label className="text-muted" htmlFor="">Password</label>
-                                                            <input type="password" className="form-control" name="password" />
+                                                            <input type="password" className="form-control" name="password" required="" onChange={this.handleChange} />
                                                             </div>
                                                         </Col>
                                                         <Col md="12">
                                                             <div className="form-group">
                                                                 <label className="text-muted" htmlFor="">Ulangi Password</label>
-                                                                <input type="password" className="form-control" id="retype-password" />
+                                                                <input type="password" className="form-control" name="repassword" id="retype-password" required="" onChange={this.handleChange} />
                                                             </div>
                                                         </Col>
                                                     </Row>

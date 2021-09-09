@@ -4,6 +4,7 @@ import Home from './home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Technical from './components/technical/Technical';
+import Webinar from './components/webinar/Webinar';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
                         <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
+                        <Route path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-2`} component={Index2}/>  
                         <Route path={`${process.env.PUBLIC_URL}/index-3`} component={Index3}/>  
                         <Route path={`${process.env.PUBLIC_URL}/index-4`} component={Index4}/>  

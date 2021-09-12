@@ -4,6 +4,8 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { Link, withRouter, Route, useParams  } from 'react-router-dom';
 import Navbar from '../Navbar';
+import ArticleList from './ArticleList';
+import ArticlePopular from './ArticlePopular';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
 import { Image } from 'antd';
@@ -12,6 +14,7 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 import { Select, Breadcrumb, Skeleton  } from 'antd';
 import { Space, List, message, Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
+import ArticleRecomendation from './ArticleRecomendation';
 
 const { Option, OptGroup } = Select;
 const { Meta } = Card;
@@ -155,12 +158,27 @@ class Article extends React.Component {
                 <section className="section home-1-bg" id="home">
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
-                            <Breadcrumb >
+                            {/* <Breadcrumb >
                                 <Breadcrumb.Item>
                                     <a href="/" style={breadcrumb}>Home</a>
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item style={breadcrumb}>Article</Breadcrumb.Item>
                             </Breadcrumb>
+                             */}
+                            <ul className="nav subNav">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/technical">Teknikal</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/fundamental">Fundamental</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" href="#">Artikel Pilihan</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/webinar">Webinar</a>
+                                </li>
+                            </ul>
                         </div>
                         <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
                             <div className="card-body">
@@ -168,7 +186,7 @@ class Article extends React.Component {
                                     <Row>
                                         <Col lg="12">
                                             <h5 className="card-title text-white font-weight-bold" style={{fontSize: "24px"}}>Artikel Pilihan</h5>
-                                            <p className="card-title text-white font-weight-bold">Info seputar bisnis emiten, ekonomi nasional dan internasional</p>
+                                            <p className="card-title text-white font-weight-bold">Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional</p>
                                         </Col>
                                     </Row>
                                 </div>
@@ -189,28 +207,7 @@ class Article extends React.Component {
                                     >
                                     <List
                                         dataSource={data}
-                                        renderItem={item => (
-                                            <List.Item key={item.id}>
-                                                <List.Item.Meta
-                                                avatar={
-                                                    <Image
-                                                        width={150} height={100} 
-                                                        preview={false}
-                                                        src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?4123`}
-                                                        placeholder={
-                                                            <Image
-                                                                preview={false}
-                                                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
-                                                                width={150} height={100}
-                                                            />
-                                                        }
-                                                    />
-                                                }
-                                                title={<a href="https://ant.design">{item.name.last}</a>}
-                                                description={item.email}
-                                                />
-                                            </List.Item>
-                                            )}
+                                        renderItem={item => <ArticleList obj={item} />}
                                         >
                                         {this.state.loading && this.state.hasMore && (
                                             <div className="demo-loading-container text-center">
@@ -233,15 +230,7 @@ class Article extends React.Component {
                                         <List
                                             itemLayout="horizontal"
                                             dataSource={dataTerpopuler}
-                                            renderItem={item => (
-                                            <List.Item>
-                                                <List.Item.Meta
-                                                avatar={<div style={styleNumberMostPopular}><span>{item.no}</span></div>}
-                                                title={<a className="f-18" href="https://ant.design">{item.title}</a>}
-                                                description={<p className="text-muted f-8 mb-0" style={{marginTop: "-5px", fontSize: "13px"}}>15 Sept 2021</p>}
-                                                />
-                                            </List.Item>
-                                            )}
+                                            renderItem={item => <ArticlePopular obj={item} />}
                                         />
                                     </Col>
                                 </Row>
@@ -258,15 +247,7 @@ class Article extends React.Component {
                                 <List
                                     itemLayout="horizontal"
                                     dataSource={dataTerpopuler}
-                                    renderItem={item => (
-                                    <List.Item>
-                                        <List.Item.Meta
-                                        avatar={<div style={styleNumberMostPopular}><span>{item.no}</span></div>}
-                                        title={<a className="f-18" href="https://ant.design">{item.title}</a>}
-                                        description={<p className="text-muted f-8 mb-0" style={{marginTop: "-5px", fontSize: "13px"}}>15 Sept 2021</p>}
-                                        />
-                                    </List.Item>
-                                    )}
+                                    renderItem={item => <ArticleRecomendation obj={item} />}
                                 />
                             </Col>
                         </Row>

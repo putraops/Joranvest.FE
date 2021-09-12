@@ -1521,3 +1521,24 @@ p {
 .no-radius {
   border-radius: 0px;
 }
+
+.subNav > .nav-item > a {
+  font-weight: 500;
+}
+
+.subNav > .nav-item > a:hover {
+  content: '';
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  box-shadow: inset 0 -2px 0 #ff8700;
+}
+
+.subNav > .nav-item > a::after {
+  text-decoration: underline;
+}
+.subNav > .nav-item > a.active{
+  color: #005bea;
+  box-shadow: inset 0 -2px 0 #005bea;
+}

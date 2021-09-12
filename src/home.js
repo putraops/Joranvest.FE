@@ -28,7 +28,7 @@ class Home extends React.Component {
         {/* <Preloader /> */}
 
         {/* Navigation Menu */}
-        <Navbar />
+        {/* <Navbar /> */}
 
         {/* HomeSection Menu */}
         <Home1 />

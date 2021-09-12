@@ -7,7 +7,7 @@ class Footer extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="footer-bg">
+                <section className="footer-bg mt-3">
                 <div className="container d-none">
                     <div className="row">
                     <div className="col-lg-6 mr-auto">

@@ -83,7 +83,6 @@ class Technical extends React.Component {
       
         return (
             <React.Fragment>
-                <Navbar />
                 <section className="section home-1-bg" id="home">
                     <div className="container mt-5">
                         <Row className="">

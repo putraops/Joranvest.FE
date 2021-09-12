@@ -5,12 +5,13 @@ import Footer from '../Footer';
 import WebinarSpeaker from './WebinarSepaker';
 import WebinarPrice from './WebinarPrice';
 import WebinarDate from './WebinarDate';
+import WebinarDetailHeader from './WeinarDetailHeader';
 
 import axiosApi from '../../config/axiosConfig';
 
 import { PoweroffOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
-import { Card, Alert, Button, List, Image, Avatar, Rate, Tag } from 'antd';
+import { Card, Alert, Button, List, Image, Avatar, Rate, Tag, Form, Input } from 'antd';
 import {
     UserOutlined,
     ScheduleOutlined,
@@ -118,72 +119,12 @@ class WebinarDetail extends React.Component {
             // borderRadius: "16px", 
             // marginRight: "24px", 
             boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" 
-         }
+        }
 
         return (
             <React.Fragment>
-                <section className="section">
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="container">
-                            <p className="h5 mb-3 f-15">Home / 123 / 123</p>
-                        </div>
-                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
-                            <div className="card-body text-white">
-                                <div className="container pb-4 pt-4">
-                                    <Row>
-                                        <Col className="text-right" span={6} xs={{ order: 1 }} sm={{ order: 1 }} sm="12" md={{ order: 2 }} lg={{ order: 2 }} lg="4">
-                                            <Tag className="pr-3 pl-3" color="#cd201f">LIVE</Tag>
-                                        </Col>
-                                        <Col span={6} xs={{ order: 2 }} sm={{ order: 1 }} sm="12" md={{ order: 1 }} lg={{ order: 1 }} lg="8">
-                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "28px"}}>{this.state.detailData.title}</h5>
-                                            <div className="f-15">
-                                                <div className="form-group row mb-0">
-                                                    <label className="col-sm-2 pb-0 col-form-label">Pembicara</label>
-                                                    <label className="col-sm-10 pb-0 col-form-label">
-                                                    {(() => {
-                                                        if (detailData.speaker_name != "") {
-                                                            return (
-                                                                <div>{detailData.speaker_name}</div>
-                                                            )
-                                                        } else {
-                                                            return (
-                                                                <div>{detailData.organizer_organization_name}</div>
-                                                            )
-                                                        }
-                                                    })()}
-                                                    </label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label className="col-sm-2 pb-0 col-form-label">Tanggal</label>
-                                                    <label className="col-sm-10 pb-0 col-form-label">11 Sep 2021</label>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label className="col-sm-2 pb-0 col-form-label">Jam</label>
-                                                    <label className="col-sm-10 pb-0 col-form-label">10:00 - 12:00 WIB</label>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card no-radius">
-                        {/* <img class="card-img-top" src="..." alt="Card image cap"> */}
-                            <div className="card-body pt-2 pb-2">
-                                <div className="container">
-                                    <Row className="g-0">
-                                        <Col xs="6" sm="6" md="6" lg="4 g-0">
-                                            <span className="f-14" style={{fontWeight: "500"}}>
-                                                {detailData.min_age == 0 ? "Semua Umur" : <span>Min Umur: {detailData.min_age} tahun</span>}
-                                            </span>
-                                        </Col>
-                                        <Col xs="6" sm="6" md="6" lg="4">
-                                            <span className="f-14" style={{fontWeight: "500"}}>Level: {this.state.detailData.webinar_level}</span>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
+                <section className="section">                    
+                    <WebinarDetailHeader data={detailData} /> 
                     
                         <div className="container mt-4">
                             <Row>
@@ -314,8 +255,7 @@ class WebinarDetail extends React.Component {
                                     </Card>
                                 </Col>
                             </Row>
-                        </div>
-                    </div>      
+                        </div> 
                 </section>
                 <Footer />
             </React.Fragment>

@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { Link, withRouter, Route, useParams  } from 'react-router-dom';
 import Navbar from '../Navbar';
-import WebinarItem from './WebinarItem';
+import WebinarList from './WebinarList';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
 import { Image } from 'antd';
@@ -83,7 +83,24 @@ class Webinar extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <div className="container mt-5">
+                    <div className="container-fluid mt-3 pr-0 pl-0">
+                        <div className="container">
+                            <p className="h5 mb-3 f-15">Home / 123 / 123</p>
+                        </div>
+                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
+                            <div className="card-body">
+                                <div className="container pb-4 pt-4">
+                                    <Row>
+                                        <Col span={6} xs={{ order: 1 }} sm={{ order: 1 }} sm="12" md={{ order: 2 }} lg={{ order: 2 }} lg="12">
+                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "28px"}}>Kumpulan Webinar Terbaik untuk Kamu</h5>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div className="container mt-4">
                         <Row className="">
                             <Col md="12">
                             <p className="h5 mb-3 f-18">Semua Webinar</p>
@@ -121,7 +138,7 @@ class Webinar extends React.Component {
                                     }}
                                     dataSource={listData.data}
                                     // footer={}
-                                    renderItem={item => <WebinarItem title={item.title} price={item.price} obj={item} goDetail={this.handleDetail} />}
+                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} goDetail={this.handleDetail} />}
                                 />
                             </Col>
                         </Row>

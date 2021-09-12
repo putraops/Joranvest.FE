@@ -10,6 +10,7 @@ import { Image } from 'antd';
 import { Button, Card, Drawer, Badge, List, Avatar, Divider, IconText, Tag } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
+import NumberFormat from "react-number-format";
 import { Space } from 'antd';
 import Webinar from './Webinar';
 import Item from 'antd/lib/list/Item';
@@ -17,26 +18,23 @@ import Item from 'antd/lib/list/Item';
 const { Option, OptGroup } = Select;
 const { Meta } = Card;
 
-const WebinarItem = (props) => {
+const WebinarList = (props) => {
+    console.log(props);
+    
+    var is_free = props.obj.price == 0 ? "Gratis" : props.obj.price;
+    var ribbonColor = props.obj.price == 0 ? "green" : "white";
     return (
             <List.Item className="p-0 mb-2 border-bottom-0" style={{cursor: "pointer"}} onClick={() => props.goDetail(props.obj.id)} 
                 key={props.obj.id}
                 actions={[
                 ]}>
-                <Badge.Ribbon text="Gratis" color="green">
+                <Badge.Ribbon text={<span style={{fontWeight: "500"}}>{is_free}</span>} color={ribbonColor}>
                     <Card size="small">
                         <List.Item.Meta className="mb-0"
                             avatar={
                                 <Image
-                                    width={150}
+                                    width={150} preview="disabled"
                                     src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?4123`}
-                                    placeholder={
-                                    <Image
-                                        preview={false}
-                                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200"
-                                        width={150}
-                                    />
-                                    }
                                 />
                             }
                             title={
@@ -44,8 +42,24 @@ const WebinarItem = (props) => {
                                     <p className="f-15 mb-0">{props.obj.title}</p>
                                     <div>
                                         <Tag className="mr-1" color="#531dab">Webinar</Tag>
-                                        <Tag className="mr-1" color="#2db7f5">Pemula</Tag>
-                                        <Tag className="mr-1" color="#87d068">Bersertifikat</Tag>
+                                        {(() => {
+                                            if (props.obj.webinar_level == "Pemula") {
+                                                return (
+                                                    <Tag className="mr-1" color="#2db7f5">{props.obj.webinar_level}</Tag>
+                                                )
+                                            } else {
+                                                return (
+                                                    <Tag className="mr-1" color="#b92222">{props.obj.webinar_level}</Tag>
+                                                )
+                                            }
+                                        })()}
+                                        {(() => {
+                                            if (props.obj.is_certificate) {
+                                                return (
+                                                    <Tag className="mr-1" color="#87d068">Bersertifikat</Tag>
+                                                )
+                                            }
+                                        })()}
                                     </div>
                                     <span className="f-13 text-muted">Kamis, 13 September 2021</span>
                                 </div>
@@ -73,12 +87,25 @@ const WebinarItem = (props) => {
                                 </div>
                             } />
                         {
-                            <Row>
-                                <Col className="text-right" lg="12">
-                                    <hr className="mt-3 mb-2" />
-                                    <strong>Biaya: Rp {props.obj.price}</strong>
-                                </Col>
-                            </Row>
+                            (() => {
+                                if (props.obj.price > 0) {
+                                    return (
+                                        <Row>
+                                            <Col className="text-right" lg="12">
+                                                <hr className="mt-3 mb-2" />
+                                                <strong>
+                                                    <NumberFormat
+                                                        value={props.obj.price}
+                                                        displayType="text"
+                                                        thousandSeparator={true}
+                                                        prefix="Rp "
+                                                    />
+                                                </strong>
+                                            </Col>
+                                        </Row>
+                                    )
+                                }
+                            })()
                         }
                     </Card>
                 </Badge.Ribbon>
@@ -86,4 +113,4 @@ const WebinarItem = (props) => {
     )
 }
 
-export default WebinarItem
+export default WebinarList

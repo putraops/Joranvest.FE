@@ -158,13 +158,6 @@ class Article extends React.Component {
                 <section className="section home-1-bg" id="home">
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
-                            {/* <Breadcrumb >
-                                <Breadcrumb.Item>
-                                    <a href="/" style={breadcrumb}>Home</a>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Item style={breadcrumb}>Article</Breadcrumb.Item>
-                            </Breadcrumb>
-                             */}
                             <ul className="nav subNav">
                                 <li className="nav-item">
                                     <a className="nav-link" href="/technical">Teknikal</a>

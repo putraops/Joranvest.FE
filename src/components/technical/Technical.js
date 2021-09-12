@@ -84,16 +84,42 @@ class Technical extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
+                    <div className="container-fluid mt-3 pr-0 pl-0">
+                        <div className="container mb-3">
+                            <ul className="nav subNav">
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" href="#">Teknikal</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/fundamental">Fundamental</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/webinar">Webinar</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
+                            <div className="card-body">
+                                <div className="container pb-3 pt-3">
+                                    <Row>
+                                        <Col lg="12">
+                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "24px"}}>Riset Analisa Teknikal</h5>
+                                            <p className="card-title text-white font-weight-bold" style={{fontSize: "16px"}}>Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu</p>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
                     <div className="container mt-5">
                         <Row className="">
                             <Col md="12">
-                            <strong className="mb-2 f-20">Riset Analisa Teknikal</strong>
-					        <p>Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu</p>
-                            
-                            <Button type="primary" className="mr-2">Semua</Button>
-                            <Button className="mr-2">One Day Trade</Button>
-                            <Button className="mr-2">Swing</Button>
-
+                                <Button type="primary" className="mr-2">Semua</Button>
+                                <Button className="mr-2">One Day Trade</Button>
+                                <Button className="mr-2">Swing</Button>
                             </Col>
                             <Col md="12">
                                 <List

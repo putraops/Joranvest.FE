@@ -84,9 +84,24 @@ class Webinar extends React.Component {
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
                     <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="container">
-                            <p className="h5 mb-3 f-15">Home / 123 / 123</p>
+                        <div className="container mb-3">
+                            <ul className="nav subNav">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/technical">Teknikal</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/fundamental">Fundamental</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" href="#">Webinar</a>
+                                </li>
+                            </ul>
                         </div>
+                    </div>
+                    <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
                             <div className="card-body">
                                 <div className="container pb-4 pt-4">

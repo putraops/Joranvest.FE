@@ -31,10 +31,7 @@ const WebinarDetailHeader = (props) => {
 
     return (
         <Fragment>            
-            <div className="container-fluid mt-3 pr-0 pl-0">
-                <div className="container">
-                    <p className="h5 mb-3 f-15">Home / 123 / 123</p>
-                </div>
+            <div className="container-fluid mt-3 pr-0 pl-0"> 
                 <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
                     <div className="card-body text-white">
                         <div className="container pb-4 pt-4">
@@ -82,7 +79,6 @@ const WebinarDetailHeader = (props) => {
                 </div>
                   
                 <div className="card no-radius">
-                {/* <img class="card-img-top" src="..." alt="Card image cap"> */}
                     <div className="card-body pt-2 pb-2">
                         <div className="container">
                             <Row className="g-0">

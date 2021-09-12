@@ -69,7 +69,7 @@ class Article extends React.Component {
         });
 
         if (data.length > 14) {
-          message.warning('Infinite List loaded all');
+        //   message.warning('');
           this.setState({
             hasMore: false,
             loading: false,
@@ -179,7 +179,7 @@ class Article extends React.Component {
                                     <Row>
                                         <Col lg="12">
                                             <h5 className="card-title text-white font-weight-bold" style={{fontSize: "24px"}}>Artikel Pilihan</h5>
-                                            <p className="card-title text-white font-weight-bold">Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional</p>
+                                            <p className="card-title text-white font-weight-bold" style={{fontSize: "16px"}}>Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional</p>
                                         </Col>
                                     </Row>
                                 </div>

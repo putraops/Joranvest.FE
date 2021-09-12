@@ -8,8 +8,9 @@ import Footer from './components/Footer';
 import Register from './components/auth/Register';
 import Technical from './components/technical/Technical';
 import Webinar from './components/webinar/Webinar';
-import Test from './components/test/Test';
 import WebinarDetail from './components/webinar/WebinarDetail';
+import Article from './components/article/Article';
+import Test from './components/test/Test';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -29,7 +30,8 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
                         <Route exac path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         <Route exac path={`${process.env.PUBLIC_URL}/webinar-detail/:id`} component={WebinarDetail}/>
-                        <Route path={`${process.env.PUBLIC_URL}/test/detail/:id`} component={Test}/>
+
+                        <Route exac path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

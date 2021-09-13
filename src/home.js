@@ -14,10 +14,10 @@ import FooterAlt from './components/FooterAlt';
 
 
 class Home extends React.Component {
-
   componentDidMount() {
-        document.getElementById("main_navbar").classList.add("navbar-light");
-}
+      document.getElementById("main_navbar").classList.add("navbar-light");
+      document.getElementById("main_navbar").classList.remove("d-none");
+  }
 
   render() {
 

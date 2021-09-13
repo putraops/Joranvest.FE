@@ -32,6 +32,7 @@ class Webinar extends React.Component {
     }
 
     componentDidMount () {
+        document.getElementById("main_navbar").classList.add("navbar-light");
         const { payload } = this.state;
         this.LoadData();
     }

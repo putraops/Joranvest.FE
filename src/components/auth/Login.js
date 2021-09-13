@@ -1,14 +1,25 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation  } from 'react-router-dom';
 import axios from 'axios';
 import axiosApi from '../../config/axiosConfig';
+
+// function HeaderView() {
+//     const location = useLocation();
+//     console.log(location.pathname);
+//     //return <span>Path : {location.pathname}</span>
+// }
 
 class Login extends React.Component {
     state = {
         username: '',
         password: '',
     }
+
+    componentDidMount() {
+        document.getElementById("main_navbar").classList.add("d-none");
+    }
+
     handleChange = event => {
         const target = event.target;
         const name = target.name;

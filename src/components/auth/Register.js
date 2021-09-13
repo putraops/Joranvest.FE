@@ -10,6 +10,10 @@ class Register extends React.Component {
         email: "",
         password: "",
     }
+    
+    componentDidMount() {
+        document.getElementById("main_navbar").classList.add("d-none");
+    }
 
     handleChange = event => {
         const target = event.target;

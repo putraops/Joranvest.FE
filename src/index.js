@@ -14,15 +14,16 @@ import Test from './components/test/Test';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { matchPath  } from "react-router-dom";
+
 
 class Root extends React.Component {
-
     render() {
         return(
             <React.Fragment>
                 <BrowserRouter >
-                <Navbar />
                     <Fragment>
+                        <Navbar />
                         <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-1`} component={Index1}/>   */}
                         <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
-
-import { Image } from 'antd';
-import { Card, List } from 'antd';
+import moment from 'moment';
+import { List, Image } from 'antd';
 
 const ArticleList = (props) => {
     const articleCategory = {
@@ -19,6 +18,27 @@ const ArticleList = (props) => {
         marginTop: "-5px", 
         fontSize: "13px",
     }
+    
+    let articleDate = props.obj.submitted_at.Time; 
+    let articleLongDate = "";
+    let articleTime = "";
+    let articleDayName = "";
+    if (!props.obj.submitted_at.Valid) {
+        articleDate = props.obj.created_at.Time;
+    } 
+
+    articleLongDate = moment(articleDate,  "YYYY/MM/DD").format('DD MMMM YYYY');
+    articleTime = moment(articleDate,  "HH:mm").format('HH:mm')
+    articleDayName = moment(articleDate,  "YYYY/MM/DD HH:mm").format('dddd');
+
+    if (articleDayName == "Monday") articleDayName = "Senin";
+    if (articleDayName == "Tuesday") articleDayName = "Selasa";
+    if (articleDayName == "Wednesday") articleDayName = "Rabu";
+    if (articleDayName == "Thursday") articleDayName = "Kamis";
+    if (articleDayName == "Friday") articleDayName = "Jumat";
+    if (articleDayName == "Saturday") articleDayName = "Sabtu";
+    if (articleDayName == "Sundary") articleDayName = "Minggu";
+    
     return (
         <List.Item key={props.obj.id}>
             <List.Item.Meta
@@ -40,12 +60,12 @@ const ArticleList = (props) => {
             title={
                 <Fragment>
                     <div style={categoryStyle}>
-                        <p className="mb-0" style={articleCategory}>EMITEN</p>
+                        <p className="mb-0" style={articleCategory}>{props.obj.article_category_name}</p>
                     </div>
-                    <a style={articleTitle} href="https://ant.design">{props.obj.name.last}</a>
+                    <a style={articleTitle} href="https://ant.design">{props.obj.title}</a>
                 </Fragment>
             }
-            description={<p className="text-muted f-8 mb-0" style={postedDate}>15 Sept 2021</p>}
+            description={<p className="text-muted f-8 mb-0" style={postedDate}>{articleDayName}, {articleLongDate} | {articleTime} WIB</p>}
         />
     </List.Item>
     )

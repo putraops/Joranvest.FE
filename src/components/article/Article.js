@@ -16,20 +16,13 @@ import { Space, List, message, Spin } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import ArticleRecomendation from './ArticleRecomendation';
 
-const { Option, OptGroup } = Select;
-const { Meta } = Card;
-
-
-const count = 3;
-const fakeDataUrl = `https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo`;
-
 class Article extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             payload: {
                 page: 1,
-                size: 10,
+                size: 2,
             },
             user: {
                 name: "",
@@ -39,37 +32,62 @@ class Article extends React.Component {
             hasMore: true,
             data: [],
             list: [],
+            existingData: [],
             listData: {total:0,data:[]}
         };
     }
 
-
-
     componentDidMount() {
+        const { payload } = this.state;
+        let { existingData } = this.state;
         this.fetchData(res => {
-            console.log("componentDidMount", res);
-        this.setState({
-            data: res.data.results,
+            this.setState({
+                data: res.data.results,
+            });
         });
+
+        this.loadList(res => {
+            this.setState({
+                payload: {
+                    page: payload.page + 1,
+                    size: payload.size,
+                },
+            });
+            if (res.data.data.length > 0) {
+                this.setState({
+                    existingData: res.data.data
+                })
+            }
+        });
+    }
+
+    loadList = callback =>
+    {
+        let { existingData } = this.state;
+        const {listData, payload} = this.state; 
+        axiosApi.post(`/article/getPagination`, payload).then(r => {
+            if (r.data.total > 0) {
+                callback(r);
+            }
         });
     }
 
     fetchData = callback => {
-        axiosApi.get(fakeDataUrl).then(r => {
-            console.log(r.data.results);
+        const {payload} = this.state
+        var url = `https://randomuser.me/api/?results=`+payload.size +`&inc=name,email,nat&noinfo`
+        axiosApi.get(url).then(r => {
             callback(r);
-            //this.setState({...this.state, data: r.data.results});
         });
     };
 
     handleInfiniteOnLoad = () => {
         let { data } = this.state;
+        const { payload } = this.state;
+        let { existingData } = this.state;
         this.setState({
           loading: true,
         });
-
         if (data.length > 14) {
-        //   message.warning('');
           this.setState({
             hasMore: false,
             loading: false,
@@ -77,11 +95,31 @@ class Article extends React.Component {
           return;
         }
         this.fetchData(res => {
-            console.log("scroll: ", res)
             data = data.concat(res.data.results);
             this.setState({
                 data,
                 loading: false,
+            });
+        });
+
+        this.loadList(res => {
+            if (res.data.data.length > 0) {
+                existingData = existingData.concat(res.data.data); 
+                this.setState({
+                    existingData,
+                });
+            } else {
+                this.setState({
+                    hasMore: false,
+                    loading: false,
+                });
+                return;
+            }
+            this.setState({
+                payload: {
+                    page: payload.page + 1,
+                    size: payload.size,
+                },
             });
         });
       };
@@ -89,7 +127,7 @@ class Article extends React.Component {
     handlePage = event => {
         const {payload} = this.state;
         payload.page = event;
-        this.LoadData();
+        // this.LoadData();
     }
 
     handleDetail = (id) => {
@@ -97,9 +135,7 @@ class Article extends React.Component {
     }
 
     render() {
-        const { listData, data, payload } = this.state;
-        console.log(listData);
-
+        const { listData, data, payload, existingData } = this.state;
         const breadcrumb = {
             fontWeight: '500'
         }
@@ -129,8 +165,6 @@ class Article extends React.Component {
                 title: 'Laba Tunas Alfin (TALF) turun 48,67% pada semester I-2021',
             },
         ];
-       
-
         const { initLoading, loading, list } = this.state;
         const loadMore =
         !initLoading && !loading ? (
@@ -199,7 +233,8 @@ class Article extends React.Component {
                                         useWindow={true}
                                     >
                                     <List
-                                        dataSource={data}
+                                        //dataSource={data}
+                                        dataSource={existingData}
                                         renderItem={item => <ArticleList obj={item} />}
                                         >
                                         {this.state.loading && this.state.hasMore && (

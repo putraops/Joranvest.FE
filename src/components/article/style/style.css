@@ -1,0 +1,23 @@
+#article-body {
+    font-family: initial !important;
+    font-size: initial !important;
+}
+
+#article-container {
+    background-color: #ededed;
+}
+
+#article-container p#card-title {
+    font-size: 20pt;
+}
+.article-price > div > h5.title {
+    font-size: 17px;
+}
+
+.comment-action {
+    padding-left: 5px;
+}
+
+.ant-comment-actions svg {
+    margin-top: -5px;
+}

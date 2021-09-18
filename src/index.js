@@ -10,6 +10,7 @@ import Technical from './components/technical/Technical';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
+import ArticleDetail from './components/article/ArticleDetail';
 import Test from './components/test/Test';
 
 import * as serviceWorker from './serviceWorker';
@@ -33,6 +34,7 @@ class Root extends React.Component {
                         <Route exac path={`${process.env.PUBLIC_URL}/webinar-detail/:id`} component={WebinarDetail}/>
 
                         <Route exac path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
+                        <Route exac path={`${process.env.PUBLIC_URL}/article-detail/:id`} component={ArticleDetail}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

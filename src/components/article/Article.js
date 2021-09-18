@@ -233,7 +233,6 @@ class Article extends React.Component {
                                         useWindow={true}
                                     >
                                     <List
-                                        //dataSource={data}
                                         dataSource={existingData}
                                         renderItem={item => <ArticleList obj={item} />}
                                         >

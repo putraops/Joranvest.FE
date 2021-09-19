@@ -308,8 +308,8 @@ class WebinarDetail extends React.Component {
                                 </Col>
                             </Row>
                         </div> 
+                    <Footer />
                 </section>
-                <Footer />
             </React.Fragment>
         );
     }

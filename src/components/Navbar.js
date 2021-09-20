@@ -36,7 +36,7 @@ class Navbar extends React.Component {
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
                     <div className="container">
                         <Link className="navbar-brand logo" to="/">
-                            {/* <img src="images/zooki.png" alt="" height="20" /> */}
+                            {/* <img src="images/logo.png" alt="" height="20" /> */}
                             <span className="text-white">Joranvest</span>
                         </Link>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,9 @@ class Navbar extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarCollapse">
                           <ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
                               {/* <li className="nav-item active"><a href="/" className="nav-link">Home</a></li> */}
-                              <li className="nav-item"><a href="/blog" className="nav-link text-white">Blog</a></li>
-                              <li className="nav-item"><a href="/member" className="nav-link text-white">Jadi Member</a></li>
-                              <li className="nav-item"><Link to="/login" className="nav-link text-white">Login</Link></li>
+                              <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li>
+                              <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold">Jadi Member</a></li>
+                              <li className="nav-item"><Link to="/login" className="nav-link text-white font-weight-bold">Login</Link></li>
                               <li className="nav-item">
                                 <Dropdown overlay={menu}>
                                   <a className="ant-dropdown-link nav-link text-white"  id="nav-profile" onClick={e => e.preventDefault()}>

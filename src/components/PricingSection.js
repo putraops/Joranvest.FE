@@ -48,7 +48,16 @@ class PricingSection extends React.Component {
                                                     <h5 className="text-dark title mt-2 font-weight-normal f-18 mb-0">{item.name}</h5>
                                                 </div>
                                                 <div className="">
-                                                    <h2 className="text-dark font-weight-normal text-right mb-0">{item.price}</h2>
+                                                    <h2 className="text-dark font-weight-normal text-right mb-0">{
+                                                                                <Text className={item.is_default ? "text-white" : "text-dark"}>
+                                                                                    <NumberFormat
+                                                                                        value={item.price}
+                                                                                        displayType="text"
+                                                                                        thousandSeparator={true}
+                                                                                        prefix=""
+                                                                                        />
+                                                                                </Text>}
+                                                    </h2>
                                                 </div>
                                                 <div className="text-right">
                                                     <span className={item.is_default ? "text-white" : "text-dark"}>per bulan</span>

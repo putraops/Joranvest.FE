@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 class FeatureSection extends React.Component {
     render() {
-
         return (
             <React.Fragment>
                 <section className="section bg-features bg-light" id="features">

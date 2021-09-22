@@ -41,8 +41,8 @@ class PricingSection extends React.Component {
                         <div className="row">
 
                         {pricings.map((item, index) => {
-                            return  <Col lg="3" md="6" key={index}>
-                                        <div className={item.is_default ? "pricing-box active mt-4" : "pricing-box mt-4"}>
+                            return  <Col lg="3" md="6" sm="6" xs="6" key={index}>
+                                        <div className={item.is_default ? "pricing-box borderShadow5 active mt-4" : "pricing-box borderShadow5 mt-4"}>
                                             <div className="price bg-light position-relative p-4 p">
                                                 <div className="float-left">
                                                     <h5 className="text-dark title mt-2 font-weight-normal f-18 mb-0">{item.name}</h5>
@@ -76,7 +76,7 @@ class PricingSection extends React.Component {
                                                                                             />
                                                                                     </Text>
                                                                                     }</li>
-                                                    <li className="text-muted mb-0 f-14">* {item.description}</li>
+                                                    <li className="text-muted mb-0 f-14" style={{minHeight: "50px"}}>* {item.description}</li>
                                                     {/* <li className="text-muted f-14">Domain: {plan.domain}</li> */}
                                                     {/* <li className="text-muted mb-0 f-14">Hidden Fees: {plan.fees}</li> */}
                                                 </ul>

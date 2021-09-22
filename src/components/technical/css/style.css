@@ -1,0 +1,55 @@
+#article-body {
+    font-family: initial !important;
+    font-size: initial !important;
+}
+
+.ant-list-item-meta-title {
+    margin-bottom: 5px !important;
+}
+
+.box-analysis {
+    min-height: 95px;
+}
+
+.box-title, .emiten-price  {
+    font-weight: 500;
+    color: #505050;
+}
+
+.signal-technical {
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.signal-downtrend {
+    font-size: 18px;
+}
+
+.bandarmology-signal {
+    font-weight: 600;
+}
+
+.signal-uptrend, .bandarmology-good {
+    color: #058e1a;
+}
+
+.signal-downtrend, .bandarmology-notgood {
+    color: #c30000;
+}
+
+.signal-netral, .bandarmology-netral {
+    color: #3792CB;
+}
+
+.emiten-code {
+    font-weight: bold;
+}
+
+.emiten-price {
+    font-weight: 700;
+}
+
+.filter-form {
+    width: 100%;
+}

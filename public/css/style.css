@@ -46,7 +46,7 @@ p {
   padding: 18px 0;
   width: 100%;
   border-radius: 0px;
-  z-index: 999;
+  z-index: 9999;
   margin-bottom: 0px;
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
@@ -1547,4 +1547,13 @@ p {
   margin-top: -3px;
   border: 1px solid transparent;
   border-radius: 106px;
+}
+
+.ant-btn > span > span > svg,
+.ant-btn > span > svg {
+  margin-top: -6px !important;
+}
+
+.borderShadow5 {
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px 0px !important;
 }

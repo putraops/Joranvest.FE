@@ -3,6 +3,10 @@
     font-size: initial !important;
 }
 
+#article-body > p {
+    margin-bottom: 5px;
+}
+
 #article-container {
     background-color: #ededed;
 }

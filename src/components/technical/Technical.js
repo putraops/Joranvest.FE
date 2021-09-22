@@ -6,7 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import './css/style.css'
 import Navbar from '../Navbar';
-import SubtitleSection from '../SubtitleSection'
+import SubNav from '../SubNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
 import axios from 'axios';
@@ -122,25 +122,7 @@ class Technical extends React.Component {
 
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="container mb-3">
-                            <ul className="nav subNav">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Teknikal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/fundamental">Fundamental</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/webinar">Webinar</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <SubtitleSection title="Riset Analisa Teknikal" subtitle="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
-                    </div>  
+                    <SubNav title="Riset Analisa Teknikal" subtitle="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
                     <div className="container mt-3">
                         <Row className="">
                             <Col md="4" lg="3" className="mb-3">

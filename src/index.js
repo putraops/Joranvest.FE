@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Register from './components/auth/Register';
+import Profile from './components/profile/Profile';
 import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
@@ -32,6 +33,7 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
                         <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
+                        <Route path={`${process.env.PUBLIC_URL}/profile`} component={Profile}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/webinar/detail`} component={WebinarDetail}/> */}
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>

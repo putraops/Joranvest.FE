@@ -54,7 +54,7 @@ class Webinar extends React.Component {
     }
 
     handleDetail = (id) => {
-        this.props.history.push(`/webinar-detail/${id}`);
+        //this.props.history.push(`/webinar/detail/${id}`);
     }
 
     render() {

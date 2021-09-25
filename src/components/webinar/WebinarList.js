@@ -24,7 +24,9 @@ const WebinarList = (props) => {
     var is_free = props.obj.price == 0 ? "Gratis" : props.obj.price;
     var ribbonColor = props.obj.price == 0 ? "green" : "white";
     return (
-            <List.Item className="p-0 mb-2 border-bottom-0" style={{cursor: "pointer"}} onClick={() => props.goDetail(props.obj.id)} 
+        <Fragment>
+            <Link to={`/webinar/detail/${props.obj.id}`} >
+            <List.Item className="p-0 mb-2 border-bottom-0" style={{cursor: "pointer"}} 
                 key={props.obj.id}
                 actions={[
                 ]}>
@@ -110,6 +112,10 @@ const WebinarList = (props) => {
                     </Card>
                 </Badge.Ribbon>
             </List.Item>
+            </Link>
+
+        </Fragment>
+            
     )
 }
 

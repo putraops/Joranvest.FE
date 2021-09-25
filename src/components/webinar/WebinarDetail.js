@@ -60,11 +60,12 @@ class WebinarDetail extends React.Component {
                 // this.setState({...this.state, webinarFirstEndDate: r.data.data.webinar_first_end_date});
                 // this.setState({...this.state, webinarLastStartDate: r.data.data.webinar_last_start_date});
                 // this.setState({...this.state, webinarLastEndDate: r.data.data.webinar_last_end_date});
-
+                console.log("webinar/getById", r.data)
                 var temp = {
                     startDate: r.data.data.webinar_start_date,
                     endDate: r.data.data.webinar_end_date,
                 }
+                console.log("temp", temp)
                 this.setState({...this.state, webinarDate: temp});
 
                 this.getSpeakers();

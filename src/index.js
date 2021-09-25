@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Register from './components/auth/Register';
 import Technical from './components/technical/Technical';
+import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
@@ -30,11 +31,13 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
                         <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
-                        <Route exac path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
-                        <Route exac path={`${process.env.PUBLIC_URL}/webinar-detail/:id`} component={WebinarDetail}/>
+                        <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
+                        {/* <Route path={`${process.env.PUBLIC_URL}/webinar/detail`} component={WebinarDetail}/> */}
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>
 
-                        <Route exac path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
-                        <Route exac path={`${process.env.PUBLIC_URL}/article-detail/:id`} component={ArticleDetail}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/article-detail/:id`} component={ArticleDetail}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

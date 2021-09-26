@@ -6,6 +6,7 @@
     "antd": "^4.16.13",
     "availity-reactstrap-validation": "^2.5.1",
     "axios": "^0.21.4",
+    "firebase": "^9.1.0",
     "install": "^0.12.2",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
@@ -24,6 +25,7 @@
     "react-moment": "^1.1.1",
     "react-number-format": "^4.7.3",
     "react-particles-js": "^2.6.0",
+    "react-redux": "^7.2.5",
     "react-responsive-embed": "^2.1.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
@@ -32,7 +34,10 @@
     "react-timeout": "^1.2.0",
     "react-typing-animation": "^1.6.2",
     "react-youtube": "^7.9.0",
-    "reactstrap": "^8.0.0"
+    "reactstrap": "^8.0.0",
+    "redux": "^4.1.1",
+    "redux-react-session": "^2.6.1",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

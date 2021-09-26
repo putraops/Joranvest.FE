@@ -2,20 +2,12 @@ import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, withRouter, Route, useParams  } from 'react-router-dom';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
-import axiosApi from '../../config/axiosConfig';
+import { Link } from 'react-router-dom';
 import { Image } from 'antd';
-import { Button, Card, Drawer, Badge, List, Avatar, Divider, IconText, Tag } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Card, Badge, List, Avatar, Tag } from 'antd';
 import { Select } from 'antd';
 import NumberFormat from "react-number-format";
-import { Space } from 'antd';
-import Webinar from './Webinar';
-import Item from 'antd/lib/list/Item';
 
-const { Option, OptGroup } = Select;
 const { Meta } = Card;
 
 const WebinarList = (props) => {

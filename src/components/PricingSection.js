@@ -17,7 +17,6 @@ class PricingSection extends React.Component {
 
     componentWillMount() {
         axiosApi.get(`/membership/getAll`).then(r => {
-            console.log(r);
             if (r.data.status) {
                  this.setState({...this.state, pricings: r.data.data});
             }

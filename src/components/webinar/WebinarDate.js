@@ -1,12 +1,9 @@
 import React, { Fragment, Text } from 'react';
-import Moment from 'react-moment';
 import moment from 'moment';
 import 'antd/dist/antd.css';
 
 import {
-    UserOutlined,
     ScheduleOutlined,
-    IdcardOutlined
   } from '@ant-design/icons';
 import { Card } from 'antd';
 const { Meta } = Card;

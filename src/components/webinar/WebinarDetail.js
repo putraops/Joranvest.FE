@@ -9,17 +9,12 @@ import WebinarDetailHeader from './WeinarDetailHeader';
 
 import axiosApi from '../../config/axiosConfig';
 
-import { PoweroffOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
-import { Card, Alert, Button, List, Image, Avatar, Rate, Tag, Form, Input } from 'antd';
+import { Card, Alert, Button, List } from 'antd';
 import {
     UserOutlined,
-    ScheduleOutlined,
     IdcardOutlined,
-    EyeOutlined,
-    YoutubeOutlined
   } from '@ant-design/icons';
-import { configConsumerProps } from 'antd/lib/config-provider';
 const { Text } = Typography;
 const { Meta } = Card;
 

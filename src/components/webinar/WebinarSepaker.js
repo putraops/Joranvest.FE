@@ -1,18 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import 'antd/dist/antd.css';
 
-import { Row, Col } from 'reactstrap';
-import { Link, withRouter, Route, useParams  } from 'react-router-dom';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
-import axiosApi from '../../config/axiosConfig';
-import { Image } from 'antd';
-import { Button, Card, Avatar, Rate } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
-import { Space } from 'antd';
-import Webinar from './Webinar';
-import Item from 'antd/lib/list/Item';
+import { Card, Avatar, Rate } from 'antd';
 const { Meta } = Card;
 
 

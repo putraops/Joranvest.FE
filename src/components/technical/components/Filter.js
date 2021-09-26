@@ -6,8 +6,7 @@ import axiosApi from '../../../config/axiosConfig';
 import { Button, Card, Select, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-const { Option, OptGroup } = Select;
-const { Text } = Typography;
+const { Option } = Select;
 
 class Filter extends React.Component {
     constructor(props) {

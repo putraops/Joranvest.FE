@@ -6,12 +6,12 @@ import { Typography } from 'antd';
 const { Text } = Typography;
 
 const WebinarPrice = (props) => {
-    if (props.price == 0) {
+    if (props.price === 0) {
         return (
             <Text>Gratis</Text>
         )
     } else {
-        if (props.discount == 0) {
+        if (props.discount === 0) {
             return (
                 <Text>
                     <NumberFormat

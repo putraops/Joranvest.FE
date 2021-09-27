@@ -15,7 +15,8 @@ export const actionPasswordAndRepasswordNotMatch = () => (dispatch) => {
 export const registerUser = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         const auth = getAuth(firebaseApp);
-        
+
+        console.log("Data Register: ", data);
         dispatch({type: 'FORM_UPDATE', value: ""})
         dispatch({type: "CHANGE_LOADING", value: true});
 
@@ -36,17 +37,16 @@ export const registerUser = (data) => (dispatch) => {
                 }).catch((error) => {
                     reject(false);
                 });
-                reject(false);
             });
         }).catch((error) => {
             console.log("error:", error);
-            var type = error.message;
-            if (type == "Firebase: Error (auth/email-already-in-use).") {
+            var type = "";
+            if (error.message == "Firebase: Error (auth/email-already-in-use).") {
                 type = "ALREADY_IN_USE";
-            } else if (type == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+            } else if (error.message == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
                 type = "WEAK_PASSWORD";
             }
-            
+
             dispatch({type: type, errorMessage: ""});
             dispatch({type: "CHANGE_LOADING", value: false});
             reject(false);
@@ -74,16 +74,15 @@ export const userLogin = (data) => (dispatch) => {
                resolve(true);
            }).catch((error) => {
                 console.log("error:", error);
-                var type = error.message;
+                var type = "";
 
-                if (type == "Firebase: Error (auth/user-not-found).") {
+                if (error.message == "Firebase: Error (auth/user-not-found).") {
                     type = "EMAIL_NOT_FOUND";
-                } else if (type == "Firebase: Error (auth/invalid-email).") {
+                } else if (error.message == "Firebase: Error (auth/invalid-email).") {
                     type = "INVALID_EMAIL";
-                } else if (type == "Firebase: Error (auth/wrong-password).") {
+                } else if (error.message == "Firebase: Error (auth/wrong-password).") {
                     type = "INVALID_PASSWORD";
                 }
-            
 
                 dispatch({type: type, errorMessage: ""});
                 dispatch({type: "CHANGE_LOADING", value: false});

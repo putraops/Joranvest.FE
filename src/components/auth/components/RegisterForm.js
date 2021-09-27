@@ -126,9 +126,6 @@ const RegisterForm = (props) => {
 
             <Form.Item className="mt-3">
                 <Button type="primary" size="medium" loading={false} block htmlType="submit" >Register</Button> 
-                <Button type="link" htmlType="button" onClick={onFill}>
-                    Fill form
-                </Button>
             </Form.Item>   
 
             <div className="text-center mt-4">

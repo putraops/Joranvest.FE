@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import Home from './home';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Register from './components/auth/Register';
 import Profile from './components/profile/Profile';
 import Technical from './components/technical/Technical';
@@ -13,12 +12,18 @@ import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
-import Test from './components/test/Test';
 
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { matchPath  } from "react-router-dom";
+import { BrowserRouter, Route } from 'react-router-dom';
 
+import { createStore, applyMiddleware } from 'redux';
+import { store } from './config/redux/index'
+import { Provider } from 'react-redux';
+
+import thunk from 'redux-thunk';
+// import firebase from './config/firebase/config';
+
+const api = "http://www.example.com/sandwiches/";
 
 class Root extends React.Component {
     render() {
@@ -47,5 +52,5 @@ class Root extends React.Component {
     }
    }
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><Root /></Provider>, document.getElementById('root'));
 serviceWorker.unregister();

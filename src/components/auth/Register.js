@@ -1,12 +1,11 @@
 import React from 'react';
 import './css/auth.css'
 import { Row, Col } from 'reactstrap';
-import { Link, Redirect } from 'react-router-dom';
-import axiosApi from '../../config/axiosConfig';
-import { Form, Input, Button, Card, Divider, Alert, DatePicker } from 'antd';
+import { Link } from 'react-router-dom';
+import { Form, Input, Button, Card, Divider, Alert } from 'antd';
 
-import firebaseApp from '../../config/firebase/config'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../config/redux/action';
+import { connect } from 'react-redux';
 
 class Register extends React.Component {
     constructor(props) {
@@ -17,9 +16,6 @@ class Register extends React.Component {
             email: "",
             password: "",
             repassword: "",
-            loading: false,
-            isAuthentication: false,
-            errorMessage: "",
         };
     }
     
@@ -35,6 +31,7 @@ class Register extends React.Component {
         this.setState({
             [name]: target.value
         });
+        this.props.actionFormUpdate();
     }
     
     onFinish = (values) => {
@@ -43,58 +40,43 @@ class Register extends React.Component {
     onFinishFailed = (errorInfo) => {
     };
 
-    handleRegister = event => {
-        const { email, password } = this.state;
-        var data = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            password: this.state.password
-        };
+    handleRegister = async (event) => {
+        const { first_name, last_name, email, password, repassword } = this.state;
 
-        if (data.first_name == "" || data.last_name == "" || data.email == "" || data.password == "" || this.state.repassword == "") {
+        if (password != repassword) {
+            this.props.actionPasswordAndRepasswordNotMatch();
             return;
-        }
+        } else {
+            var data = {
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                password: password,
+            };
+    
+            const res = await this.props.registerUser(data)
+                .catch(err => err);
 
-        this.setState({
-            ...this.state, 
-            loading: true,
-        }); 
-        const auth = getAuth(firebaseApp);
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            var user = userCredential.user;
-            console.log(user);
-            axiosApi.post(`/application_user/register`, 
-                data
-            ).then(r => {
+            if (res) {
+                this.props.actionFormUpdate();
                 this.setState({
-                    ...this.state, 
-                    loading: false,
-                }); 
-            });
-        })
-        .catch((error) => {
-            console.log("error:", error);
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            
-            if (error.code == "putraops@gmail.com") {
-                errorMessage = "Email sudah terdaftar.";
+                        ...this.state,
+                        first_name: "",
+                        last_name: "",
+                        email: "",
+                        password: "",
+                        repassword: ""
+                    })
+            } else {
+                console.log(this.props);
             }
-
-            this.setState({
-                ...this.state, 
-                loading: false,
-                errorMessage: errorMessage
-            }); 
-            // ..
-        });
+        }
+        
     }
 
     render() {
-        const { loading } = this.state
-        
+        const { first_name, last_name, email, password, repassword } = this.state;
+        const { isLoading, errorMessage } = this.props;
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
@@ -109,8 +91,11 @@ class Register extends React.Component {
                                         </div>
 
                                         <Card className="borderShadow5">
+                                            {
+                                                errorMessage ? <Alert className="mb-3" message={errorMessage} type="error"showIcon  /> : null
+                                            }
                                             <Form
-                                                name="basic"
+                                                 name="basic"
                                                 labelCol={{ span: 24 }}
                                                 wrapperCol={{ span: 24 }}
                                                 initialValues={{ remember: true }}
@@ -120,43 +105,50 @@ class Register extends React.Component {
                                                 >
                                                 <Row>
                                                     <Col xs="12" md="6" lg="6">
-                                                        <Form.Item required
+                                                        <Form.Item
+                                                            name="first_name"
                                                             label="Nama Depan"  
                                                             tooltip="Nama Depan tidak boleh kosong" 
-                                                            rules={[{ required: true, message: 'Nama Depant tidak boleh kosong' }]}>
-                                                            <Input size="large" placeholder="Nama Depan" name="first_name" onChange={this.handleChange} />
+                                                            rules={[{ required: true, message: 'Nama Depan tidak boleh kosong' }]}>
+                                                            <Input size="large" placeholder="Nama Depan" name="first_name" value={first_name} onChange={this.handleChange} />
                                                         </Form.Item>
                                                     </Col>
                                                     <Col xs="12" md="6" lg="6">
-                                                        <Form.Item label="Nama Belakang">
-                                                            <Input size="large" placeholder="Nama Belakang" name="last_name" onChange={this.handleChange} />
+                                                        <Form.Item 
+                                                            name="last_name"
+                                                            label="Nama Belakang">
+                                                            <Input size="large" placeholder="Nama Belakang" name="last_name" value={last_name} onChange={this.handleChange} />
                                                         </Form.Item>
                                                     </Col>
                                                 </Row>
 
-                                                <Form.Item required
+                                                <Form.Item
+                                                    name="email"
                                                     label="Email" 
                                                     tooltip="Email tidak boleh kosong" 
-                                                    rules={[{ required: true, type: 'email' }]}
+                                                    rules={[{ required: true,  message: 'Format Email masih salah', type: 'email' }]}
                                                     >
-                                                    <Input size="large" placeholder="Email" name="email" onChange={this.handleChange} />
+                                                    <Input size="large" placeholder="Email" name="email" value={email} onChange={this.handleChange} />
                                                 </Form.Item> 
 
-                                                <Form.Item required
+                                                <Form.Item
+                                                    name="password"
                                                     label="Password"
                                                     tooltip="Password tidak boleh kosong" 
                                                     rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
-                                                    <Input.Password size="large" placeholder="Password" name="password" onChange={this.handleChange} />
+                                                    <Input.Password size="large" placeholder="Password" name="password" value={password} onChange={this.handleChange} />
                                                 </Form.Item>
-                                                <Form.Item required
+
+                                                <Form.Item
+                                                    name="repassword"
                                                     label="Ulangi Password"
                                                     tooltip="Ulangi Password tidak boleh kosong" 
                                                     rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
-                                                    <Input.Password size="large" placeholder="Ulangi Password" name="repassword" id="retype-password" onChange={this.handleChange} />
+                                                    <Input.Password size="large" placeholder="Ulangi Password" name="repassword" value={repassword} id="retype-password" onChange={this.handleChange} />
                                                 </Form.Item>
 
                                                 <Form.Item className="mt-3">
-                                                    <Button type="primary" size="medium" loading={loading} block htmlType="submit" onClick={this.handleRegister}>Register</Button> 
+                                                    <Button type="primary" size="medium" loading={isLoading} block htmlType="submit" onClick={this.handleRegister}>Register</Button> 
                                                 </Form.Item>
 
                                                 <div className="text-center mt-4">
@@ -175,4 +167,17 @@ class Register extends React.Component {
         );
     }
 }
-export default Register;
+
+const reduxState = (state) => ({
+    isLogin: state.auth.isLogin,
+    isLoading: state.auth.isLoading,
+    errorMessage: state.auth.errorMessage
+})
+
+const reduxDispatch = (dispatch) => ({
+    registerUser: (data) => dispatch(registerUser(data)),
+    actionPasswordAndRepasswordNotMatch: () => dispatch(actionPasswordAndRepasswordNotMatch()),
+    actionFormUpdate: () => dispatch(actionFormUpdate())
+})
+
+export default connect(reduxState, reduxDispatch)(Register);

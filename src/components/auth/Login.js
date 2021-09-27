@@ -4,43 +4,74 @@ import { Link, NavLink, useLocation  } from 'react-router-dom';
 import axios from 'axios';
 import axiosApi from '../../config/axiosConfig';
 
-// function HeaderView() {
-//     const location = useLocation();
-//     console.log(location.pathname);
-//     //return <span>Path : {location.pathname}</span>
-// }
+import { connect } from 'react-redux'
+import { SignIn } from './actions/authentication';
+
+import { Form, Input, Button, Card, Divider, Alert } from 'antd';
+import { userLogin, actionFormUpdate } from '../../config/redux/action';
 
 class Login extends React.Component {
-    state = {
-        username: '',
-        password: '',
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            email: '',
+            password: '',
+            loading: false,
+            isAuthentication: false,
+            errorMessage: this.props.authError,
+        };
     }
 
     componentDidMount() {
         document.getElementById("main_navbar").classList.add("d-none");
     }
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.authStatus) {
+            this.props.history.push(`/`)
+        }
+        
+        this.setState({
+            ...this.state, loading: false,
+        });  
+    }
+
     handleChange = event => {
         const target = event.target;
         const name = target.name;
         this.setState({
-            [name]: target.value
-          });
+            [name]: target.value,
+        });   
+        this.props.actionFormUpdate();
     }
 
-    Login = event => {
-        var data = {
-            username: this.state.username,
-            password: this.state.password
-        };
+    onFinish = (values) => {
+    };
+    
+    onFinishFailed = (errorInfo) => {
+    };
 
-        axiosApi.post(`/auth/login`, 
-            data
-        ).then(r => {
-          console.log(r);
-        });
+    handleLogin = async (e) => {
+        const { email, password } = this.state; 
+
+        if (email == "" || password == "") {
+            return;
+        }
+
+        const res = await this.props.userLogin({email, password})
+            .catch(err => err);
+
+        if (res) {
+            console.log(this.props);
+        } else {
+            console.log(this.props);
+        }
     }
     render() {
+        const { loading, errorMessage } = this.state
+        const { authError, username, isLoading } = this.props
+
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
@@ -51,33 +82,44 @@ class Login extends React.Component {
                                 <Row className="justify-content-center">
                                     <Col md="8" lg="6" xl="5" style={{"marginTop": "-120px"}}>
                                         <div className="text-center mb-4">
-                                            <h3 className="text-dark font-weight-normal"><Link to="/">Joranvest</Link></h3>
+                                            <h3 className="text-dark font-weight-normal"><Link to="/">Joranvest {username}</Link></h3>
                                         </div>
-                                        <form id="" method="POST" >
-                                            <div className="card p-2 rounded-plus bg-faded">
-                                                <div className="card-body">
-                                                    {/* <h4 className="text-dark text-center font-weight-normal mb-4">Login</h4> */}
-                                                    <div className="form-group mb-4">
-                                                        <input type="text" className="form-control" name="username" placeholder="Email or Username" onChange={this.handleChange} />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.handleChange} />
-                                                    </div>
-                                                    <button type="button" className="btn btn-primary btn-block btn-lg waves-effect waves-themed"
-                                                            onClick={this.Login}>
-                                                        Login <i className="fab fa-google"></i>
-                                                        </button>            
+                                         <Card className="borderShadow5">
+                                            {
+                                                authError ? <Alert className="mb-3" message={authError} type="error"showIcon  /> : null
+                                            }
+                                            <Form
+                                                name="basic"
+                                                labelCol={{ span: 24 }}
+                                                wrapperCol={{ span: 24 }}
+                                                initialValues={{ remember: true }}
+                                                onFinish={this.onFinish}
+                                                onFinishFailed={this.onFinishFailed}
+                                                autoComplete="off"
+                                                >
+                                                <Form.Item 
+                                                    name="email"
+                                                    rules={[{ required: true, message: 'Please input your Email' }]}>
+                                                    <Input className="mb-2" size="large" placeholder="Email" name="email" onChange={this.handleChange} />
+                                                </Form.Item>
+                                                <Form.Item 
+                                                    name="password"
+                                                    rules={[{ required: true, message: 'Please input your password' }]}>
+                                                    <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onChange={this.handleChange} />
+                                                </Form.Item>
+
+                                                <Form.Item>
+                                                    <Button type="primary" size="medium" loading={isLoading} block htmlType="submit" onClick={this.handleLogin}>Login</Button> 
+                                                </Form.Item>
+
+                                                <div className="text-center mt-4">
+                                                    <Divider className="mt-2 mb-2" plain>Belum punya akun?</Divider>
+                                                    <Link to="/register"><Button type="primary" className="mb-2" size="medium" block >Register</Button> </Link>
+                                                    {/* <Link to="/forgotpassword"><Button type="danger" size="medium" block >Lupa Password</Button> </Link> */}
+                                                    <Button type="danger" size="medium" block onClick={this.handleTesting}>Lupa Password</Button>
                                                 </div>
-                                                <div className="card-footer bg-white text-muted text-center">
-                                                    <div>
-                                                        <span>Belum punya akun?</span> <Link to="/register">Daftar</Link>
-                                                    </div>
-                                                    <div>
-                                                        <Link to="/forgotpassword">Lupa Password?</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                            </Form>
+                                        </Card>
                                     </Col>
                                 </Row>
                             </div>
@@ -88,4 +130,18 @@ class Login extends React.Component {
         );
     }
 }
-export default Login;
+
+
+const reduxState = (state) => ({
+    isLogin: state.auth.isLogin,
+    isLoading: state.auth.isLoading,
+    authError: state.auth.authError,
+    username: state.auth.username,
+})
+
+const reduxDispatch = (dispatch) => ({
+    userLogin: (data) => dispatch(userLogin(data)),
+    actionFormUpdate: () => dispatch(actionFormUpdate())
+})
+
+export default connect(reduxState, reduxDispatch)(Login);

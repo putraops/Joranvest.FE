@@ -3,10 +3,13 @@ import { Link, NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Button, Avatar } from 'antd';
 import { DownOutlined, UserOutlined  } from '@ant-design/icons';
 import ScrollspyNav from './scrollSpy';
-import { matchPath  } from "react-router-dom";
+import { matchPath } from "react-router-dom";
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux'
 
 class Navbar extends React.Component {
-    constructor(props) {
+    constructor( props ) {
         super(props);
         this.state = { Tab: '' };
     }
@@ -17,7 +20,11 @@ class Navbar extends React.Component {
     setActiveTab = (tab, e) => {
         this.setState({ Tab: tab });
     }
+
+    
     render() {
+      // const { authError } = this.props
+      //console.log("this.props, ", this.props)
         const menu = (
             <Menu style={{minWidth: "200px"}}>
               <Menu.Item key="0">
@@ -67,4 +74,26 @@ class Navbar extends React.Component {
 
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+      services: state.joranservice.joranServices,
+      authStatus: state.auth.authStatus,
+      authError: state.auth.authError,
+      user: state.auth.user,
+      // checked: session.checked,
+      // authenticated: session.authenticated
+  }
+}
+
+// const { bool } = PropTypes;
+// Navbar.propTypes = {
+//   authenticated: bool.isRequired,
+//   checked: bool.isRequired
+// };
+
+// const mapState = ({ session }) => ({
+//   checked: session.checked,
+//   authenticated: session.authenticated
+// });
+
+export default connect(mapStateToProps)(Navbar);

@@ -1557,3 +1557,11 @@ p {
 .borderShadow5 {
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px 0px !important;
 }
+
+.ant-steps-item-container > div.ant-steps-item-icon {
+  margin-top: -6px !important;
+}
+
+.modal-pricing > .ant-modal-content > .ant-modal-footer {
+  display: none !important;
+}

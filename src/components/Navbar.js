@@ -53,7 +53,7 @@ class Navbar extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarCollapse">
                           <ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
                               <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold">Home</a></li>
-                              <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li>
+                              {/* <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li> */}
                               <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold">Jadi Member</a></li>
                               {(() => {
                                   if (user.id != "") {

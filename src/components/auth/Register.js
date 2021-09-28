@@ -2,7 +2,7 @@ import React from 'react';
 import './css/auth.css'
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, Card, Divider, Alert } from 'antd';
+import { Card } from 'antd';
 
 import { connect } from 'react-redux';
 import RegisterForm from './components/RegisterForm'

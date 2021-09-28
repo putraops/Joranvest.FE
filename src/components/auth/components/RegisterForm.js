@@ -1,12 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Form, Input, message, Button, Divider, Alert } from 'antd';
+import { Form, Input, Button, Divider, Alert } from 'antd';
 
 import { connect } from 'react-redux';
 import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../../config/redux/action';
-
-// import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../../config/redux/action';
 
 const RegisterForm = (props) => {
     const [values, setValues] = useState({
@@ -17,16 +15,19 @@ const RegisterForm = (props) => {
         repassword: '',
 	});
 
-    const { errorMessage, actionFormUpdate } = props;
+    const { errorMessage, isLoading } = props;
     const [form] = Form.useForm();
 
     const onFinishFailed = () => {
+        //handleRegister();
+    };
+
+    const onFinish = () => {
         handleRegister();
     };
 
+
     const onFill = () => {
-        props.actionPasswordAndRepasswordNotMatch();
-        console.log(props);
         form.setFieldsValue({
             first_name: 'https://taobao.com/',
         });
@@ -52,7 +53,6 @@ const RegisterForm = (props) => {
             const res = await props.registerUser(userData)
                 .catch(err => err);
 
-                console.log("props: ", props);
             if (res) {
                 props.actionFormUpdate();
                 form.resetFields();
@@ -60,11 +60,6 @@ const RegisterForm = (props) => {
             }
         }
     }
-
-    const onFinish = () => {
-        handleRegister();
-    };
-
   return (
     <Fragment>
         {
@@ -125,7 +120,7 @@ const RegisterForm = (props) => {
             </Form.Item>
 
             <Form.Item className="mt-3">
-                <Button type="primary" size="medium" loading={false} block htmlType="submit" >Register</Button> 
+                <Button type="primary" size="medium" loading={isLoading} block htmlType="submit" >Register</Button> 
             </Form.Item>   
 
             <div className="text-center mt-4">

@@ -4,13 +4,17 @@ const initState = {
     authError: "", 
     errorMessage: "", 
     authStatus: false,
-    user: {},
-    username: '',
+    user: JSON.parse(localStorage.getItem("joranvestUser")),
+    username: "",
 }
 
 const authReducer = (state = initState, res) => {
-    console.log(res.type);
     switch (res.type) {
+        case "LOGIN_SUCCESS":
+            return {
+                ...state,
+                errorMessage: ""
+            }
         case "CHANGE_USER":
             return {
                 ...state,
@@ -30,17 +34,17 @@ const authReducer = (state = initState, res) => {
         case "EMAIL_NOT_FOUND":
             return {
                 ...state,
-                authError: "Email tidak terdaftar."
+                errorMessage: "Email tidak terdaftar."
             }
         case "INVALID_EMAIL":
             return {
                 ...state,
-                authError: "Email yang anda masukkan salah."
+                errorMessage: "Email yang anda masukkan salah."
             }
         case "INVALID_PASSWORD":
             return {
                 ...state,
-                authError: "Email dan Password salah."
+                errorMessage: "Email dan Password salah."
             }
         case "ALREADY_IN_USE":
             return {

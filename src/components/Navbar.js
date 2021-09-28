@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Button, Avatar } from 'antd';
 import { DownOutlined, UserOutlined  } from '@ant-design/icons';
@@ -20,11 +20,10 @@ class Navbar extends React.Component {
     setActiveTab = (tab, e) => {
         this.setState({ Tab: tab });
     }
-
     
     render() {
-      // const { authError } = this.props
-      //console.log("this.props, ", this.props)
+        const { user } = this.props;
+        
         const menu = (
             <Menu style={{minWidth: "200px"}}>
               <Menu.Item key="0">
@@ -53,17 +52,26 @@ class Navbar extends React.Component {
 
                         <div className="collapse navbar-collapse" id="navbarCollapse">
                           <ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
-                              {/* <li className="nav-item active"><a href="/" className="nav-link">Home</a></li> */}
+                              <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold">Home</a></li>
                               <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li>
                               <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold">Jadi Member</a></li>
-                              <li className="nav-item"><Link to="/login" className="nav-link text-white font-weight-bold">Login</Link></li>
-                              <li className="nav-item">
-                                <Dropdown overlay={menu}>
-                                  <a className="ant-dropdown-link nav-link text-white"  id="nav-profile" onClick={e => e.preventDefault()}>
-                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /> Hi, Putra          
-                                  </a>
-                                </Dropdown>
-                              </li>
+                              {(() => {
+                                  if (user.id != "") {
+                                      return (
+                                        <li className="nav-item">
+                                          <Dropdown overlay={menu}>
+                                            <a className="ant-dropdown-link nav-link text-white"  id="nav-profile" onClick={e => e.preventDefault()}>
+                                              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /> Hi, {user.first_name}          
+                                            </a>
+                                          </Dropdown>
+                                        </li>
+                                      )
+                                  } else {
+                                      return (
+                                        <li className="nav-item"><Link to="/login" className="nav-link text-white font-weight-bold">Login</Link></li>
+                                      )
+                                  }
+                              })()}
                           </ul>
                         </div>
                     </div>

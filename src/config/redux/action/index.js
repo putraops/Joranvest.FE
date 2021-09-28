@@ -16,7 +16,6 @@ export const registerUser = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         const auth = getAuth(firebaseApp);
 
-        console.log("Data Register: ", data);
         dispatch({type: 'FORM_UPDATE', value: ""})
         dispatch({type: "CHANGE_LOADING", value: true});
 
@@ -39,7 +38,6 @@ export const registerUser = (data) => (dispatch) => {
                 });
             });
         }).catch((error) => {
-            console.log("error:", error);
             var type = "";
             if (error.message == "Firebase: Error (auth/email-already-in-use).") {
                 type = "ALREADY_IN_USE";
@@ -59,21 +57,16 @@ export const userLogin = (data) => (dispatch) => {
         dispatch({type: "CHANGE_LOADING", value: true});
         signInWithEmailAndPassword(auth, data.email, data.password)
            .then((userCredential) => {
-               var user = userCredential.user;
-               alert("Login Success");
-               console.log(user);
-               dispatch({type: "CHANGE_LOADING", value: false});
-               // axiosApi.post(`/application_user/register`, 
-               //     data
-               // ).then(r => {
-               //     // this.setState({
-               //     //     ...this.state, 
-               //     //     loading: false,
-               //     // }); 
-               // });
-               resolve(true);
+                var user = userCredential.user;
+                dispatch({type: "CHANGE_LOADING", value: false});
+                axiosApi.post(`/auth/login`, 
+                    data
+                ).then(r => {                    
+                    localStorage.setItem("joranvestUser", JSON.stringify(r.data.data));
+                    dispatch({type: "LOGIN_SUCCESS", user: r.data.data});
+                    resolve(true);
+                });
            }).catch((error) => {
-                console.log("error:", error);
                 var type = "";
 
                 if (error.message == "Firebase: Error (auth/user-not-found).") {

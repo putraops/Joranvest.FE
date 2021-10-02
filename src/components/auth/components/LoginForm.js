@@ -7,6 +7,7 @@ import { Form, Input, message, Button, Divider, Alert } from 'antd';
 
 import { connect } from 'react-redux';
 import { userLogin, actionFormUpdate } from '../../../config/redux/action';
+import baseUrl from '../../../config/baseUrl';
 
 const LoginForm = (props) => {
     const [values, setValues] = useState({
@@ -49,8 +50,7 @@ const LoginForm = (props) => {
             .catch(err => err);
 
         if (res) {
-            props.history.push('/');
-        } else {
+            window.location.assign(baseUrl);
         }
     }
 

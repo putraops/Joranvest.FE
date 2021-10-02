@@ -1,44 +1,48 @@
-import React, { isValidElement } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
 import { Menu, Dropdown, Card, Avatar } from 'antd';
 import { connect } from 'react-redux'
+import baseUrl from '../config/baseUrl';
 const { Meta } = Card;
 
 class Navbar extends React.Component {
-    constructor( props ) {
-        super(props);
-        this.state = { Tab: '' };
-    }
+      constructor( props ) {
+          super(props);
+          this.state = { Tab: '' };
+      }
 
-    /**
-     * Sets active tab
-     */
-    setActiveTab = (tab, e) => {
-        this.setState({ Tab: tab });
-    }
+      /**
+       * Sets active tab
+       */
+      setActiveTab = (tab, e) => {
+          this.setState({ Tab: tab });
+      }
+
+      handleLogout = () => {
+          localStorage.removeItem("joranvestUser");
+          window.location.assign(baseUrl);
+      }
     
-    render() {
-        const { user } = this.props;
+      render() {
+        let user = JSON.parse(localStorage.getItem("joranvestUser"));
         console.log("Navbar User: ", JSON.parse(localStorage.getItem("joranvestUser")));
-        
         const menu = (
             <Menu style={{minWidth: "200px"}}>
               <Menu.Item key="0">
-                {/* <span>Status </span><span className="badge bg-warning text-dark text-right mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "800" }}>Member</span> */}
                 <Meta className="mt-1"
                         avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
                         title={
                             <div className="row mt-0">
                                 <Col md="6">
-                                    <span className="f-16">{user.first_name} {user.last_name}</span>
+                                    <span className="f-16">{user ? user.first_name + " " + user.last_name : "" }</span>
                                 </Col>
                             </div>
                         }
                         description={
                             <div style={{marginTop: "-7px"}}>
                                 {(() => {
-                                    if (user.is_membership) {
+                                    if (user && user.is_membership) {
                                         return (
                                             <span className="badge bg-warning text-dark mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "700" }}>Member</span>
 
@@ -56,7 +60,7 @@ class Navbar extends React.Component {
                 </a>
               </Menu.Item>
               <Menu.Divider />
-              <Menu.Item key="3">
+              <Menu.Item key="3" onClick={() => this.handleLogout()}>
                 Logout
               </Menu.Item>
             </Menu>
@@ -80,7 +84,7 @@ class Navbar extends React.Component {
                               {/* <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li> */}
                               <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li>
                               {(() => {
-                                  if (user.id != "") {
+                                  if (user && user.id != "") {
                                       return (
                                         <li className="nav-item">
                                           <Dropdown overlay={menu}>
@@ -92,7 +96,7 @@ class Navbar extends React.Component {
                                       )
                                   } else {
                                       return (
-                                        <li className="nav-item"><Link to="/login" className="nav-link text-white font-weight-bold">Login</Link></li>
+                                        <li className="nav-item"><a href="/login"className="nav-link text-white font-weight-bold">Login</a></li>
                                       )
                                   }
                               })()}
@@ -102,16 +106,15 @@ class Navbar extends React.Component {
                 </nav>
             </React.Fragment>
         );
-    }
-
+      }
 }
 
 const mapStateToProps = (state) => {
-  return {
-      services: state.joranservice.joranServices,
-      authStatus: state.auth.authStatus,
-      authError: state.auth.authError,
-      user: state.auth.user,
-  }
+    return {
+        services: state.joranservice.joranServices,
+        authStatus: state.auth.authStatus,
+        authError: state.auth.authError,
+        user: state.auth.user,
+    }
 }
 export default connect(mapStateToProps)(Navbar);

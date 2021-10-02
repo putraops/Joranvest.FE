@@ -86,7 +86,8 @@ class Main extends React.Component {
                                 {(() => {
                                     if (user.is_membership) {
                                         return (
-                                            <Badge className="site-badge-count-109 mr-2" count={"Member"} style={{ backgroundColor: '#ffc107', color: "black", fontWeight: "700" }} />
+                                            <span className="badge bg-warning text-dark mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "800" }}>Member</span>
+
                                         )
                                     }
                                 })()}

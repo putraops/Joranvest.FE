@@ -2,54 +2,120 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NumberFormat from "react-number-format";
-import { Typography, Modal, Card, Button, message, Divider, Radio, Space, List } from 'antd';
+import { connect } from 'react-redux'
+import { Typography, Modal, Card, Button, message, Divider, Skeleton, Radio, Space, List } from 'antd';
 import { Steps } from 'antd';
 import { CheckOutlined, SolutionOutlined, LoadingOutlined, CreditCardOutlined, HourglassOutlined } from '@ant-design/icons';
+import axiosApi from '../../../config/axiosConfig';
 
 const { Step } = Steps;
 const { Text } = Typography;
-
 
 class Pricing extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isVisible: false,
+            isButtonLoading: false,
             currentStep: 0,
-            value: 1
+            value: 1,
+            defaultPayment: "BankTransfer",
+            payload: {
+                id: "",
+                application_user_id: this.props.user ? this.props.user.id : "",
+                membership_id:"",
+                payment_status: 200,
+                payment_type: "BankTransfer"
+            }
         };
     }
 
-    handleVisible = (value) => {
-        console.log(this.state);
+    handleMembership = (value) => {
+        const {payload} = this.state
+        if (this.props.user) {
+            this.setState({
+                ...this.state,
+                isButtonLoading: true,
+            })
+            axiosApi.get(`/membership/getById/${value}`)
+            .then(res => {
+                var r = res.data;
+                if (r.status) {
+                    this.setState({
+                        ...this.state,
+                        isVisible: true,
+                        isButtonLoading: false,
+                        currentStep: 0,
+                        membershipRecord: r.data,
+                        defaultPayment: "BankTransfer",
+                        payload: {
+                            ...payload,
+                            membership_id: r.data.id
+                        }
+                    })
+                }
+                console.log("currentState: ", this.state);
+            });
+        } else {
+            alert("login dulu.");
+        }
+    }
+
+    handleModal = (value) => {
+        const {payload} = this.state
         this.setState({
             ...this.state,
-            isVisible: value
+            isVisible: value,
+            payload: {
+                ...payload,
+                membership_id: ""
+            }
         })
-        console.log(this.state);
     }
-    onChange = e => {
-        console.log('radio checked', e.target.value);
+
+    handlePaymentTypeChange = e => {
+        const {payload} = this.state
         this.setState({
-          value: e.target.value,
-        });
+            ...this.state,
+            payload: {
+                ...payload,
+                payment_type: e.target.value
+            }
+        })
       };
 
     next = () => {
-        const { currentStep } = this.state
+        const { currentStep, payload } = this.state
+        console.log(this.state);
+
         if (currentStep == 2) {
-            //-- Do Payment
+            // -- Do Payment
+            axiosApi.post(`/membershipUser/save`, payload)
+            .then(res => {
+                var r = res.data
+                console.log(r.data);
+                if (r.status) {
+                    this.setState({
+                        ...this.state,
+                        currentStep: currentStep + 1
+                    })
+                }
+            });
         } else {
+            this.setState({
+                ...this.state,
+                currentStep: currentStep + 1
+            })
         }
 
-        
+
         this.setState({
             ...this.state,
             currentStep: currentStep + 1
         })
     }
 
-    prev = () => { 
+    prev = () => {
         const { currentStep } = this.state
         this.setState({
             ...this.state,
@@ -57,9 +123,8 @@ class Pricing extends React.Component {
         })
     };
 
-    render() {    
-        const { value } = this.state;
-        const { isVisible } = this.state;
+    render() {
+        const { isVisible, isButtonLoading, defaultPayment, membershipRecord } = this.state;
         const { pricings } = this.props;
         const { Step } = Steps;
         const { currentStep } = this.state
@@ -67,22 +132,22 @@ class Pricing extends React.Component {
         const data = [
             {
                 name: "Transfer",
-                value: 1,
+                value: "BankTransfer",
             },
             {
                 name: "Kartu Kredit / Debit",
-                value: 12,
+                value: "Card",
             },
             {
                 name: "Transfer Virtual Account",
-                value: 3,
+                value: "VA",
             }
-          ];
+        ];
 
         const steps = [
             {
               title: 'First',
-              content: 
+              content:
                 <Row>
                     <Col md="12" className="mb-2">
                         <Card className="borderShadow5">
@@ -90,12 +155,22 @@ class Pricing extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p className="mb-0 f-18">Premium</p>
-                                            <p className="mb-0">Durasi 12 Bulan</p>
-                                            <p className="mb-3">Hemat Rp 360.000</p>
+                                            <p className="mb-0 f-18">{membershipRecord ? membershipRecord.name : ""}</p>
+                                            <p className="mb-0">Durasi {membershipRecord ? membershipRecord.duration : "0"} Bulan</p>
+                                            <p className="mb-3">Hemat <NumberFormat
+                                                                value={membershipRecord ? membershipRecord.total_saving : 0}
+                                                                displayType="text"
+                                                                thousandSeparator={true}
+                                                                prefix="Rp "
+                                                                /></p>
                                         </td>
                                         <td className="text-right align-top">
-                                            <p className="mb-0">Rp 69.000 / bulan</p>
+                                            <p className="mb-0"><NumberFormat
+                                                                value={membershipRecord ? membershipRecord.price : 0}
+                                                                displayType="text"
+                                                                thousandSeparator={true}
+                                                                prefix="Rp "
+                                                                /> / bulan</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -107,7 +182,12 @@ class Pricing extends React.Component {
                                             <p className="font-weight-bold mb-0" style={{fontSize: "25px"}}>TOTAL</p>
                                         </th>
                                         <th className="text-right">
-                                            <p className="font-weight-bold mb-0" style={{fontSize: "25px"}}>Rp 869.000</p>
+                                            <p className="font-weight-bold mb-0" style={{fontSize: "25px"}}><NumberFormat
+                                                                value={membershipRecord ? membershipRecord.price * membershipRecord.duration : 0}
+                                                                displayType="text"
+                                                                thousandSeparator={true}
+                                                                prefix="Rp "
+                                                                /></p>
                                         </th>
                                     </tr>
                                 </tbody>
@@ -122,21 +202,21 @@ class Pricing extends React.Component {
             },
             {
                 title: 'Second',
-                content: 
+                content:
                 <Row>
                     <Col md="12" className="mb-2">
                         <Card className="borderShadow5">
-                            
+
                             <Row>
                                 <Col xs="12" md="12" lg="12">
-                                    <Radio.Group onChange={this.onChange} value={value} style={{width: "100%"}}>
-                                        <List 
+                                    <Radio.Group onChange={this.handlePaymentTypeChange}  name="radiogroup" defaultValue={defaultPayment} style={{width: "100%"}}>
+                                        <List
                                             size="large"
                                             bordered
                                             dataSource={data}
-                                            renderItem={item => 
+                                            renderItem={item =>
                                                 <List.Item
-                                                    actions={[<Radio name="putr" className="pull-right" value={item.value}></Radio>]}>
+                                                    actions={[<Radio className="pull-right" checked={true} value={item.value}></Radio>]}>
                                                         <span className="font-weight-bold">{item.name}</span>
                                                 </List.Item>}
                                         />
@@ -172,7 +252,7 @@ class Pricing extends React.Component {
             },
             {
                 title: 'Fourth',
-                content: 
+                content:
                 <Row>
                     <Col md="12" className="mb-2">
                         <Card className="borderShadow5">
@@ -187,7 +267,7 @@ class Pricing extends React.Component {
               },
             {
               title: 'Last',
-              content: 
+              content:
               <Row>
                   <Col md="12" className="mb-2">
                       <Card className="borderShadow5">
@@ -211,8 +291,8 @@ class Pricing extends React.Component {
                         title="Daftar Membership"
                         centered
                         visible={isVisible}
-                        onOk={() => this.handleVisible(false)}
-                        onCancel={() => this.handleVisible(false)}
+                        onOk={() => this.handleModal(false)}
+                        onCancel={() => this.handleModal(false)}
                         width={1200}
                     >
                         <>
@@ -235,41 +315,42 @@ class Pricing extends React.Component {
                         </div>
                         <div className="steps-action text-right mt-3">
                             {currentStep > 0 && (
-                            <Button style={{ margin: '0 8px' }} onClick={() => this.prev()}>
-                                kembali
-                            </Button>
+                                <Button style={{ margin: '0 8px' }} onClick={() => this.prev()}>
+                                    kembali
+                                </Button>
                             )}
                             {currentStep < steps.length - 1 && (
-                            <Button type="primary" onClick={() => this.next()}>
-                                Lanjut
-                            </Button>
+                                <Button type="primary" onClick={() => this.next()}>
+                                    Lanjut
+                                </Button>
                             )}
                             {currentStep === steps.length - 1 && (
-                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                Selesai
-                            </Button>
+                                <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                    Selesai
+                                </Button>
                             )}
                         </div>
                         </>
                     </Modal>
-
                     {pricings.map((item, index) => {
-                        return  <Col lg="3" md="6" sm="6" xs="6" key={index}>
+                        return  <Col lg="3" md="6" sm="6" xs="12" key={index}>
                                     <div className={item.is_default ? "pricing-box borderShadow5 active mt-4" : "pricing-box borderShadow5 mt-4"}>
                                         <div className="price bg-light position-relative p-4 p">
                                             <div className="float-left">
                                                 <h5 className="text-dark title mt-2 font-weight-normal f-18 mb-0">{item.name}</h5>
                                             </div>
                                             <div className="">
-                                                <h2 className="text-dark font-weight-normal text-right mb-0">{
-                                                                            <Text className={item.is_default ? "text-white" : "text-dark"}>
-                                                                                <NumberFormat
-                                                                                    value={item.price}
-                                                                                    displayType="text"
-                                                                                    thousandSeparator={true}
-                                                                                    prefix=""
-                                                                                    />
-                                                                            </Text>}
+                                                <h2 className="text-dark font-weight-normal text-right mb-0">
+                                                    {
+                                                        <Text className={item.is_default ? "text-white" : "text-dark"}>
+                                                            <NumberFormat
+                                                                value={item.price}
+                                                                displayType="text"
+                                                                thousandSeparator={true}
+                                                                prefix=""
+                                                                />
+                                                        </Text>
+                                                    }
                                                 </h2>
                                             </div>
                                             <div className="text-right">
@@ -279,29 +360,47 @@ class Pricing extends React.Component {
                                         <div className="p-4 pricing-list">
                                             <ul className="list-unstyled mb-0">
                                                 <li className="text-muted f-14">Durasi {item.duration} Bulan</li>
-                                                <li className="text-muted f-14">{
-                                                                                <Text className="text-muted f-14">
-                                                                                    <NumberFormat
-                                                                                        value={item.total_saving == 0 ? "-" : item.total_saving}
-                                                                                        displayType="text"
-                                                                                        thousandSeparator={true}
-                                                                                        prefix="Hemat Rp "
-                                                                                        />
-                                                                                </Text>
-                                                                                }</li>
+                                                <li className="text-muted f-14">
+                                                    {
+                                                        <Text className="text-muted f-14">
+                                                            <NumberFormat
+                                                                value={item.total_saving == 0 ? "-" : item.total_saving}
+                                                                displayType="text"
+                                                                thousandSeparator={true}
+                                                                prefix="Hemat Rp "
+                                                                />
+                                                        </Text>
+                                                    }
+                                                </li>
                                                 <li className="text-muted mb-0 f-14" style={{minHeight: "50px"}}>* {item.description}</li>
                                             </ul>
                                         </div>
                                         <div className="pl-4 mb-4 mt-2">
-                                            <Link to="#" className={item.is_default ? "btn btn-outline btn-sm active" : "btn btn-outline btn-sm"} onClick={() => this.handleVisible(true)} >Beli Sekarang</Link>
+                                            <Button
+                                                type="primary"
+                                                className={item.is_default ? "btn btn-outline btn-sm text-normal active" : "btn btn-outline text-normal btn-sm"}
+                                                // icon={<PoweroffOutlined />}
+                                                loading={isButtonLoading}
+                                                onClick={() => this.handleMembership(item.id)}
+                                            >
+                                            Beli Sekarang
+                                            </Button>
+                                            {/* <Link to="#" className={item.is_default ? "btn btn-outline btn-sm active" : "btn btn-outline btn-sm"} onClick={() => this.handleMembership(item.id)} >Beli Sekarang</Link> */}
                                         </div>
                                     </div>
                                 </Col>
                         })
                     }
+
                 </Row>
             </React.Fragment>
         );
     }
 }
-export default Pricing;
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+  }
+export default connect(mapStateToProps, null)(Pricing);

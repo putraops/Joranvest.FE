@@ -1,31 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
-import NumberFormat from "react-number-format";
 import './css/style.css'
-import Navbar from '../Navbar';
-import SubNav from '../SubNav'
 import Footer from '../Footer';
-import TechnicalFilter from './components/Filter';
-import axios from 'axios';
 import axiosApi from '../../config/axiosConfig';
-import { Button, Card, Divider, Skeleton, Tabs } from 'antd';
-import { Select, Space, Typography } from 'antd';
-import { Menu, Dropdown } from 'antd';
-import { PoweroffOutlined, DownloadOutlined, UserOutlined, DashOutlined} from '@ant-design/icons';
+import { Card, Divider, Skeleton, Tabs } from 'antd';
 import { connect } from 'react-redux'
 import Main from './components/Main';
 import InformationTab from './components/InformationTab';
 import MembershipTab from './components/MembershipTab';
 import WebinarTab from './components/WebinarTab';
 
-const { Option, OptGroup } = Select;
-const { Text } = Typography;
-const { Meta } = Card;
 const { TabPane } = Tabs;
-
 
 class Profile extends React.Component {
     constructor(props) {
@@ -63,12 +50,12 @@ class Profile extends React.Component {
 
     componentDidUpdate = () => {
         console.log("componentDidUpdate")
-        console.log("state: ", this.state)
+        // console.log("state: ", this.state)
     }
 
     render() {
         const { user } = this.state;
-        console.log("user Profile: ", user);
+        // console.log("user Profile: ", user);
  
         return (
             <React.Fragment>

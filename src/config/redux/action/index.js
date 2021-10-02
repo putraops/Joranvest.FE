@@ -61,7 +61,7 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "CHANGE_LOADING", value: false});
                 axiosApi.post(`/auth/login`, 
                     data
-                ).then(r => {                    
+                ).then(r => {                
                     localStorage.setItem("joranvestUser", JSON.stringify(r.data.data));
                     dispatch({type: "LOGIN_SUCCESS", user: r.data.data});
                     resolve(true);

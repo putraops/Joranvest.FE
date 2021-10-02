@@ -2,19 +2,13 @@ import React from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, withRouter, Route, useParams  } from 'react-router-dom';
-import Navbar from '../Navbar';
+import { withRouter } from 'react-router-dom';
 import WebinarList from './WebinarList';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { Image } from 'antd';
-import { Button, Card, Drawer, Badge, List, Avatar, Divider, IconText, Tag } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
-import { Space } from 'antd';
+import { List, Select, Space } from 'antd';
 
 const { Option, OptGroup } = Select;
-const { Meta } = Card;
 
 class Webinar extends React.Component {
     constructor(props) {
@@ -32,7 +26,6 @@ class Webinar extends React.Component {
     }
 
     componentDidMount () {
-        const { payload } = this.state;
         this.LoadData();
     }
 

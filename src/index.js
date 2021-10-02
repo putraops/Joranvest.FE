@@ -35,11 +35,10 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
                         <Route path={`${process.env.PUBLIC_URL}/profile`} component={Profile}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
-                        {/* <Route path={`${process.env.PUBLIC_URL}/webinar/detail`} component={WebinarDetail}/> */}
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
-                        <Route exact path={`${process.env.PUBLIC_URL}/article-detail/:id`} component={ArticleDetail}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={PaymentSuccess}/>

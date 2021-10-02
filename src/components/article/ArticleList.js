@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import { List, Image } from 'antd';
-import { NavLink, Link } from 'react-router-dom';
 
 const ArticleList = (props) => {
     const articleCategory = {
@@ -41,7 +40,7 @@ const ArticleList = (props) => {
     if (articleDayName == "Sundary") articleDayName = "Minggu";
     
     return (
-        <NavLink to={`/article-detail/${props.obj.id}`}>
+        <a href={`/article/detail/${props.obj.id}`}>
             <List.Item key={props.obj.id}>
                 <List.Item.Meta
                     avatar={
@@ -70,7 +69,7 @@ const ArticleList = (props) => {
                     description={<p className="text-muted f-8 mb-0" style={postedDate}>{articleDayName}, {articleLongDate} | {articleTime} WIB</p>}
                 />
             </List.Item>
-        </NavLink>
+        </a>
     )
 }
 

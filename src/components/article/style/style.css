@@ -25,3 +25,7 @@
 .ant-comment-actions svg {
     margin-top: -5px;
 }
+
+.article-title {
+    line-height: 48px;
+}

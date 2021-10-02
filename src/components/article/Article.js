@@ -22,7 +22,7 @@ class Article extends React.Component {
         this.state = {
             payload: {
                 page: 1,
-                size: 2,
+                size: 5,
             },
             user: {
                 name: "",

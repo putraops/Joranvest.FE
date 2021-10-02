@@ -5,6 +5,7 @@ import "../style/style.css"
 import "../style/article-premium.css"
 
 import Pricing from '../../membership/components/Pricing';
+import { connect } from 'react-redux'
 
 class ArticleBody extends React.Component {
     constructor(props) {
@@ -12,8 +13,8 @@ class ArticleBody extends React.Component {
     }
 
     premiumSection = () => {
-        const { isArticlePremium } = this.props;
-        if (isArticlePremium) {
+        const { isArticlePremium, user } = this.props;
+        if (isArticlePremium && user && !user.is_membership) {
             return (
                 <Row>
                     <Col sm="12" md="12">
@@ -32,12 +33,10 @@ class ArticleBody extends React.Component {
     }
 
     render() {
-        const { children, isArticlePremium } = this.props;
-        var totalContent = 0;
-        if (isArticlePremium) {
+        const { children, isArticlePremium, user } = this.props;
+        var totalContent = totalContent = React.Children.count(children);
+        if (isArticlePremium && user && !user.is_membership) {
             totalContent = (React.Children.count(children) * 0.4);
-        } else {
-            totalContent = React.Children.count(children);
         }
 
         if (totalContent == 0) totalContent = 1;
@@ -51,10 +50,16 @@ class ArticleBody extends React.Component {
                     }
                 })}
                 </div>
-
                 {this.premiumSection()}
             </Fragment>
         )
     }
 }
-export default ArticleBody;
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+
+export default  connect(mapStateToProps)(ArticleBody);

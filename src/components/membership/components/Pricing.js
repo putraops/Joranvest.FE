@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Typography, Modal, Card, Button, message, Radio, List } from 'antd';
 import { Steps } from 'antd';
@@ -390,16 +391,8 @@ class Pricing extends React.Component {
                                                 <li className="text-muted mb-0 f-14" style={{minHeight: "50px"}}>* {item.description}</li>
                                             </ul>
                                         </div>
-                                        <div className="pl-4 mb-4 mt-2">
-                                            <Button
-                                                type="primary"
-                                                className={item.is_default ? "btn btn-outline btn-sm text-normal active" : "btn btn-outline text-normal btn-sm"}
-                                                // icon={<PoweroffOutlined />}
-                                                loading={isButtonLoading}
-                                                onClick={() => this.handleMembership(item.id)}
-                                            >
-                                            Beli Sekarang
-                                            </Button>
+                                        <div className="pl-4 pr-4 mb-4 mt-2">
+                                            <a href={`/checkout/membership/${item.id}`} className={item.is_active ? "btn btn-outline btn-sm btn-block active mt-2 mb-3 " : "btn btn-outline btn-block btn-sm mt-2 mb-3"} >Beli Sekarang</a>
                                         </div>
                                     </div>
                                 </Col>

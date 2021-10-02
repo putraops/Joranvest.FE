@@ -86,7 +86,7 @@ const MembershipPrice = (props) => {
                                 </ul>
                             </div>
                             <div className="bg-white pl-3 pr-3">
-                                <Link to="#" className={plan.is_active ? "btn btn-outline btn-sm active mt-2 mb-3 w-100" : "btn btn-outline btn-sm mt-2 mb-3 w-100"} >Beli Sekarang</Link>
+                                <Link to={`/checkout/membership/${plan.id}`} className={plan.is_active ? "btn btn-outline btn-sm active mt-2 mb-3 w-100" : "btn btn-outline btn-sm mt-2 mb-3 w-100"} >Beli Sekarang</Link>
                             </div>
                         </div>
                     </Col>

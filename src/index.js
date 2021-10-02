@@ -12,18 +12,13 @@ import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
+import CheckoutMembership from './components/checkout/Membership'
+import PaymentSuccess from './components/checkout/PaymentSuccess'
 
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Route } from 'react-router-dom';
-
-import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter, Route } from 'react-router-dom'
 import { store } from './config/redux/index'
 import { Provider } from 'react-redux';
-
-import thunk from 'redux-thunk';
-// import firebase from './config/firebase/config';
-
-const api = "http://www.example.com/sandwiches/";
 
 class Root extends React.Component {
     render() {
@@ -45,6 +40,9 @@ class Root extends React.Component {
 
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/article-detail/:id`} component={ArticleDetail}/>
+
+                        <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
+                        <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={PaymentSuccess}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

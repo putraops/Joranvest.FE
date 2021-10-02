@@ -70,7 +70,6 @@ class Pricing extends React.Component {
                         }
                     })
                 }
-                console.log("currentState: ", this.state);
             });
         } else {
             this.showConfirm();

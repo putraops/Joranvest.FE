@@ -81,6 +81,8 @@ class Navbar extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarCollapse">
                           <ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
                               <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li>
+                              <li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
+                              <li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
                               {/* <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li> */}
                               <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li>
                               {(() => {

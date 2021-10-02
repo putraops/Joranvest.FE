@@ -1548,6 +1548,10 @@ p {
   margin-top: -6px !important;
 }
 
+.ant-message-custom-content > span > svg  {
+  margin-top: -7px !important;
+}
+
 .borderShadow5 {
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 8px 0px !important;
 }

@@ -45,7 +45,7 @@ class PricingSection extends React.Component {
                         </Row>
                         
                         <Skeleton active={true} loading={isPricingLoading} paragraph={true} row="5">
-                            <Pricing pricings={pricings} />
+                            <Pricing history={this.props.history} pricings={pricings} />
                         </Skeleton>
                     </div>
                 </section>

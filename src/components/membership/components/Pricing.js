@@ -1,15 +1,15 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import { connect } from 'react-redux'
-import { Typography, Modal, Card, Button, message, Divider, Skeleton, Radio, Space, List } from 'antd';
+import { Typography, Modal, Card, Button, message, Radio, List } from 'antd';
 import { Steps } from 'antd';
-import { CheckOutlined, SolutionOutlined, LoadingOutlined, CreditCardOutlined, HourglassOutlined } from '@ant-design/icons';
+import { CheckOutlined, SolutionOutlined, ExclamationCircleOutlined, CreditCardOutlined, HourglassOutlined } from '@ant-design/icons';
 import axiosApi from '../../../config/axiosConfig';
 
 const { Step } = Steps;
 const { Text } = Typography;
+const { confirm } = Modal;
 
 class Pricing extends React.Component {
     constructor(props) {
@@ -30,9 +30,25 @@ class Pricing extends React.Component {
         };
     }
 
+    showConfirm = () => {
+        const { user } = this.props
+        confirm({
+          title: 'Silahkan login terlebih dahulu.',
+          icon: <ExclamationCircleOutlined />,
+          content: 'Apakah kamu ingin login?',
+          okText: <a href="/login">Login</a>,
+          cancelText: 'Tutup',
+          onOk() {
+          },
+        });
+    }
+
     handleMembership = (value) => {
-        const {payload} = this.state
-        if (this.props.user) {
+        const { payload } = this.state
+        const { user } = this.props
+        if (user && user.is_membership) {
+            message.success('Kamu sudah terdaftar sebagai member.', 10);
+        } else if (user && !user.is_membership) {
             this.setState({
                 ...this.state,
                 isButtonLoading: true,
@@ -57,7 +73,7 @@ class Pricing extends React.Component {
                 console.log("currentState: ", this.state);
             });
         } else {
-            alert("login dulu.");
+            this.showConfirm();
         }
     }
 
@@ -385,7 +401,6 @@ class Pricing extends React.Component {
                                             >
                                             Beli Sekarang
                                             </Button>
-                                            {/* <Link to="#" className={item.is_default ? "btn btn-outline btn-sm active" : "btn btn-outline btn-sm"} onClick={() => this.handleMembership(item.id)} >Beli Sekarang</Link> */}
                                         </div>
                                     </div>
                                 </Col>

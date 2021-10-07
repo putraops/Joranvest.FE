@@ -1,6 +1,14 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
+import { connect } from 'react-redux'
+import { Typography, Card, Alert, Button, List, Modal } from 'antd';
+import {
+    UserOutlined,
+    IdcardOutlined,
+    ExclamationCircleOutlined
+} from '@ant-design/icons';
+
 import Footer from '../Footer';
 import WebinarSpeaker from './WebinarSepaker';
 import WebinarPrice from './WebinarPrice';
@@ -8,13 +16,10 @@ import WebinarDate from './WebinarDate';
 import WebinarDetailHeader from './WeinarDetailHeader';
 
 import axiosApi from '../../config/axiosConfig';
+import baseUrl from '../../config/baseUrl';
 
-import { Typography } from 'antd';
-import { Card, Alert, Button, List } from 'antd';
-import {
-    UserOutlined,
-    IdcardOutlined,
-  } from '@ant-design/icons';
+const { confirm } = Modal;
+
 const { Text } = Typography;
 const { Meta } = Card;
 
@@ -29,7 +34,10 @@ class WebinarDetail extends React.Component {
             user: {
                 name: "",
             },
-            loadings: [],
+            isLoading: {
+                register: false,
+            },
+            isRegistered: false,
             detailData: [],
             webinarDate: {
                 startDate: {
@@ -41,21 +49,21 @@ class WebinarDetail extends React.Component {
                     Valid: false,
                 },
             },
+            payload: {
+                id: "",
+                webinar_id: "",
+                payment_type: "",
+                payment_status: 0,
+            },
             speakers: [],
         };
     }
 
     componentDidMount () {
-        const { payload } = this.state;
+        const { user } = this.props;
         axiosApi.get(`/webinar/getById/${this.props.match.params.id}`).then(r => {
             if (r.data.status) {
                 this.setState({...this.state, detailData: r.data.data});
-
-                // this.setState({...this.state, webinarFirstStartDate: r.data.data.webinar_first_start_date});
-                // this.setState({...this.state, webinarFirstEndDate: r.data.data.webinar_first_end_date});
-                // this.setState({...this.state, webinarLastStartDate: r.data.data.webinar_last_start_date});
-                // this.setState({...this.state, webinarLastEndDate: r.data.data.webinar_last_end_date});
-                console.log("webinar/getById", r.data)
                 var temp = {
                     startDate: r.data.data.webinar_start_date,
                     endDate: r.data.data.webinar_end_date,
@@ -63,6 +71,9 @@ class WebinarDetail extends React.Component {
                 console.log("temp", temp)
                 this.setState({...this.state, webinarDate: temp});
 
+                if (user) {
+                    this.isWebinarRegistered();
+                }
                 this.getSpeakers();
             }
         });
@@ -77,44 +88,92 @@ class WebinarDetail extends React.Component {
         });
     }
 
+    isWebinarRegistered = () => {
+        const { detailData } = this.state;
+        axiosApi.get(`/webinar_registration/isWebinarRegistered/${detailData.id}`)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                this.setState({
+                    ...this.state,
+                    isRegistered: true,
+                })
+            }
+        });
+    }
+
     handleSpeakerDetail = (id) => {
         this.props.history.push(`/speaker/${id}`);
     }
 
-    enterLoading = index => {
-        this.setState(({ loadings }) => {
-          const newLoadings = [...loadings];
-          newLoadings[index] = true;
-    
-          return {
-            loadings: newLoadings,
-          };
+    handleRegistration = () => {
+        const { isLoading, detailData, payload } = this.state;
+        isLoading.register = true;
+        payload.id = "";
+        payload.webinar_id = detailData.id;
+        payload.payment_status = detailData.price === 0 ? 200 : 1;
+        payload.payment_type = detailData.price === 0 ? "Free" : "";
+
+        this.setState({
+            ...this.state,
+            isLoading: {
+                ...isLoading,
+                register: true
+            },
+            payload: payload
+        })
+        
+        axiosApi.post("/webinar_registration/save", payload)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                if (r.status) {
+                    window.location.assign(baseUrl + "/membership/payment-success/" + r.data.id);
+                }
+            }
         });
-        setTimeout(() => {
-          this.setState(({ loadings }) => {
-            const newLoadings = [...loadings];
-            newLoadings[index] = false;
-    
-            return {
-              loadings: newLoadings,
-            };
-          });
-        }, 6000);
-      };
+    }
     
     render() {
-        const { loadings, detailData, speakers } = this.state;
+        const { isLoading, isRegistered, detailData, speakers } = this.state;
         const { webinarDate } = this.state;
-        // console.log("T" , this.state.webinarFirstStartDate.Time);
-        // console.log("IsValid" , this.state.webinarFirstStartDate.Valid);
-        // console.log("T" , this.state.webinarLastStartDate.Time);
-        // console.log("IsValid" , this.state.webinarLastStartDate.Valid);
-        const cardStyle = { 
-            // width: "360px", 
-            // height: "192px", 
-            // borderRadius: "16px", 
-            // marginRight: "24px", 
-            boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" 
+        const { user } = this.props;
+
+        var register = () => {
+            this.handleRegistration();
+        }
+
+        function showRegisterConfirm() {
+            confirm({
+                title: "Apakah yakin ingin mendaftar?.",
+                icon: <ExclamationCircleOutlined />,
+                content: '',
+                okText: 'Ya',
+                width: "500px",
+                cancelText: 'Tidak',
+                centered: true,
+                onOk() {
+                    register();
+                },
+                onCancel() {
+                },
+            });
+        }
+
+        function showLoginConfirm() {
+            confirm({
+                title: "Login terlebih dahulu untuk daftar Webinar.",
+                icon: <ExclamationCircleOutlined />,
+                content: 'Pilih Login untuk pindah ke halaman login.',
+                okText: 'Login',
+                width: "500px",
+                cancelText: 'Batal',
+                onOk() {
+                    window.location.assign(baseUrl + "/login");
+                },
+                onCancel() {
+                },
+            });
         }
 
         return (
@@ -243,7 +302,7 @@ class WebinarDetail extends React.Component {
                                     </Row>
                                 </Col>
                                 <Col span={6} xs={{ order: 1 }} sm={{ order: 1 }} sm="5"  md="4" md={{ order: 2 }} lg="4" lg={{ order: 2 }} xl={{ order: 2 }} lg="4">
-                                    <Card className="mb-2" style={cardStyle}
+                                    <Card className="mb-2 borderShadow5"
                                         cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" height="180px" />}
                                     >
                                         <p className="mb-0">Harga Webinar</p>
@@ -291,14 +350,16 @@ class WebinarDetail extends React.Component {
                                                 )
                                             }
                                         })()}
+
                                         <Button className="font-weight-bold"
                                             type="primary"
                                             block
                                             size='large'
-                                            loading={loadings[1]}
-                                            onClick={() => this.enterLoading(1)}
+                                            disabled={isRegistered}
+                                            loading={isLoading.register}
+                                            onClick={user ? () => showRegisterConfirm() : () => showLoginConfirm()}
                                             >
-                                            <span>Daftar Sekarang</span>
+                                            <span>{isRegistered ? "Sudah Terdaftar" : "Daftar Sekarang" }</span>
                                         </Button>
                                     </Card>
                                 </Col>
@@ -311,4 +372,9 @@ class WebinarDetail extends React.Component {
     }
 }
 
-export default WebinarDetail;
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+export default connect(mapStateToProps, null)(WebinarDetail);

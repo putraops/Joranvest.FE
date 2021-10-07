@@ -3,66 +3,72 @@ import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
 import { Menu, Dropdown, Card, Avatar } from 'antd';
 import { connect } from 'react-redux'
+import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
 const { Meta } = Card;
 
 class Navbar extends React.Component {
-      constructor( props ) {
-          super(props);
-          this.state = { Tab: '' };
-      }
+	constructor( props ) {
+		super(props);
+		this.state = { Tab: '' };
+	}
+	/**
+	 * Sets active tab
+	 */
+	setActiveTab = (tab, e) => {
+		this.setState({ Tab: tab });
+	}
 
-      /**
-       * Sets active tab
-       */
-      setActiveTab = (tab, e) => {
-          this.setState({ Tab: tab });
-      }
+	
+	handleLogout = () => {
+		localStorage.removeItem("joranvestUser");
+		window.location.assign(baseUrl);
+	}
 
-      handleLogout = () => {
-          localStorage.removeItem("joranvestUser");
-          window.location.assign(baseUrl);
-      }
+	getCookie = () => {
+		const cookies = new Cookies();
+		console.log(cookies.get('joranvest')); 
+	}
     
-      render() {
+	render() {
         let user = JSON.parse(localStorage.getItem("joranvestUser"));
+		const cookies = new Cookies();  
+
         console.log("Navbar User: ", JSON.parse(localStorage.getItem("joranvestUser")));
         const menu = (
             <Menu style={{minWidth: "200px"}}>
-              <Menu.Item key="0">
-                <Meta className="mt-1"
-                        avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
-                        title={
-                            <div className="row mt-0">
-                                <Col md="6">
-                                    <span className="f-16">{user ? user.first_name + " " + user.last_name : "" }</span>
-                                </Col>
-                            </div>
-                        }
-                        description={
-                            <div style={{marginTop: "-7px"}}>
-                                {(() => {
-                                    if (user && user.is_membership) {
-                                        return (
-                                            <span className="badge bg-warning text-dark mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "700" }}>Member</span>
+				<Menu.Item key="0">
+					<Meta className="mt-1"
+							avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
+							title={
+								<div className="row mt-0">
+									<Col md="6">
+										<span className="f-16">{user ? user.first_name + " " + user.last_name : "" }</span>
+									</Col>
+								</div>
+							}
+							description={
+								<div style={{marginTop: "-7px"}}>
+									{(() => {
+										if (user && user.is_membership) {
+											return (
+												<span className="badge bg-warning text-dark mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "700" }}>Member</span>
 
-                                        )
-                                    }
-                                })()}
-                            </div>
-                        }
-                    />
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="1">
-                <a  rel="noopener noreferrer" href="/profile">
-                  Profile
-                </a>
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="3" onClick={() => this.handleLogout()}>
-                Logout
-              </Menu.Item>
+											)
+										}
+									})()}
+								</div>
+							}
+						/>
+				</Menu.Item>
+				<Menu.Divider />
+				<Menu.Item key="1">
+					<a  rel="noopener noreferrer" href="/profile">Profile</a>
+				</Menu.Item>
+				<Menu.Divider />
+				<Menu.Item key="3" onClick={() => this.handleLogout()}>
+					Logout
+				</Menu.Item>
             </Menu>
           );
         return (

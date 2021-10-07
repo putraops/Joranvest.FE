@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Button, Card, Alert, Radio, List } from 'antd';
 
-class PaymentSuccess extends React.Component {
+class MembershipPaymentSuccess extends React.Component {
 
     constructor(props) {
         super(props);
@@ -43,4 +43,4 @@ class PaymentSuccess extends React.Component {
         );
     }
 }
-export default PaymentSuccess;
+export default MembershipPaymentSuccess;

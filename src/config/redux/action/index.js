@@ -1,6 +1,7 @@
 import firebaseApp from "../../firebase/config";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
+import Cookies from 'universal-cookie';
 
 const auth = getAuth(firebaseApp);
 
@@ -39,9 +40,9 @@ export const registerUser = (data) => (dispatch) => {
             });
         }).catch((error) => {
             var type = "";
-            if (error.message == "Firebase: Error (auth/email-already-in-use).") {
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
                 type = "ALREADY_IN_USE";
-            } else if (error.message == "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+            } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
                 type = "WEAK_PASSWORD";
             }
 
@@ -62,6 +63,8 @@ export const userLogin = (data) => (dispatch) => {
                 axiosApi.post(`/auth/login`, 
                     data
                 ).then(r => {                
+                    const cookies = new Cookies();
+                    cookies.set('joranvest', JSON.stringify(r.data.data), { path: '/' });
                     localStorage.setItem("joranvestUser", JSON.stringify(r.data.data));
                     dispatch({type: "LOGIN_SUCCESS", user: r.data.data});
                     resolve(true);
@@ -69,11 +72,11 @@ export const userLogin = (data) => (dispatch) => {
            }).catch((error) => {
                 var type = "";
 
-                if (error.message == "Firebase: Error (auth/user-not-found).") {
+                if (error.message === "Firebase: Error (auth/user-not-found).") {
                     type = "EMAIL_NOT_FOUND";
-                } else if (error.message == "Firebase: Error (auth/invalid-email).") {
+                } else if (error.message === "Firebase: Error (auth/invalid-email).") {
                     type = "INVALID_EMAIL";
-                } else if (error.message == "Firebase: Error (auth/wrong-password).") {
+                } else if (error.message === "Firebase: Error (auth/wrong-password).") {
                     type = "INVALID_PASSWORD";
                 }
 

@@ -1,9 +1,6 @@
 import React, { useState, Fragment } from 'react';
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-
-import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Form, Input, message, Button, Divider, Alert } from 'antd';
+import { Form, Input, Button, Divider, Alert } from 'antd';
 
 import { connect } from 'react-redux';
 import { userLogin, actionFormUpdate } from '../../../config/redux/action';
@@ -18,19 +15,12 @@ const LoginForm = (props) => {
     const { errorMessage, isLoading } = props;
     const [form] = Form.useForm();
 
-
     const onFinishFailed = () => {
         //handleRegister();
     };
 
     const onFinish = () => {
         //handleLogin();
-    };
-
-    const onFill = () => {
-        form.setFieldsValue({
-            first_name: 'https://taobao.com/',
-        });
     };
 
     const handleChange = (event) => {
@@ -41,6 +31,7 @@ const LoginForm = (props) => {
 
     const handleLogin = async (event) => {
         const { email, password } = values; 
+        const { user } = props;
 
         if (email == "" || password == "") {
             return;

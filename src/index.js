@@ -13,7 +13,8 @@ import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
 import CheckoutMembership from './components/checkout/Membership'
-import PaymentSuccess from './components/checkout/PaymentSuccess'
+import MembershipPaymentSuccess from './components/checkout/MembershipPaymentSuccess'
+import WebinarPaymentSuccess from './components/payment/WebinarPaymentSuccess'
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -41,7 +42,10 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
-                        <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={PaymentSuccess}/>
+                        <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={MembershipPaymentSuccess}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
+
+                        
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>
@@ -49,5 +53,8 @@ class Root extends React.Component {
     }
    }
 
-ReactDOM.render(<Provider store={store}><Root /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <Root />
+    </Provider>, document.getElementById('root'));
 serviceWorker.unregister();

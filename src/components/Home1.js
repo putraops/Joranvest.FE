@@ -1,6 +1,9 @@
 import React from 'react';
 import { Row,Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import baseUrl from '../config/baseUrl';
+
+console.log("baseUrl: ", baseUrl);
 
 class Home1 extends React.Component {
     render() {

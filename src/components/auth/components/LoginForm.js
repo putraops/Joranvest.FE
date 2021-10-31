@@ -42,6 +42,8 @@ const LoginForm = (props) => {
 
         if (res) {
             window.location.assign(baseUrl);
+        } else {
+            console.log(errorMessage);
         }
     }
 

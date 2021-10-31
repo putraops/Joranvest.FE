@@ -1,6 +1,7 @@
 {
   "name": "joranvest",
   "version": "0.1.0",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "antd": "^4.16.13",

@@ -62,12 +62,38 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "CHANGE_LOADING", value: false});
                 axiosApi.post(`/auth/login`, 
                     data
-                ).then(r => {                
-                    const cookies = new Cookies();
-                    cookies.set('joranvest', JSON.stringify(r.data.data), { path: '/' });
-                    localStorage.setItem("joranvestUser", JSON.stringify(r.data.data));
-                    dispatch({type: "LOGIN_SUCCESS", user: r.data.data});
-                    resolve(true);
+                ).then(res => {
+                    var r = res.data;
+                    if (r.status) {
+                        const cookies = new Cookies();
+                        
+                        var maxAge = 7*24*60*60;
+                        cookies.set(
+                            'joranvestCookie', 
+                            JSON.stringify(r.data), 
+                            { 
+                                path: '/',
+                                maxAge: maxAge,
+                                httpOnly: false,
+                            }
+                        );
+                        cookies.set(
+                            'joranvestCookie', 
+                            JSON.stringify(r.data), 
+                            { 
+                                path: '/',
+                                maxAge: maxAge,
+                                httpOnly: false,
+                                domain: "joranvest.com" 
+                            }
+                        );
+
+                        dispatch({type: "LOGIN_SUCCESS", user: r.data});
+                        resolve(true);
+                    } else {
+                        dispatch({type: "LOGIN_FAILED", errorMessage: r.message});
+                        reject(false);
+                    }
                 });
            }).catch((error) => {
                 var type = "";

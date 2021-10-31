@@ -44,8 +44,6 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={MembershipPaymentSuccess}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
-
-                        
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

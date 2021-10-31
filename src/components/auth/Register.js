@@ -27,7 +27,7 @@ class Register extends React.Component {
                                 <Row className="justify-content-center">
                                     <Col lg="6">
                                         <div className="text-center mb-4">
-                                            <h3 className="text-dark font-weight-normal"><Link to="/">Joranvest</Link></h3>
+                                            <a href="/"><img src="assets/img/logo.png" alt="" className="img-fluid mb-3" style={{width: "250px"}} /></a>
                                         </div>
                                         <Card className="borderShadow5">
                                             <RegisterForm />

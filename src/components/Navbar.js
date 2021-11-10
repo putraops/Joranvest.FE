@@ -81,9 +81,9 @@ class Navbar extends React.Component {
             <React.Fragment>
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
                     <div className="container">
-							<Link className="navbar-brand logo" to="/">
+							<a href="/" className="navbar-brand logo" >
 								<img src="assets/img/logo.png" alt="" className="img-fluid" style={{width: "150px"}}/>
-							</Link>
+							</a>
 							<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 								<i className="mdi mdi-menu"></i>
 							</button>

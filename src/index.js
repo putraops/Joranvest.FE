@@ -13,7 +13,7 @@ import WebinarDetail from './components/webinar/WebinarDetail';
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
 import CheckoutMembership from './components/checkout/Membership'
-import MembershipPaymentSuccess from './components/checkout/MembershipPaymentSuccess'
+import MembershipPayment from './components/payment/MembershipPayment'
 import WebinarPaymentSuccess from './components/payment/WebinarPaymentSuccess'
 
 import * as serviceWorker from './serviceWorker';
@@ -42,7 +42,7 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
-                        <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={MembershipPaymentSuccess}/>
+                        <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
                     </Fragment>
                 </BrowserRouter>

@@ -1563,3 +1563,17 @@ p {
 .modal-pricing > .ant-modal-content > .ant-modal-footer {
   display: none !important;
 }
+
+.ant-collapse-header > span > svg {
+  margin-top: -5px !important;
+}
+
+.card-label > span > svg {
+  margin-top: -6px;
+}
+.sc-gsDKAQ.bsIdxO {
+  border: 1px solid #a1a3a4;
+}
+.sc-gsDKAQ.bsIdxO.input > label {
+  margin-bottom: 0px !important;
+}

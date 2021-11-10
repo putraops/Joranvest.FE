@@ -20,8 +20,10 @@
     "react-animations": "^1.0.0",
     "react-background-slideshow": "^1.0.4",
     "react-bootstrap-carousel": "^3.4.1",
+    "react-credit-card-input": "^1.1.5",
     "react-dom": "^16.8.6",
     "react-html-parser": "^2.0.2",
+    "react-iframe-comm": "^1.2.2",
     "react-infinite-scroller": "^1.2.4",
     "react-modal-video": "^1.2.2",
     "react-moment": "^1.1.1",
@@ -40,6 +42,8 @@
     "redux": "^4.1.1",
     "redux-react-session": "^2.6.1",
     "redux-thunk": "^2.3.0",
+    "styled-components": "^5.3.3",
+    "typekit": "^0.1.1",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {

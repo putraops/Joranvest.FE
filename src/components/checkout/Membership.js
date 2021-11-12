@@ -93,24 +93,6 @@ const Membership = props => {
         }
     }, []);
 
-    const GetUniqueNumber = (payment_type) => {
-        axiosApi.get(`/payment/getUniqueNumber`)
-        .then(res => {
-            var r = res.data;
-            if (r.status) {
-                formPaymentManual.resetFields();
-                setPayloadManualPayment({
-                    ...payloadManualPayment, 
-                    payment_type: payment_type,
-                    price: membershipRecord.price * membershipRecord.duration,
-                    unique_number: r.data,
-                })
-                setLoading({...loading, isButtonManualPayment: false})
-                setModal({...modal, transferModal: true})
-            }
-        });
-    }
-
     const loadData = (value) => {
         if (props.user && props.user.is_membership) {
             setIsPaymentAvailable(false);
@@ -122,6 +104,27 @@ const Membership = props => {
             if (r.status) {
                 setLoading({...loading, isMembershipLoading: false});
                 setMembershipRecord(r.data);
+            }
+        });
+    }
+
+    const GetUniqueNumber = (payment_type) => {
+        var today = new Date();
+        axiosApi.get(`/payment/getUniqueNumber`)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                formPaymentManual.resetFields();
+                setPayloadManualPayment({
+                    ...payloadManualPayment,
+                    record_id: membershipRecord.id,
+                    order_number: "JORANVEST/TRF/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
+                    payment_type: payment_type,
+                    price: membershipRecord.price * membershipRecord.duration,
+                    unique_number: r.data,
+                })
+                setLoading({...loading, isButtonManualPayment: false})
+                setModal({...modal, transferModal: true})
             }
         });
     }
@@ -203,26 +206,32 @@ const Membership = props => {
         if (cardRecord.cardNumber == "" || cardRecord.cvv == "" || cardRecord.expiry == "") {
             openNotification('Notification Title', 'This is the content of the notification. This is the content of the notification. This is the content of the notification.');
         } else {
+            var expired = (cardRecord.expiry).replace(/\s/g, '').split("/");
+            var payload = {
+                "card_number": (cardRecord.cardNumber).replace(/\s/g, ''),
+                "exp_month": parseInt(expired[0]),
+                "exp_year": parseInt("20" + expired[1]),
+                "cvv": parseInt(cardRecord.cvc)
+            }
             new Promise((resolve, reject) => {
-                var payload = {
-                    "card_number": "4811111111111114",
-                    "exp_month": 12,
-                    "exp_year": 2024,
-                    "cvv": 123
-                }
                 axiosApi.post(`/payment/createTokenByCard`, payload)
                 .then(res => {
                     var r = res.data
+                    console.log(r);
                     if (r.status) {
                         resolve(r.data);
                     } else {
                         reject(r.data);
+                        openNotification("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.")
                     }
                 });
             })
             .then((res) => {
                 //throw new Error('Something failed');
-                handleCharge(res.token_id)
+                console.log(res);
+                if (res.status_code === "200") {
+                    handleCharge(res.token_id)
+                }
             })
             .catch((res) => {
             })
@@ -320,13 +329,41 @@ const Membership = props => {
             value: "gopay",
         }
     ];
+
+    const handleCardPayment = (payload) => {
+        axiosApi.post(`/payment/save`, payload)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                if (r.data.payment_status === 200) {
+                    window.location.assign("/membership/payment/pending/" + r.data.id)
+                }
+            }
+        });
+    }
  
     const onReceiveMessage = (e) => {
         // payment_type: "credit_card"
         // transaction_time: "2021-11-09 01:13:54"
+        console.log(e);
         if (e.data.status_code === "200") {
             // status_message: "Success, Credit Card transaction is successful"
-            // transaction_status: "capture"
+            var cardExpiry = (cardRecord.expiry).replace(/\s/g, '').split("/");
+            var payload = {
+                exp_month: parseInt(cardExpiry[0]),
+                exp_year: parseInt("20" + cardExpiry[1]),
+                card_number: (cardRecord.cardNumber).replace(/\s/g, ''),
+                payment_type: e.data.payment_type,
+                card_type: e.data.card_type,
+                payment_status: 200,
+                bank_name: e.data.bank,
+                order_number: e.data.order_id,
+                currency: e.data.currency,
+                price: parseInt(e.data.gross_amount)
+            }
+            handleCardPayment(payload);
+            openNotification('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
+            //window.location.assign("/membership/payment/pending/123")
         }
         if (e.data.status_code === "202") {
             // status message = Card is not authenticated.
@@ -334,7 +371,7 @@ const Membership = props => {
             openNotification('Verifikasi Gagal!', 'Silahkan ulangi pembayaran dan masukkan OTP yang benar.');
         }
         
-        if (e.data.status_code === "200" || e.data.status_code === "202") {
+        if (e.data.status_code === "202") {
             setModal({...modal, auth3dsModal: false})
         }
     };
@@ -343,12 +380,6 @@ const Membership = props => {
     const onReady = () => {
         // Do something
     };
-    
-    const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 
     return (
         <Fragment>

@@ -10,11 +10,15 @@ import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
+
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
+
 import CheckoutMembership from './components/checkout/Membership'
 import MembershipPayment from './components/payment/MembershipPayment'
 import WebinarPaymentSuccess from './components/payment/WebinarPaymentSuccess'
+
+import Transaction from './components/transaction/Transaction';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -44,6 +48,8 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
+
+                        <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

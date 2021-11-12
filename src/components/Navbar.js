@@ -68,11 +68,13 @@ class Navbar extends React.Component {
 						/>
 				</Menu.Item>
 				<Menu.Divider />
-				<Menu.Item key="1">
+				<Menu.Item key="profile">
 					<a  rel="noopener noreferrer" href="/profile">Profile</a>
 				</Menu.Item>
-				<Menu.Divider />
-				<Menu.Item key="3" onClick={() => this.handleLogout()}>
+				<Menu.Item key="transaction_history">
+					<a  rel="noopener noreferrer" href="/transaction">Riwayat Transaksi</a>
+				</Menu.Item>
+				<Menu.Item key="logout" onClick={() => this.handleLogout()}>
 					Logout
 				</Menu.Item>
             </Menu>

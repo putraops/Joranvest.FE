@@ -1577,3 +1577,7 @@ p {
 .sc-gsDKAQ.bsIdxO.input > label {
   margin-bottom: 0px !important;
 }
+
+.ant-breadcrumb > span > .ant-breadcrumb-link > .anticon > svg {
+  margin-top: -8px
+}

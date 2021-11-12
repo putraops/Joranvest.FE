@@ -112,3 +112,37 @@ export const userLogin = (data) => (dispatch) => {
            })
     })
 }
+
+export const showUploadTransferModal = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        axiosApi.get(`/filemaster/getAll?record_id=${data.data.id}`)
+        .then(res => {
+            var r = res.data;
+            console.log("loadAttachments: ", r);
+            if (r.status) {
+                // if (r.data.length > 0) {
+                //     this.setState({
+                //         ...this.state,
+                //         webinarCoverUrl: r.data[0].filepath
+                //     })
+                // }
+                //message.success("Success to save Webinar Speakers.");
+                if (r.data.length > 0) {
+                    dispatch({type: "SHOW_UPLOAD_TRANSFER_MODAL", value: data, file: r.data[0]});
+                } else {
+                    dispatch({type: "SHOW_UPLOAD_TRANSFER_MODAL", value: data, file: {}});
+                }
+            } else {
+                //message.error(r.message);
+            }
+        });
+        resolve(true);
+    })
+}
+
+export const hideUploadTransferModal = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "HIDE_UPLOAD_TRANSFER_MODAL", value: data});
+        resolve(true);
+    })
+}

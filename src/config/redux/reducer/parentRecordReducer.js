@@ -11,18 +11,6 @@ const parentRecordReducer = (state = initState, res) => {
     switch (res.type) {
         case "SHOW_UPLOAD_TRANSFER_MODAL":
             console.log("parentRecordReducer: ", res);
-            // var _file = [];
-            // if (res.file.length > 0) {
-            //     for (var i = 0; i < res.file.length; i++) {
-            //         _file.push( {
-            //             uid: res.file[i].id,
-            //             name: res.file[i].filename,
-            //             status: 'done',
-            //             response: 'Server Error 500', // custom error message to show
-            //             url: serverUrl + "/" + res.file[i].filepath,
-            //         })
-            //     }
-            // }
             return {
                 ...state,
                 isParentModal: true,

@@ -228,7 +228,6 @@ const Membership = props => {
             })
             .then((res) => {
                 //throw new Error('Something failed');
-                console.log(res);
                 if (res.status_code === "200") {
                     handleCharge(res.token_id)
                 }
@@ -287,27 +286,33 @@ const Membership = props => {
         axiosApi.post(`/payment/charge`, payload)
         .then(res => {
             var r = res.data
-            if (paymentType === "credit_card") {
-                if (r.data.transaction_status === "pending") {
-                    setLoading({...loading, isButtonCardPaymentLoading: true});
-                    setAuth3dsUrl(r.data.redirect_url);
-                    setModal({...modal, cardModal: false, auth3dsModal: true})
-                }
-                if (r.status === 200) {
-                }
-            } else if (paymentType === "gopay") {
-                setLoading({...loading, isButtonPaymentLoading: false})
-                if (r.data.transaction_status === "pending") {
-                    //-- Open QR
-                    var redirect_url = "";
-                    for (var i = 0; i < r.data.actions.length; i++) {
-                        if (r.data.actions[i].name === "generate-qr-code") {
-                            redirect_url = r.data.actions[i].url;
-                        }
+            console.log("payment/charge", r);
+            if (r.status || 
+                (r.data.status_code === "201" && (r.data.payment_type === "credit_card" || r.data.payment_type === "gopay"))) {
+                if (paymentType === "credit_card") {
+                    if (r.data.transaction_status === "pending") {
+                        setLoading({...loading, isButtonCardPaymentLoading: true});
+                        setAuth3dsUrl(r.data.redirect_url);
+                        setModal({...modal, cardModal: false, auth3dsModal: true})
                     }
-                    setGopayQRUrl(redirect_url);
-                    setModal({...modal, gopayQrisModal: true})
+                    if (r.status === 200) {
+                    }
+                } else if (paymentType === "gopay") {
+                    setLoading({...loading, isButtonPaymentLoading: false})
+                    if (r.data.transaction_status === "pending") {
+                        //-- Open QR
+                        var redirect_url = "";
+                        for (var i = 0; i < r.data.actions.length; i++) {
+                            if (r.data.actions[i].name === "generate-qr-code") {
+                                redirect_url = r.data.actions[i].url;
+                            }
+                        }
+                        setGopayQRUrl(redirect_url);
+                        setModal({...modal, gopayQrisModal: true})
+                    }
                 }
+            } else {
+                openNotification("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.")
             }
         });
     }
@@ -336,7 +341,8 @@ const Membership = props => {
             var r = res.data;
             if (r.status) {
                 if (r.data.payment_status === 200) {
-                    window.location.assign("/membership/payment/pending/" + r.data.id)
+                    setModal({...modal, auth3dsModal: false})
+                    window.location.assign("/membership/payment/success/" + r.data.id)
                 }
             }
         });
@@ -350,6 +356,7 @@ const Membership = props => {
             // status_message: "Success, Credit Card transaction is successful"
             var cardExpiry = (cardRecord.expiry).replace(/\s/g, '').split("/");
             var payload = {
+                record_id: props.match.params.id,
                 exp_month: parseInt(cardExpiry[0]),
                 exp_year: parseInt("20" + cardExpiry[1]),
                 card_number: (cardRecord.cardNumber).replace(/\s/g, ''),
@@ -458,7 +465,7 @@ const Membership = props => {
                             </Fragment>
                         ]}
                         >
-                        <p className="font-weight-bold mb-1 card-label">Nomor Kartu Debit / Kredit 
+                        <p className="font-weight-bold mb-1 card-label">Nomor Kartu Kredit 
                             <Tooltip 
                                 placement="top"
                                 color="blue"

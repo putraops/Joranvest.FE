@@ -54,7 +54,7 @@ const ListItem = (props) => {
         ribbonColor = "green";
     }
 
-    if (props && props.obj.payment_date_expired) {
+    if (props && props.obj.payment_date_expired && props.obj.payment_date_expired.Valid) {
         paymentExpiredDate = moment(props.obj.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMM, HH:mm');
     }
 
@@ -74,7 +74,18 @@ const ListItem = (props) => {
                             {(() => {
                                 if (props.obj.membership_name !== "") {
                                     return (
-                                        <p className="f-14 mt-1 mb-0 font-weight-bold" style={{marginTop: "-5px"}}>{props.obj.membership_name}</p>
+                                        <Fragment>
+                                            <p className="f-14 mt-1 mb-0 font-weight-bold" style={{marginTop: "-5px"}}>{props.obj.membership_name}</p>
+                                            <span><strong>Durasi</strong> <NumberFormat
+                                                                    value={props.obj.membership_duration}
+                                                                    displayType="text"
+                                                                    thousandSeparator={true}
+                                                                    fixedDecimalScale={true}
+                                                                    decimalScale={0}
+                                                                    suffix=" Bulan"
+                                                                    />
+                                                </span>
+                                        </Fragment>
                                     )
                                 } else {
                                     return (
@@ -82,7 +93,6 @@ const ListItem = (props) => {
                                     )
                                 }
                             })()}
-
                             
                             {(() => {
                                 if (paymentExpiredDate) {
@@ -91,10 +101,6 @@ const ListItem = (props) => {
                                             <span className="font-weight-bold">Bayar Sebelum: </span>
                                             <span className="text-danger" style={{fontWeight: "500"}}>{paymentExpiredDate}</span>
                                         </p>
-                                    )
-                                } else {
-                                    return (
-                                        <p className="f-14 mt-2 mb-0 font-weight-bold">Webinar: {props.obj.webinar_title}</p>
                                     )
                                 }
                             })()}
@@ -107,7 +113,13 @@ const ListItem = (props) => {
                                             <hr className="mt-2 mb-2" />
                                             <Row>
                                                 <Col className="text-left" lg="6">
-                                                    <span className="text-primary f-12" onClick={handleUploadTransferModal} style={{marginLeft: "10px", fontWeight: "500", cursor: "pointer"}}>Lihat Detail</span>
+                                                    {(() => {
+                                                        if (props.obj.payment_type === "transfer_bca") {
+                                                            return (                                                    
+                                                                <span className="text-primary f-12" onClick={handleUploadTransferModal} style={{marginLeft: "10px", fontWeight: "500", cursor: "pointer"}}>Upload Bukti Bayar</span>
+                                                            )
+                                                        }
+                                                    })()}
                                                 </Col>
                                                 <Col className="text-right" lg="6">
                                                     <strong>

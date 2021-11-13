@@ -1,9 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { Button, Card, Image, Alert, Skeleton, Radio, List } from 'antd';
 import NumberFormat from "react-number-format";
-import { connect } from 'react-redux';
 import moment from 'moment';
 import axiosApi from '../../../config/axiosConfig';
 import Footer from '../../Footer';
@@ -15,9 +13,7 @@ const Pending = props => {
     const [loading, setLoading] = useState({
         isContentLoading: true,
     });
-    useEffect(() => {
-        console.log("pending page", props);
-     
+    useEffect(() => {     
         loadData();
     }, []);
 
@@ -25,26 +21,15 @@ const Pending = props => {
         axiosApi.get(`/payment/getById/${props.record_id}`)
         .then(res => {
             var r = res.data;
-            console.log("/payment/save: ", r);
             if (r.status) {
                 setLoading({...loading, isContentLoading: false})
                 setRecord(r.data)
-                var now = Date.now();
-                var expired = r.data.payment_date_expired.Time;
-                
                 setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
-                //console.log(moment(r.data.payment_date_expired.Time).subtract(1, 's').quarter());
-                // setLoading({...loading, isMembershipLoading: false});
-                // setMembershipRecord(r.data);
             }
         }).catch(function (error) {
             console.log(error.toJSON());
             window.location.assign("/")
         });
-    }
-
-    const handleRedirectPaymentStatus = () => {
-        window.location.assign(`/transaction/history/${props.record_id}`);
     }
 
     return (
@@ -127,13 +112,14 @@ const Pending = props => {
                                     
                                     <Row>
                                         <Col md="12">
-                                            <Button type="primary" block onClick={handleRedirectPaymentStatus}>
-                                                Cek Status Pembayaran
-                                            </Button>
+                                            <a href="/transaction">
+                                                <Button type="primary" block>
+                                                    Cek Status Pembayaran
+                                                </Button>
+                                            </a>
                                             <p className="mb-0 mt-2 font-weight-bold">Cara Pembayaran</p>
                                             <hr className="mt-1 mb-1" />
                                             <p className="mb-0">Pastikan Pembayaran <strong className="text-uppercase">berhasil</strong> dan unggah bukti untuk mempercepat verifikasi</p>
-                                            <p className="mb-0">Unggah bukti transfer <a href={`/transaction/history/${props.record_id}`}>disini</a></p>
                                         </Col>
                                     </Row>
                                 </Skeleton>                                

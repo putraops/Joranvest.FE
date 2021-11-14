@@ -4,10 +4,14 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import WebinarList from './WebinarList';
+import SubNav from '../_nav/subNav';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { List, Select, Space } from 'antd';
+import { List, Select, Space, Breadcrumb } from 'antd';
 
+import { 
+    HomeOutlined, 
+} from '@ant-design/icons';
 const { Option, OptGroup } = Select;
 
 class Webinar extends React.Component {
@@ -76,42 +80,21 @@ class Webinar extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="container mb-3">
-                            <ul className="nav subNav">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/technical">Teknikal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/fundamental">Fundamental</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Webinar</a>
-                                </li>
-                            </ul>
+                    <div className="container-fluid mt-4 pr-0 pl-0">
+                        <div className="container mb-2">
+                            <Breadcrumb className="pt-1">
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Webinar</Breadcrumb.Item>
+                            </Breadcrumb>
                         </div>
                     </div>
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
-                            <div className="card-body">
-                                <div className="container pb-4 pt-4">
-                                    <Row>
-                                        <Col span={6} xs={{ order: 1 }} sm={{ order: 1 }} sm="12" md={{ order: 2 }} lg={{ order: 2 }} lg="12">
-                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "28px"}}>Kumpulan Webinar Terbaik untuk Kamu</h5>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
+                    <SubNav title="Webinar" sub_title="Kumpulan Webinar Terbaik untuk Kamu" />
 
                     <div className="container mt-4">
                         <Row className="">
                             <Col md="12">
-                            <p className="h5 mb-3 f-18">Semua Webinar</p>
                             <div>
                                 <span>Filter: </span>
                                 <Select className="mr-1" defaultValue="all" style={{ width: 200 }}>

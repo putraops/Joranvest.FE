@@ -2,8 +2,9 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux'
-import { Typography, Card, Alert, Button, List, Modal } from 'antd';
+import { Typography, Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
 import {
+    HomeOutlined, 
     UserOutlined,
     IdcardOutlined,
     ExclamationCircleOutlined
@@ -181,22 +182,15 @@ class WebinarDetail extends React.Component {
                 <section className="section home-1-bg">         
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
-                            <ul className="nav subNav">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/technical">Teknikal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/fundamental">Fundamental</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="/webinar">Webinar</a>
-                                </li>
-                            </ul>
+                            <Breadcrumb className="pt-1">
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Webinar</Breadcrumb.Item>
+                            </Breadcrumb>
                         </div>
                     </div>
+                    
                     <WebinarDetailHeader data={detailData} /> 
                         <div className="container mt-4">
                             <Row>

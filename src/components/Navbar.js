@@ -31,6 +31,8 @@ class Navbar extends React.Component {
 	render() {
 		const cookies = new Cookies();
         let user = cookies.get('joranvestCookie') || null;
+		console.log("userLogin: ", user);
+		console.log("userRedux: ", this.props.user);
 		const analysisMenu = (
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="1">

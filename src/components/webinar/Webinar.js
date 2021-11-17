@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import WebinarList from './WebinarList';
+import WebinarList from './components/WebinarList';
 import SubNav from '../_nav/subNav';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';

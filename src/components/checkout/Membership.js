@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import IframeComm from 'react-iframe-comm';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
+import payment from '../../services/paymentService';
 
 import {
     InfoCircleOutlined,
@@ -94,7 +95,7 @@ const Membership = props => {
     }, []);
 
     const loadData = (value) => {
-        if (props.user && props.user.is_membership) {
+        if (props.user && !props.user.is_membership) {
             setIsPaymentAvailable(false);
         }
 
@@ -164,7 +165,7 @@ const Membership = props => {
         }
     }
     const onFormPaymentManualFinish = (values) => {
-        axiosApi.post(`/payment/save`, {
+        axiosApi.post(`/payment/membershipPayment`, {
             ...payloadManualPayment,
             account_name: values.account_name,
             account_number: values.account_number,
@@ -336,14 +337,18 @@ const Membership = props => {
     ];
 
     const handleCardPayment = (payload) => {
-        axiosApi.post(`/payment/save`, payload)
+        axiosApi.post(`/payment/membershipPayment`, payload)
         .then(res => {
             var r = res.data;
+            console.log("handleCardPayment: ", r);
             if (r.status) {
                 if (r.data.payment_status === 200) {
+                    openNotification('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
                     setModal({...modal, auth3dsModal: false})
                     window.location.assign("/membership/payment/success/" + r.data.id)
                 }
+            } else {
+                message.error(r.message);
             }
         });
     }
@@ -369,8 +374,6 @@ const Membership = props => {
                 price: parseInt(e.data.gross_amount)
             }
             handleCardPayment(payload);
-            openNotification('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
-            //window.location.assign("/membership/payment/pending/123")
         }
         if (e.data.status_code === "202") {
             // status message = Card is not authenticated.

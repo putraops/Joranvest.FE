@@ -1,12 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Button, Card, Image, Alert, Skeleton, Radio, List } from 'antd';
+import { Button, Card, Image, Alert, Skeleton, message, Radio, List } from 'antd';
 import NumberFormat from "react-number-format";
 import { connect } from 'react-redux';
 import moment from 'moment';
 import axiosApi from '../../../config/axiosConfig';
 import Footer from '../../Footer';
+import joranCookies from '../../../commons/joranCookies';
 
 const Success = props => {
     const [record, setRecord] = useState({});
@@ -18,33 +19,63 @@ const Success = props => {
     useEffect(() => {
         console.log("pending page", props);
      
-        loadData();
+        getPaymentById(props.record_id)
+        .then(paymentRes => {
+            console.log("paymentRes:", paymentRes);
+            getUserDetail(paymentRes.created_by)
+            .then(res => {
+                console.log("membership value: ", res);
+            }).catch(function (error){
+                console.log("catch membership:", error);
+            })
+        }).catch(function (error) {
+            console.log("catch payment:", error);
+            //window.location.assign("/");
+        })
     }, []);
 
-    const loadData = () => {
-        axiosApi.get(`/payment/getById/${props.record_id}`)
-        .then(res => {
-            var r = res.data;
-            console.log("/payment/getById: ", r);
-            if (r.status) {
-                setLoading({...loading, isContentLoading: false})
-                setRecord(r.data)
-                var now = Date.now();
-                var expired = r.data.payment_date_expired.Time;
-                
-                setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
-                //console.log(moment(r.data.payment_date_expired.Time).subtract(1, 's').quarter());
-                // setLoading({...loading, isMembershipLoading: false});
-                // setMembershipRecord(r.data);
-            }
-        }).catch(function (error) {
-            console.log(error.toJSON());
-            window.location.assign("/")
+    const getPaymentById = async (id) => {
+        return new Promise((resolve, reject) => {
+            axiosApi.get(`/payment/getById/${id}`)
+            .then(res => {
+                var r = res.data;
+                console.log("/payment/getById: ", r);
+                if (r.status) {
+                    setLoading({...loading, isContentLoading: false})
+                    setRecord(r.data)
+                    var now = Date.now();
+                    var expired = r.data.payment_date_expired.Time;
+                    
+                    setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
+                    resolve(r.data);
+                    // reject(false);
+                } else {
+                    reject(false);
+                }
+            }).catch(function (error) {
+                message.error(error);
+                reject(false);
+            });
         });
     }
 
-    const handleRedirectPaymentStatus = () => {
-        window.location.assign(`/transaction/history/${props.record_id}`);
+    const getUserDetail = async (user_id) => {
+        return new Promise((resolve, reject) => {
+            axiosApi.get(`/application_user/getViewById/${user_id}`)
+            .then(res => {
+                var r = res.data;
+                console.log("/membershop", r);
+                if (r.status) {
+                    joranCookies.set(r.data);
+                    resolve(true);
+                } else {
+                    reject(false);
+                }
+            }).catch(function (error) {
+                message.error(error);
+                reject(false);
+            });
+        });
     }
 
     return (

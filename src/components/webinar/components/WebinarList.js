@@ -6,7 +6,7 @@ import { Image } from 'antd';
 import { Card, Badge, List, Avatar, Tag } from 'antd';
 import moment from 'moment';
 import NumberFormat from "react-number-format";
-import serverUrl from "../../config/serverUrl"
+import serverUrl from "../../../config/serverUrl"
 
 const { Meta } = Card;
 

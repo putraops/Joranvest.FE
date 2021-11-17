@@ -11,10 +11,10 @@ import {
 } from '@ant-design/icons';
 
 import Footer from '../Footer';
-import WebinarSpeaker from './WebinarSepaker';
-import WebinarPrice from './WebinarPrice';
-import WebinarDate from './WebinarDate';
-import WebinarDetailHeader from './WeinarDetailHeader';
+import WebinarSpeaker from './components/WebinarSepaker';
+import WebinarPrice from './components/WebinarPrice';
+import WebinarDate from './components/WebinarDate';
+import WebinarDetailHeader from './components/WebinarDetailHeader';
 
 import axiosApi from '../../config/axiosConfig';
 import baseUrl from '../../config/baseUrl';
@@ -62,14 +62,16 @@ class WebinarDetail extends React.Component {
 
     componentDidMount () {
         const { user } = this.props;
-        axiosApi.get(`/webinar/getById/${this.props.match.params.id}`).then(r => {
-            if (r.data.status) {
-                this.setState({...this.state, detailData: r.data.data});
+        axiosApi.get(`/webinar/getById/${this.props.match.params.id}`)
+        .then(res => {
+            var r = res.data;
+            console.log("getById: ", r);
+            if (r.status) {
+                this.setState({...this.state, detailData: r.data});
                 var temp = {
-                    startDate: r.data.data.webinar_start_date,
-                    endDate: r.data.data.webinar_end_date,
+                    startDate: r.data.webinar_start_date,
+                    endDate: r.data.webinar_end_date,
                 }
-                console.log("temp", temp)
                 this.setState({...this.state, webinarDate: temp});
 
                 if (user) {
@@ -82,9 +84,12 @@ class WebinarDetail extends React.Component {
 
     getSpeakers = () => {
         const { detailData } = this.state;
-        axiosApi.get(`/webinar_speaker/getAll?webinar_id=${detailData.id}`).then(r => {
-            if (r.data.status) {
-                this.setState({...this.state, speakers: r.data.data});
+        axiosApi.get(`/webinar_speaker/getAll?webinar_id=${detailData.id}`)
+        .then(res => {
+            var r = res.data;
+            console.log(r);
+            if (r.status) {
+                this.setState({...this.state, speakers: r.data});
             }
         });
     }
@@ -101,10 +106,6 @@ class WebinarDetail extends React.Component {
                 })
             }
         });
-    }
-
-    handleSpeakerDetail = (id) => {
-        this.props.history.push(`/speaker/${id}`);
     }
 
     handleRegistration = () => {
@@ -191,7 +192,7 @@ class WebinarDetail extends React.Component {
                         </div>
                     </div>
                     
-                    <WebinarDetailHeader data={detailData} /> 
+                    <WebinarDetailHeader data={detailData} speakers={speakers} /> 
                         <div className="container mt-4">
                             <Row>
                                 <Col span={6} xs={{ order: 2 }} sm={{ order: 2 }} sm="7"  md="8" md={{ order: 1 }} lg="8" lg={{ order: 1 }} xl={{ order: 1 }} lg="8">
@@ -207,7 +208,7 @@ class WebinarDetail extends React.Component {
                                                 itemLayout="horizontal"
                                                 dataSource={speakers}
                                                 renderItem={item => (
-                                                    <WebinarSpeaker speaker={item} goDetail={this.handleSpeakerDetail} />
+                                                    <WebinarSpeaker speaker={item}/>
                                                 )}
                                             />
                                         </Col>
@@ -225,21 +226,6 @@ class WebinarDetail extends React.Component {
                                                 {detailData.description == "" ? 
                                                     <span className="">Tidak ada Ringkasan</span> : 
                                                     <div className="">{detailData.description}</div>}
-                                                {/* Salah satu kunci kesuksesan adalah untuk mengetahui potensi yang kamu miliki terlebih dahulu. Sudahkah kamu menemukan potensimu? Yuk ikuti webinar ini! Memulai proses pendampingan memakai metode Coaching yang menggali kreatifitas, memacu motivasi dan mendukung bagi para Coachee. Peserta akan dibantu menyusun rencana aksi yang mendetail dan terinci untuk dapat memulai karir mereka dengan langkah mantap dan lebih percaya diri.
-                                                <br /><br />
-                                                Target Peserta :<br />
-                                                1. Mahasiswa yang sebentar lagi akan lulus dan dalam persiapan memasuki dunia kerja nantinya <br /><br />
-
-                                                2. Fresh graduate yang baru ingin memulai karir professional<br /><br />
-
-                                                3. Mereka yang ingin mencoba jalur karir yang baru<br /><br />
-
-                                                ㅡㅡㅡㅡㅡ<br /><br />
-
-                                                Dapatkan<br />
-                                                ✅ Jalur khusus daftar kerja <br />
-                                                ✅ E-certificate <br />
-                                                ✅ Saldo GO-PAY 50K untuk 2 orang penanya <br /> */}
                                             </Card> 
                                         </Col>
                                     </Row>   
@@ -256,7 +242,7 @@ class WebinarDetail extends React.Component {
                                                 description={
                                                     <div style={{marginTop: "-5px"}}>
                                                         <p>
-                                                            Kamu bisa mendaftar webinar ini dengan mengklik tombol "Daftar Sekarang".<br /><br />
+                                                            Kamu bisa mendaftar webinar ini dengan mengklik tombol <strong>"Daftar Sekarang"</strong>.<br /><br />
                                                             1.Pastikan kamu sudah terdaftar menjadi pengguna dan login. <br />
                                                             2. 15 menit sebelum event berlangsung, kamu sudah bisa bergabung.<br />
                                                             3. Bergabung webinar terdaftar.<br />

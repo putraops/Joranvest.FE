@@ -1,28 +1,38 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Row, Col } from 'reactstrap';
-import { Button, Card, Alert, Radio, List, Skeleton, Modal } from 'antd';
-import { Form, Input, InputNumber, Image, Space, Tooltip, Typography, notification, message  } from 'antd';
+import { Button, Alert, Modal } from 'antd';
+import { Form, Input, Image, Space, Typography, message  } from 'antd';
 import NumberFormat from "react-number-format";
 import { connect } from 'react-redux';
-import moment from 'moment';
 import axiosApi from '../../../../config/axiosConfig';
-//import joranCookies from '../../../commons/joranCookies';
 
 import { hideTransferModal } from '../../../../config/redux/action/payment';
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 const Transfer = props => {
     const [formPaymentManual] = Form.useForm();
     const [loading, setLoading]= useState({
         isSubmitLoading: false
     })
-    
+    const [uniqueNumber, setUniqueNumber] = useState(0);
+     
     console.log(props);
     useEffect(() => {
-
+        GetUniqueNumber();
     }, []);
     
+    function GetUniqueNumber(){
+        axiosApi.get(`/payment/getUniqueNumber`)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                setUniqueNumber(r.data);
+            }
+        }).catch(err => {
+            message.error(err);
+        });
+    }
+
     const onFormFinish = (values) => {
         setLoading({...loading, isSubmitLoading: true});
         var today = new Date();
@@ -36,14 +46,10 @@ const Transfer = props => {
             account_name: values.account_name,
             account_number: values.account_number,
             price: props.price,
-            unique_number: 0
+            unique_number: uniqueNumber
         }
       
-        axiosApi.post(`/payment/webinarPayment`, {
-            ...payload,
-            account_name: values.account_name,
-            account_number: values.account_number,
-        })
+        axiosApi.post(`/payment/webinarPayment`, payload)
         .then(res => {
             setLoading({...loading, isSubmitLoading: false});
             var r = res.data;
@@ -63,7 +69,6 @@ const Transfer = props => {
                 visible={props.paymentReducer.isTransferModalShow}
                 onCancel={() => props.hideTransferModal()}
                 footer={[
-                    // <Button key="cancel">Cancel</Button>,
                     <Fragment key="fragment">
                         <p className="f-13 mt-0 mb-1" key="terms" style={{float: "left"}}
                             >Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.
@@ -77,7 +82,7 @@ const Transfer = props => {
                             <p className="mb-0" style={{fontWeight: "500"}}>Total Tagihan</p>
                             <NumberFormat
                                 className="f-19" style={{fontWeight: "800"}}
-                                value={props.price}
+                                value={props.price + uniqueNumber}
                                 displayType="text"
                                 thousandSeparator={true}
                                 prefix="Rp "
@@ -90,20 +95,19 @@ const Transfer = props => {
                             <Image
                                 width={70}
                                 preview={false} 
-                                // src={paymentType == "transfer_bca" ? "assets/img/bca-icon.png" : ""} 
+                                src={props.payment_type == "transfer_bca" ? "assets/img/bca-icon.png" : ""} 
                             />
                         </Space>
                     }
                 />
                 <Form 
-                    //form={formPaymentManual}
+                    form={formPaymentManual}
                     className="mt-3"
                     layout="vertical"
                     onFinish={onFormFinish}
                 >
                     <Text style={{fontWeight: "500"}}>Nomor Rekening <span className="text-danger">*</span></Text>
                     <Form.Item
-                        // onChange={onFormPaymentManualChange}
                         name="account_number"
                         className="mb-2"
                         rules={[{ required: true, message: 'Nomor Rekening tidak boleh kosong.' }]}>
@@ -137,8 +141,6 @@ const Transfer = props => {
                         }
                         type="warning"
                     />
-                    
-                        
                     <Button key="pay" type="primary" htmlType="submit" loading={loading.isSubmitLoading} block>Submit</Button>
                 </Form >
             </Modal>

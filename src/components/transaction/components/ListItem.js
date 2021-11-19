@@ -124,7 +124,7 @@ const ListItem = (props) => {
                                                 <Col className="text-right" lg="6">
                                                     <strong>
                                                         <NumberFormat
-                                                            value={props.obj.price}
+                                                            value={props.obj.price + props.obj.unique_number}
                                                             displayType="text"
                                                             thousandSeparator={true}
                                                             prefix="Rp "

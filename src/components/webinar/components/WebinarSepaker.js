@@ -5,9 +5,6 @@ import { Card, Avatar, Rate } from 'antd';
 const { Meta } = Card;
 
 const WebinarSpeaker = (props) => {
-    useEffect((ee) => {
-    }, []);
-
     return (
         <Fragment>
             <Card className="mb-3">

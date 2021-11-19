@@ -35,17 +35,17 @@ class Navbar extends React.Component {
 		console.log("userRedux: ", this.props.user);
 		const analysisMenu = (
             <Menu style={{minWidth: "200px"}}>
-				<Menu.Item key="1">
+				<Menu.Item key="fundamental">
 					<a  rel="noopener noreferrer" href="/fundamental">Fundamental</a>
 				</Menu.Item>
-				<Menu.Item key="1">
+				<Menu.Item key="teknikal">
 					<a  rel="noopener noreferrer" href="/technical">Teknikal</a>
 				</Menu.Item>
             </Menu>
 		);
         const menu = (
             <Menu style={{minWidth: "200px"}}>
-				<Menu.Item key="0">
+				<Menu.Item key="member_status">
 					<Meta className="mt-1"
 							avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
 							title={

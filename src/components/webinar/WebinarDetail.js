@@ -145,21 +145,25 @@ class WebinarDetail extends React.Component {
             this.handleRegistration();
         }
 
-        function showRegisterConfirm() {
-            confirm({
-                title: "Apakah yakin ingin mendaftar?.",
-                icon: <ExclamationCircleOutlined />,
-                content: '',
-                okText: 'Ya',
-                width: "500px",
-                cancelText: 'Tidak',
-                centered: true,
-                onOk() {
-                    register();
-                },
-                onCancel() {
-                },
-            });
+        function registration() {
+            if (detailData.price > 0) {
+                window.location.assign(baseUrl + "/webinar/payment/" + detailData.id);
+            } else {
+                confirm({
+                    title: "Apakah yakin ingin mendaftar?",
+                    icon: <ExclamationCircleOutlined />,
+                    content: '',
+                    okText: 'Ya',
+                    width: "500px",
+                    cancelText: 'Tidak',
+                    centered: true,
+                    onOk() {
+                        register();
+                    },
+                    onCancel() {
+                    },
+                });
+            }
         }
 
         function showLoginConfirm() {
@@ -337,7 +341,7 @@ class WebinarDetail extends React.Component {
                                             size='large'
                                             disabled={isRegistered}
                                             loading={isLoading.register}
-                                            onClick={user ? () => showRegisterConfirm() : () => showLoginConfirm()}
+                                            onClick={user ? () => registration() : () => showLoginConfirm()}
                                             >
                                             <span>{isRegistered ? "Sudah Terdaftar" : "Daftar Sekarang" }</span>
                                         </Button>

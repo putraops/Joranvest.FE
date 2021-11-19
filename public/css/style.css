@@ -840,7 +840,7 @@ p {
 .title-border-simple:before {
   content: "";
   position: absolute;
-  width: 120px;
+  width: 200px;
   height: 2px;
   background-color: #005bea;
   top: 15px;
@@ -852,7 +852,7 @@ p {
 .title-border-simple:after {
   content: "";
   position: absolute;
-  width: 30px;
+  width: 50px;
   height: 6px;
   background-color: #ff8700;
   top: 13px;

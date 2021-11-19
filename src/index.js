@@ -10,6 +10,7 @@ import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
+import WebinarPayment from './components/payment/Webinar';
 
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
@@ -47,6 +48,7 @@ class Root extends React.Component {
 
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
+                        <Route path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>

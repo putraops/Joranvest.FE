@@ -6,10 +6,6 @@ import { Tag } from 'antd';
 import moment from 'moment';
 
 const WebinarDetailHeader = (props) => {
-    console.log(props);
-    useEffect((ee) => {
-    }, []);
-
     const tdRight = { 
         borderTop: "0px", 
     }

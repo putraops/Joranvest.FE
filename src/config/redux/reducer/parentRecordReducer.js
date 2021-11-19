@@ -7,7 +7,7 @@ const initState = {
     thumbUrl: "",
 }
 
-const parentRecordReducer = (state = initState, res) => {
+const parentTransactionHistoryReducer = (state = initState, res) => {
     switch (res.type) {
         case "SHOW_UPLOAD_TRANSFER_MODAL":
             console.log("parentRecordReducer: ", res);
@@ -28,4 +28,4 @@ const parentRecordReducer = (state = initState, res) => {
     }
 }
 
-export default parentRecordReducer;
+export default parentTransactionHistoryReducer;

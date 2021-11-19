@@ -1,8 +1,10 @@
 import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
+let user = cookies.get('joranvestCookie') || null;
 const joranCookies = {
     set(data) {
-        const cookies = new Cookies();
+        data.token = user.token;
                         
         var maxAge = 7*24*60*60;
         cookies.set(

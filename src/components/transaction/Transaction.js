@@ -5,16 +5,11 @@ import { Row, Col } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import ListTransaction from './components/ListTransaction';
 import Footer from '../Footer';
-import axiosApi from '../../config/axiosConfig';
-import { List, Select, Space, Breadcrumb } from 'antd';
-import { DatePicker } from 'antd';
+import { Space, Breadcrumb } from 'antd';
 
 import { 
     HomeOutlined, 
-    UserOutlined 
 } from '@ant-design/icons';
-const { Option, OptGroup } = Select;
-const { RangePicker } = DatePicker;
 
 class Transaaction extends React.Component {
     constructor(props) {
@@ -39,34 +34,7 @@ class Transaaction extends React.Component {
         payload.page = event;
         this.LoadData();
     }
-
-    handleDetail = (id) => {
-        //this.props.history.push(`/webinar/detail/${id}`);
-    }
-
     render() {
-        const { listData, payload } = this.state;
-
-        const gridAnalysis = {
-            left: 0,
-            right: 0,
-            // margin: '0 0px',
-            padding: '15px',
-            WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            borderRadius: '0px',
-            top: '-25px',
-            WebkitTransition: 'all 0.5s',
-            transition: 'all 0.5s'
-        }
-        
-        const IconText = ({ icon, text }) => (
-            <Space>
-                {React.createElement(icon)}
-                {text}
-            </Space>
-        );
-      
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
@@ -96,42 +64,7 @@ class Transaaction extends React.Component {
                     </div>  
 
                     <div className="container mt-4">
-                        <Row className="">
-                            <Col md="12">
-                            <p className="h5 mb-1 f-16">Filter:</p>
-                            <Space>
-                                <RangePicker className="mr-1" />
-                                <Select className="mr-1"  defaultValue="all" style={{ width: 200 }}>
-                                    <Option value="all">Semua Status</Option>
-                                    <Option value="success">Berhasil</Option>
-                                    <Option value="pending">Menunggu Pembayaran</Option>
-                                    <Option value="failed">Gagal</Option>
-                                </Select>
-                                <Select className="mr-1"  defaultValue="all" style={{ width: 200 }}>
-                                    <Option value="all">Semua Tipe</Option>
-                                    <Option value="membership">Membership</Option>
-                                    <Option value="webinar">Webinar</Option>
-                                </Select>
-                                <hr />
-                            </Space>
-                            </Col>
-                            <Col md="12">
-                                {/* <List
-                                    itemLayout="vertical"  size="large"
-                                    pagination={{
-                                    onChange: page => {
-                                        this.handlePage(page);
-                                    },
-                                    pageSize: payload.size,
-                                    total: listData.total
-                                    }}
-                                    dataSource={listData.data}
-                                    // footer={}
-                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} goDetail={this.handleDetail} />}
-                                /> */}
-                                <ListTransaction />
-                            </Col>
-                        </Row>
+                        <ListTransaction />
                     </div>      
                     <Footer />
                 </section>

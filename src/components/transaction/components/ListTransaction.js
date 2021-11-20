@@ -1,6 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react'
 import { Row, Col } from 'reactstrap';
-import { Button, Image, Alert, message, Upload, Modal, List, notification  } from 'antd';
+import { Button, Image, Alert, message, Upload, Modal, Pagination, List, Select, notification  } from 'antd';
+import { DatePicker } from 'antd';
 import { connect } from 'react-redux'
 import { showUploadTransferModal, hideUploadTransferModal } from '../../../config/redux/action';
 import ListItem from './ListItem'
@@ -8,8 +9,12 @@ import axiosApi from '../../../config/axiosConfig';
 import serverUrl from '../../../config/serverUrl';
 import { UploadOutlined } from '@ant-design/icons';
 
+const { Option, OptGroup } = Select;
+const { RangePicker } = DatePicker;
+
 const ListTransaction = props => {
     const [listData, setlistData] = useState([{}]);
+    const [totalData, setTotalData] = useState(0);
     const [payload, setPayload] = useState({
         page: 1,
         size: 10,
@@ -17,6 +22,7 @@ const ListTransaction = props => {
     const [loading, setLoading] = useState({
         isContentLoading: true,
     });
+
     useEffect(() => {
         console.log("pending page", props);
      
@@ -24,15 +30,33 @@ const ListTransaction = props => {
         loadPagination();
     }, []);
 
-    
+    useLayoutEffect(() => {
+        loadPagination();
+    }, [payload]);
+
+    function onPageChange(page, pageSize){
+        setPayload({
+            page: page,
+            size: pageSize, 
+        })
+    }
+
     const loadPagination = () => {
+        setLoading({...loading, isContentLoading: true});
         axiosApi.post(`/payment/getPagination`, payload)
         .then(res => {
             var r = res.data;
-            console.log("getPagination: ", r.data);
+            console.log(r);
             if (r.data.length > 0) {
                 setlistData(r.data)
+                setTotalData(r.total);
             }
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+            setLoading({...loading, isContentLoading: false});
         });
     }
 
@@ -160,20 +184,41 @@ const ListTransaction = props => {
                     </Col>
                 </Row>
             </Modal>
-            <List
-                className="mt-2"
-                itemLayout="vertical"  size="large"
-                pagination={{
-                onChange: page => {
-                    //this.handlePage(page);
-                },
-                pageSize: payload.size,
-                total: listData.total
-                }}
-                dataSource={listData}
-                // footer={}
-                renderItem={item => <ListItem obj={item} />}
-            />
+            
+            <Row>
+                <Col md="12">
+                    <p className="h5 mb-1 f-16">Filter:</p>
+                    <RangePicker className="mr-1 mb-1" />
+                    <Select className="mr-1 mb-1"  defaultValue="all" style={{ width: 200 }}>
+                        <Option value="all">Semua Status</Option>
+                        <Option value="success">Berhasil</Option>
+                        <Option value="pending">Menunggu Pembayaran</Option>
+                        <Option value="failed">Gagal</Option>
+                    </Select>
+                    <Select className="mr-1 mb-1"  defaultValue="all" style={{ width: 200 }}>
+                        <Option value="all">Semua Tipe</Option>
+                        <Option value="membership">Membership</Option>
+                        <Option value="webinar">Webinar</Option>
+                    </Select>
+                    <hr />
+                </Col>
+                <Col md="12">
+                    <List
+                        className="mt-2"
+                        itemLayout="vertical"  size="large"
+                        dataSource={listData}
+                        loading={loading.isContentLoading}
+                        renderItem={item => <ListItem obj={item} />}
+                    />
+                    <Pagination
+                        onChange={onPageChange}
+                        current={payload.page}
+                        className="float-right" 
+                        total={totalData}
+                        responsive={true}
+                    />
+                </Col>
+            </Row>
         </Fragment>
     );
 }

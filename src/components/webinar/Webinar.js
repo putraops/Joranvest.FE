@@ -121,11 +121,11 @@ class Webinar extends React.Component {
                                 <List
                                     itemLayout="vertical"  size="large"
                                     pagination={{
-                                    onChange: page => {
-                                        this.handlePage(page);
-                                    },
-                                    pageSize: payload.size,
-                                    total: listData.total
+                                        onChange: page => {
+                                            this.handlePage(page);
+                                        },
+                                        pageSize: payload.size,
+                                        total: listData.total
                                     }}
                                     dataSource={listData.data}
                                     // footer={}

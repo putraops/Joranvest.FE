@@ -16,16 +16,6 @@ const paymentReducer = (state = initState, res) => {
                 ...state,
                 isTransferModalShow: false,
             }
-        case "SHOW_GOPAY_MODAL":
-            return {
-                ...state,
-                isGopayModalVisible: true,
-            }
-        case "HIDE_GOPAY_MODAL":
-            return {
-                ...state,
-                isGopayModalVisible: false,
-            }
         case "SHOW_CREDITCARD_MODAL":
             return {
                 ...state,

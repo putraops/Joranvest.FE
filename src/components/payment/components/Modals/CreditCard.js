@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import axiosApi from '../../../../config/axiosConfig';
 import CreditCardInput from 'react-credit-card-input';
 
-import midtrans from '../../../payment-gateway/midtrans';
+import midtrans from '../../actions/midtrans';
+import actions from '../../actions/actions';
 import sideNotification from '../../../../commons/sideNotification';
 import { hideCreditCardModal } from '../../../../config/redux/action/payment';
 
@@ -65,11 +66,10 @@ const CreditCard = props => {
     }
 
     const handlePayment = async (payloadCreditCard) => {
-        var today = new Date();
         var payload = {
             "payment_type": props.payment_type,
             "transaction_details": {
-                "order_id": "JORAN/CC/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
+                "order_id": actions.generateOrderNumber(props.payment_type),
                 "gross_amount": props.price
             },
             "credit_card": payloadCreditCard,
@@ -219,7 +219,7 @@ const CreditCard = props => {
                         onError: handleCardExpiredError
                     }}
                     cardCVCInputProps={{ 
-                        value: cardRecord.cvc, 
+                        value: cardRecord.cvc,
                         onChange: e => setCardRecord({...cardRecord, cvc: e.target.value}),
                         onError: handleCardCVVInvalid
                     }}

@@ -16,7 +16,6 @@ const Transfer = props => {
     })
     const [uniqueNumber, setUniqueNumber] = useState(0);
      
-    console.log(props);
     useEffect(() => {
         GetUniqueNumber();
     }, []);

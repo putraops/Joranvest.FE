@@ -12,20 +12,6 @@ export const hideTransferModal = () => (dispatch) => {
     })
 }
 
-export const showGopayModal = () => (dispatch) => {
-    return new Promise((resolve, reject) => {
-        dispatch({type: "SHOW_GOPAY_MODAL"});
-        resolve(true);
-    })
-}
-
-export const hideGopayModal = () => (dispatch) => {
-    return new Promise((resolve, reject) => {
-        dispatch({type: "HIDE_GOPAY_MODAL"});
-        resolve(true);
-    })
-}
-
 export const showCreditCardModal = () => (dispatch) => {
     return new Promise((resolve, reject) => {
         dispatch({type: "SHOW_CREDITCARD_MODAL"});

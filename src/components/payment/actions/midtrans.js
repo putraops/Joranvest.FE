@@ -1,5 +1,5 @@
-import axiosApi from '../../config/axiosConfig';
-import sideNotification from '../../commons/sideNotification';
+import axiosApi from '../../../config/axiosConfig';
+import sideNotification from '../../../commons/sideNotification';
 
 const midtrans = {
     createTokenByCard(payload) {
@@ -26,7 +26,6 @@ const midtrans = {
                     if (payload.payment_type === "credit_card") {
                         resolve(r.data);
                     } else if (payload.payment_type === "gopay") {
-                        //setLoading({...loading, isButtonPaymentLoading: false})
                         if (r.data.transaction_status === "pending") {
                             //-- Open QR
                             var redirect_url = "";
@@ -35,10 +34,16 @@ const midtrans = {
                                     redirect_url = r.data.actions[i].url;
                                 }
                             }
+                            resolve(redirect_url);
                         }
                     }
                 } else {
-                    sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
+                    if (r.data.validation_messages.length > 0) {
+                        for (var i = 0; i < r.data.validation_messages.length; i++) {
+                            sideNotification.open("Informasi", r.data.validation_messages[i], false);
+                        }
+                    } 
+                    // sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
                 }
             });
         })

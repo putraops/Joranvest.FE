@@ -3,52 +3,38 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../config/axiosConfig';
 import { Button, Card, Alert, Radio, List, Skeleton, Modal } from 'antd';
-import { Form, Input, InputNumber, Image, Space, Tooltip, Typography, notification, message  } from 'antd';
+import { Image, message  } from 'antd';
 import NumberFormat from "react-number-format";
 import { connect } from 'react-redux';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
-import payment from '../../services/paymentService';
 import TransferModal from './components/Modals/Transfer'
 import CreditCardModal from './components/Modals/CreditCard'
-import GopayModal from './components/Modals/Gopay'
+import actions from './actions/actions';
+import midtrans from './actions/midtrans';
 import paymentMethod from './payment-method';
 
 import sideNotification from '../../commons/sideNotification';
-import { showTransferModal, showCreditCardModal, showGopayModal } from '../../config/redux/action/payment';
+import { showTransferModal, showCreditCardModal } from '../../config/redux/action/payment';
 
-import {
-    InfoCircleOutlined,
-    ExclamationCircleOutlined
-} from '@ant-design/icons';
 const { Panel } = Collapse;
 
-const { Text, Link } = Typography;
-
 const Webinar = props => {
-    const [formPaymentManual] = Form.useForm();
-    
     const [paymentType, setPaymentType] = useState('')
     const [isPaymentAvailable, setIsPaymentAvailable] = useState(true)
-    //const [webinarRecord, setMembershipRecord] = useState({})
     const [webinarRecord, setWebinarRecord] = useState({})
     const [totalPrice, setTotalPrice] = useState(0);
     const [customerDetails, setCustomerDetails] = useState({});
    
     const [loading, setLoading] = useState({
         isSummaryLoading: true,
-        isButtonManualPayment: false,
         isButtonPaymentLoading: false,
         isButtonCardPaymentLoading: false,
     });
     const [modal, setModal] = useState({
-        transferModal: false,
-        cardModal: false,
-        auth3dsModal: false,
-        gopayQrisModal: false
+        gopayQRModal: false
     });
     const [gopayQRUrl, setGopayQRUrl] = useState('')
-    const [uniqueNumber, setUniqueNumber] = useState(0)
                                         
     const handlePaymentTypeChange = e => {
         setPaymentType(e.target.value)
@@ -119,80 +105,49 @@ const Webinar = props => {
             props.showTransferModal();
         } else if (paymentType == "credit_card") {
             props.showCreditCardModal();
-        } else if (paymentType == "gopay") {
-            handleCharge();
+        } else if (paymentType == "gopay") {            
+            handleGopayCharge();
         } else {
             sideNotification.open("Peringatan!", "Silahkan Pilih Tipe Pembayaran terlebih dahulu.", false)
         }
     }
 
-    const handleCharge = (tokenId) => {
-        var today = new Date();
+    const handleGopayCharge = async () => {
+        setLoading({...loading, isButtonPaymentLoading: true});
         if (!webinarRecord) {
             message.error("Koneksi internet tidak stabil. Silahkan Refresh halaman ini.");
             return;
         }
 
-        var prePaymentType = "";
-        if (paymentType === "credit_card") prePaymentType = "CC";
-        if (paymentType === "gopay") prePaymentType = "GOPAY";
-        if (paymentType === "transfer") prePaymentType = "TRF";
-
-        var payloadCreditCard = null;
-        var payloadGopay = null;
-        if (paymentType === "credit_card") {
-            payloadCreditCard = {
-                "token_id": tokenId,
-                "authentication": true
-            }
-            setLoading({...loading, isButtonPaymentLoading: true})
-        } else if (paymentType === "gopay") {
-            payloadGopay = {
-                "enable_callback": true,
-                "callback_url": "someapps://callback"
-            }
-        }
-
         var payload = {
             "payment_type": paymentType,
             "transaction_details": {
-                "order_id": "JORAN/" + prePaymentType + "/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
-                "gross_amount": webinarRecord.price
+                "order_id": actions.generateOrderNumber(paymentType),
+                "gross_amount": totalPrice
             },
-            "credit_card": payloadCreditCard,
-            "gopay": payloadGopay,
+            "gopay": {
+                "enable_callback": true,
+                "callback_url": "someapps://callback"
+            },
             "item_details": [{
                 "id": webinarRecord.id,
-                "price": webinarRecord.price,
+                "price": totalPrice,
                 "quantity": 1,
                 "name": "(Webinar) " + webinarRecord.title,
             }],
             "customer_details": customerDetails
         }
         
-        axiosApi.post(`/payment/charge`, payload)
-        .then(res => {
-            var r = res.data
-            if (r.status || 
-                (r.data.status_code === "201" && (r.data.payment_type === "credit_card" || r.data.payment_type === "gopay"))) {
-                if (paymentType === "gopay") {
-                    setLoading({...loading, isButtonPaymentLoading: false})
-                    if (r.data.transaction_status === "pending") {
-                        //-- Open QR
-                        var redirect_url = "";
-                        for (var i = 0; i < r.data.actions.length; i++) {
-                            if (r.data.actions[i].name === "generate-qr-code") {
-                                redirect_url = r.data.actions[i].url;
-                            }
-                        }
-                        setGopayQRUrl(redirect_url);
-                        props.showGopayModal();
-                    }
-                }
-            } else {
-                sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
-            }
-        });
+        const res = await midtrans.payment(payload).catch(err => err);
+        if (res != "") {
+            setGopayQRUrl(res);
+            setModal({...modal, gopayQRModal: true});
+            setLoading({...loading, isButtonPaymentLoading: false})
+        }
+    }
+
+    function hideGopayQRModal() {
+        setModal({...modal, gopayQRModal: false});
     }
 
     function sectionPayment (paymentMethod) {
@@ -249,9 +204,29 @@ const Webinar = props => {
             <section className="section " id="home">
                 <div className="container mt-4">
                     
+                    <Modal 
+                        id="gopay-qris"
+                        centered
+                        visible={modal.gopayQRModal}
+                        onCancel={hideGopayQRModal}
+                        footer={[]}
+                        >
+                        <div style={{textAlign: "center"}}>
+                            <Image
+                                preview={false}
+                                src="assets/img/gopay.png"
+                                width={200}
+                            />
+                            <br />
+                            <Image
+                                preview={false}
+                                src={gopayQRUrl}
+                                // width={400}
+                                style={{width: "100%"}}
+                            />
+                        </div>
+                    </Modal>
                     <CreditCardModal record_id={props.match.params.id} customer={customerDetails} product_name={webinarRecord.title} price={totalPrice} payment_type={paymentType} />
-
-                    <GopayModal record_id={props.match.params.id} price={totalPrice} url={gopayQRUrl} payment_type={paymentType} />
                     <TransferModal record_id={props.match.params.id} price={totalPrice} payment_type={paymentType} />
 
                     <Row>
@@ -393,7 +368,6 @@ const reduxState = (state) => {
 const reduxDispatch = (dispatch) => ({
     showTransferModal: () => dispatch(showTransferModal()),
     showCreditCardModal: () => dispatch(showCreditCardModal()),
-    showGopayModal: () => dispatch(showGopayModal())
 })
 
 export default connect(reduxState, reduxDispatch)(Webinar);

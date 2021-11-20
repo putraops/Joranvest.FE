@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import IframeComm from 'react-iframe-comm';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
-import payment from '../../services/paymentService';
+import actions from '../payment/actions/actions';
 
 import {
     InfoCircleOutlined,
@@ -270,7 +270,7 @@ const Membership = props => {
         var payload = {
             "payment_type": paymentType,
             "transaction_details": {
-                "order_id": "JORANVEST/" + prePaymentType + "/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
+                "order_id": actions.generateOrderNumber(paymentType),
                 "gross_amount": membershipRecord.price * membershipRecord.duration
             },
             "credit_card": payloadCreditCard,

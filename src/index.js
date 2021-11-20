@@ -18,7 +18,6 @@ import ArticleDetail from './components/article/ArticleDetail';
 import CheckoutMembership from './components/checkout/Membership'
 import MembershipPayment from './components/payment/MembershipPayment'
 import WebinarPaymentStatus from './components/payment/WebinarPayment'
-import WebinarPaymentSuccess from './components/payment/WebinarPaymentSuccess'
 
 import Transaction from './components/transaction/Transaction';
 
@@ -51,7 +50,6 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:status/:id`} component={WebinarPaymentStatus}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>
-                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
                     </Fragment>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 
 import Pending from './components/WebinarPending';
-import Success from './components/Success';
+import Success from './components/WebinarSuccess';
 
 const WebinarPayment = props => {
     useEffect(() => {
@@ -12,12 +12,11 @@ const WebinarPayment = props => {
         return (
             <Pending record_id={props.match.params.id} />
         )
-    } 
-    // else {
-    //     return (
-    //         <Success record_id={props.match.params.id} />
-    //     )
-    // }
+    } else {
+        return (
+            <Success record_id={props.match.params.id} />
+        )
+    }
 }
 const mapStateToProps = (state) => {
     return {

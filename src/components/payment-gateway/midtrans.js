@@ -1,43 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import axiosApi from '../../config/axiosConfig';
+import sideNotification from '../../commons/sideNotification';
 
-function Membership() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    //change this to the script source you want to load, for example this is snap.js sandbox env
-    const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'; 
-    //change this according to your client-key
-    const myMidtransClientKey = 'SB-Mid-client-w7QtpoJYMNe_-JVb'; 
-   
-    let scriptTag = document.createElement('script');
-    scriptTag.src = midtransScriptUrl;
-    // optional if you want to set script attribute
-    // for example snap.js have data-client-key attribute
-    scriptTag.setAttribute('data-client-key', myMidtransClientKey);
-   
-    document.body.appendChild(scriptTag);
-    return () => {
-      document.body.removeChild(scriptTag);
+const midtrans = {
+    createTokenByCard(payload) {
+        return new Promise((resolve, reject) => {
+            axiosApi.post(`/payment/createTokenByCard`, payload)
+            .then(res => {
+                var r = res.data
+                if (r.status) {
+                    resolve(r.data);
+                } else {
+                    reject(r.data);
+                    sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
+                }
+            });
+        });
+    },
+    payment(payload) {
+        return new Promise((resolve, reject) => {
+            axiosApi.post(`/payment/charge`, payload)
+            .then(res => {
+                var r = res.data
+                if (r.status || 
+                    (r.data.status_code === "201" && (r.data.payment_type === "credit_card" || r.data.payment_type === "gopay"))) {
+                    if (payload.payment_type === "credit_card") {
+                        resolve(r.data);
+                    } else if (payload.payment_type === "gopay") {
+                        //setLoading({...loading, isButtonPaymentLoading: false})
+                        if (r.data.transaction_status === "pending") {
+                            //-- Open QR
+                            var redirect_url = "";
+                            for (var i = 0; i < r.data.actions.length; i++) {
+                                if (r.data.actions[i].name === "generate-qr-code") {
+                                    redirect_url = r.data.actions[i].url;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
+                }
+            });
+        })
     }
-  }, []);
-
-  var payButton = document.getElementById('pay-button');
-
-  /* For example trigger on button clicked, or any time you need */
-  payButton.addEventListener('click', function() {
-    /* in this case, the snap token is retrieved from the Input Field */
-    //var snapToken = document.getElementById('snap-token').value;
-    //snap.pay(snapToken);
-  });
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      {/* <button onClick={() => setCount(count + 1)}> */}
-      <button id="pay-button">
-        Click me
-      </button>
-    </div>
-  );
 }
+export default midtrans

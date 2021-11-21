@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Avatar } from 'antd';
+import { Menu, Dropdown, Card, Avatar, Image } from 'antd';
 import { connect } from 'react-redux'
+import serverUrl from '../config/serverUrl';
 import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
 const { Meta } = Card;
@@ -71,7 +72,7 @@ class Navbar extends React.Component {
 				</Menu.Item>
 				<Menu.Divider />
 				<Menu.Item key="profile">
-					<a  rel="noopener noreferrer" href="/profile">Profile</a>
+					<a  rel="noopener noreferrer" href="/profile">Profile Saya</a>
 				</Menu.Item>
 				<Menu.Item key="transaction_history">
 					<a  rel="noopener noreferrer" href="/transaction">Riwayat Transaksi</a>
@@ -115,7 +116,12 @@ class Navbar extends React.Component {
 											<li className="nav-item">
 												<Dropdown overlay={menu}>
 													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  id="nav-profile" onClick={e => e.preventDefault()}>
-														<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" /> <span className="ml-2">Hi, {user.first_name}</span>          
+														<Avatar
+														// style={{width: "20px", height: "20px"}}
+														// preview={false}
+														// shape={circle}
+														src={serverUrl + "/" + user.filepath} /> 
+														<span className="ml-2">Hi, {user.first_name}</span>          
 													</a>
 												</Dropdown>
 											</li>

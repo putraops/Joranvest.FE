@@ -5,13 +5,18 @@ import { Row, Col } from 'reactstrap';
 import './css/style.css'
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { Card, Divider, Skeleton, Tabs } from 'antd';
+import { Card, Breadcrumb, Skeleton, Tabs } from 'antd';
 import { connect } from 'react-redux'
-import Main from './components/Main';
+import Main from './components/SettingProfile';
+import SubNav from '../_nav/subNav';
 import InformationTab from './components/InformationTab';
 import MembershipTab from './components/MembershipTab';
 import WebinarTab from './components/WebinarTab';
+import SideProfile from './components/SideProfile';
 
+import { 
+    HomeOutlined, 
+} from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 class Profile extends React.Component {
@@ -60,11 +65,25 @@ class Profile extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <div className="container mt-3">
-                        <Row className="">
-                            <Col md="12" lg="12">
-                                <Divider dashed className="mt-2 mb-2" />
-                                <Main user={user} />
+                    <div className="container-fluid mt-4 pr-0 pl-0">
+                        <div className="container mb-2">
+                            <Breadcrumb className="pt-1">
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Profile Saya</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                    </div>
+
+                    <SubNav title="Profile Saya" sub_title="" />
+                    <div className="container">
+                        <Row className="mt-4">
+                            <Col md="3" lg="3">
+                                {/* <Divider dashed className="mt-2 mb-2" /> */}
+                                <SideProfile />
+                            </Col>
+                            <Col md="9" lg="9">
                                 <Card className="borderShadow5 mb-3" >
                                     <Skeleton active loading={this.state.loading} paragraph={{ rows: 5 }}>
                                         <Tabs defaultActiveKey="1" style={{marginTop: "-20px"}}>

@@ -113,8 +113,8 @@ class WebinarDetail extends React.Component {
         isLoading.register = true;
         payload.id = "";
         payload.webinar_id = detailData.id;
-        payload.payment_status = detailData.price === 0 ? 200 : 1;
-        payload.payment_type = detailData.price === 0 ? "Free" : "";
+        payload.application_user_id = this.props.user.id;
+        payload.payment_id = null;
 
         this.setState({
             ...this.state,

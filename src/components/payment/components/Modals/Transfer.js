@@ -4,6 +4,7 @@ import { Form, Input, Image, Space, Typography, message  } from 'antd';
 import NumberFormat from "react-number-format";
 import { connect } from 'react-redux';
 import axiosApi from '../../../../config/axiosConfig';
+import actions from '../../actions/actions';
 
 import { hideTransferModal } from '../../../../config/redux/action/payment';
 
@@ -34,11 +35,10 @@ const Transfer = props => {
 
     const onFormFinish = (values) => {
         setLoading({...loading, isSubmitLoading: true});
-        var today = new Date();
         var payload = {
             id: "",
             record_id: props.record_id,
-            order_number: "JORANVEST/TRF/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
+            order_number: actions.generateOrderNumber(props.payment_type),
             payment_date: null,
             payment_type: props.payment_type,
             payment_status: 2,

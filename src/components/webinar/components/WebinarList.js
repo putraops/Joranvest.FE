@@ -11,8 +11,6 @@ import serverUrl from "../../../config/serverUrl"
 const { Meta } = Card;
 
 const WebinarList = (props) => {
-    console.log(props);
-    
     var is_free = props.obj.price == 0 ? "Gratis" : props.obj.price;
     var ribbonColor = props.obj.price == 0 ? "green" : "white";
 
@@ -33,7 +31,6 @@ const WebinarList = (props) => {
         }
     }
 
-
     var imgUrl = "";
     if (props.obj.filepath !== "" && props.obj.filepath !== null) {
         imgUrl = serverUrl + "/" + props.obj.filepath;
@@ -49,9 +46,11 @@ const WebinarList = (props) => {
                             <List.Item.Meta className="mb-0"
                                 avatar={
                                     <Image
-                                        width={150} preview={false}
-                                        // src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?4123`}
+                                        width={150} 
+                                        style={{height: "80px", maxWidth: "150px"}}
+                                        preview={false}
                                         src={imgUrl}
+                                        onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/No-Image.png?t=9999"}}
                                     />
                                 }
                                 title={
@@ -72,37 +71,11 @@ const WebinarList = (props) => {
                                                 }
                                             })()}
                                         </div>
-                                        {/* <div style={{marginTop: "-8px"}}>
-                                            <span className="f-14 text-muted">
-                                                <span>{startDate}</span> <br/>
-                                                <span>Jam: {startTime}</span>
-                                            </span>
-                                        </div> */}
                                         <p className="f-13 mb-0 text-muted">{startDate} | {startTime}</p>
                                     </div>
                                 }
                                 description={
-                                    <div className="row">
-                                        {/* <div className= "col-md-12">
-                                            <Meta style={{marginTop: "7px"}}
-                                                avatar={<Avatar size="large" style={{ color: '#f56a00', backgroundColor: '#fde3cf'}}>PO</Avatar>}
-                                                title={
-                                                    <div style={{marginTop: "-5px"}}>
-                                                        <p className="f-15 mb-0">Nelly Mathias</p>
-                                                        <p className="f-14 mb-0 text-muted" style={{marginTop: "-5px", wordWrap: "break-word"}}>Professional Fasilisator</p>
-                                                    </div>
-                                                }
-                                                // description={
-                                                //     <div style={{marginTop: "-12px"}}>
-                                                //         <span className="f-13 text-muted">Professional Fasilisator</span>
-                                                //     </div>
-                                                // }
-                                            />
-                                        </div> */}
-                                        <div className="col-md-12 mt-2">
-                                            {props.obj.description}
-                                        </div>
-                                    </div>
+                                    <span></span>
                                 } />
                             {
                                 (() => {

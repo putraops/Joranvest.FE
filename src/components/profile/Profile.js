@@ -79,11 +79,11 @@ class Profile extends React.Component {
                     <SubNav title="Profile Saya" sub_title="" />
                     <div className="container">
                         <Row className="mt-4">
-                            <Col span={6} xs="3" xs={{ order: 2 }} sm="5" sm={{ order: 2 }} md="3" md={{ order: 2 }} lg="3" lg={{ order: 1 }} xl={{ order: 1 }} xl="3">
+                            <Col span={6} xs="3" xs={{ order: 1 }} sm="5" md="4" lg="4" xl="3">
                                 {/* <Divider dashed className="mt-2 mb-2" /> */}
                                 <SideProfile />
                             </Col>
-                            <Col span={6} xs="3" xs={{ order: 1 }} sm="5" sm={{ order: 1 }} md="9" md={{ order: 1 }} lg="9" lg={{ order: 1 }} xl={{ order: 1 }} xl="9">
+                            <Col span={6} xs="3" xs={{ order: 2 }} sm="7" md="8" lg="8" xl="9">
                                 <Card className="borderShadow5 mb-3" >
                                     <Skeleton active loading={this.state.loading} paragraph={{ rows: 5 }}>
                                         <Tabs defaultActiveKey="1" style={{marginTop: "-20px"}}>

@@ -12,6 +12,11 @@
   padding-bottom: 0px !important;
 }
 
+.nav-item.nav-avatar-profile .nav-link:after {
+  background: transparent;;
+}
+
+
 .navbar-light .nav-item.nav-avatar-profile .nav-link:after {
   background: transparent !important;
 }

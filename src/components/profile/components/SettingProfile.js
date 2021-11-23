@@ -76,6 +76,7 @@ const SettingProfile = props => {
     };
 
     function handleModalChangePassword() {
+        setLoading({...loading, isSubmitChangePassword: false});
         if (modalChangePasswordVisible) {
             setModalChangePasswordVisible(false);
         } else {
@@ -84,7 +85,6 @@ const SettingProfile = props => {
     }
 
     const onFormFinish = (values) => {
-        setLoading({...loading, isSubmitChangePassword: true});
         if (values.new_password === values.reenter_new_password) {
             handleChangePassword(values);
         } else {
@@ -94,6 +94,7 @@ const SettingProfile = props => {
 
     
     const handleChangePassword = async (values) => {
+        setLoading({...loading, isSubmitChangePassword: true});
         var payload = {
             username: props.user.username,
             email: props.user.email,
@@ -108,8 +109,8 @@ const SettingProfile = props => {
             if (r.status) {
                 handleChangePasswordFirebase(values);
             } else {
-                setLoading({...loading, isSubmitChangePassword: false});
                 sideNotification.open("Gagal Ubah Password!", "Silahkan masukkan Password Lama kamu dengan benar.", false);
+                setLoading({...loading, isSubmitChangePassword: false});
             }
         }).catch(error => {
             console.log(error);
@@ -124,6 +125,8 @@ const SettingProfile = props => {
 
         if (res.status) {
             sideNotification.open("Berhasil", res.message, true);
+            
+            setModalChangePasswordVisible(false);
         } else {
             //... Recover Old Password
             var payloadRecoverPassword = {
@@ -138,11 +141,14 @@ const SettingProfile = props => {
                 } else {
                     sideNotification.open("Gagal!", r.message, false);
                 }
+                setModalChangePasswordVisible(false);
+                setLoading({...loading, isSubmitChangePassword: false});
             }).catch(error => {
+                setModalChangePasswordVisible(false);
+                setLoading({...loading, isSubmitChangePassword: false});
                 console.log(error);
             });
         }
-        setLoading({...loading, isSubmitChangePassword: false});
     }
 
     return (
@@ -214,7 +220,7 @@ const SettingProfile = props => {
                             placeholder="Ulangi Password Baru" /> 
                     </Form.Item>
                     
-                    <Button key="pay" type="primary" className="mt-2" htmlType="submit" loading={isLoading} block>Ubah Password</Button>
+                    <Button key="pay" type="primary" className="mt-2" htmlType="submit" loading={isLoading.isSubmitChangePassword} block>Ubah Password</Button>
                 </Form >
             </Modal>
             <Skeleton active loading={false} paragraph={{ rows: 5 }}>

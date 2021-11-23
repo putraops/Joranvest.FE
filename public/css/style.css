@@ -37,7 +37,7 @@ p {
   display: block;
   width: 0;
   height: 2px;
-  background: #ff8700;
+  background: white;;
   -webkit-transition: width .3s;
   transition: width .3s;
 }

@@ -1,0 +1,24 @@
+
+.nav-item.nav-avatar-profile {
+  margin-bottom: -20px !important;
+}
+
+.nav-item.nav-avatar-profile > a.ant-dropdown-trigger > div.ant-comment > div.ant-comment-inner > .ant-comment-content > .ant-comment-content-author{
+  padding-top: 5px !important;
+}
+
+.nav-item.nav-avatar-profile > a {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.navbar-light .nav-item.nav-avatar-profile .nav-link:after {
+  background: transparent !important;
+}
+.navbar-light.nav-sticky .nav-item.nav-avatar-profile .nav-link:after {
+  background: transparent !important;
+}
+
+.avatar-profile > .ant-comment-inner {
+  padding: 0;
+}

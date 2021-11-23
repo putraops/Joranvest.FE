@@ -155,7 +155,7 @@ p {
 }
 
 .navbar-collapse .navbar-nav .nav-item {
-  margin-top: 6px;
+  margin-top: 0px;
 }
 
 .navbar-toggler:focus {

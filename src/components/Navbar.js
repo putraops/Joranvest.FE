@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Avatar, Image } from 'antd';
+import { Menu, Dropdown, Card, Avatar, Image, Badge } from 'antd';
 import { connect } from 'react-redux'
 import serverUrl from '../config/serverUrl';
 import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
+import { Comment, Tooltip } from 'antd';
+import "./_nav/navbar.css"
+import { NotificationOutlined } from '@ant-design/icons';
+
 const { Meta } = Card;
 
 class Navbar extends React.Component {
@@ -28,12 +32,17 @@ class Navbar extends React.Component {
 		})
 		window.location.assign(baseUrl);
 	}
+
+	handlerError = (event) => {
+		console.log(event);
+	}
     
 	render() {
 		const cookies = new Cookies();
         let user = cookies.get('joranvestCookie') || null;
 		console.log("userLogin: ", user);
 		console.log("userRedux: ", this.props.user);
+		
 		const analysisMenu = (
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="fundamental">
@@ -48,7 +57,13 @@ class Navbar extends React.Component {
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="member_status">
 					<Meta className="mt-1"
-							avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
+							avatar={
+								<Image 
+									style={{width: "50px", height: "50px"}} 
+									src={user ? serverUrl + "/" + user.filepath : null}
+									shape="square" 
+									onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+								/>}
 							title={
 								<div className="row mt-0">
 									<Col md="6">
@@ -113,15 +128,22 @@ class Navbar extends React.Component {
 								{(() => {
 									if (user && user.id != "") {
 										return (
-											<li className="nav-item">
+											<li className="nav-item nav-avatar-profile">
 												<Dropdown overlay={menu}>
 													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  id="nav-profile" onClick={e => e.preventDefault()}>
-														<Avatar
-														// style={{width: "20px", height: "20px"}}
-														// preview={false}
-														// shape={circle}
-														src={serverUrl + "/" + user.filepath} /> 
-														<span className="ml-2">Hi, {user.first_name}</span>          
+														<Comment
+															className="p-0 m-0 avatar-profile"
+															author={<span className="text-white">Hi, {user.first_name}</span>}
+															avatar={
+															<Image 
+																className="p-0 m-0"
+																src={user ? serverUrl + "/" + user.filepath : null}
+																preview={false}
+																style={{width: "30px", height: "30px", marginTop: "-45px"}} 
+																onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+															/>
+														}
+														/>
 													</a>
 												</Dropdown>
 											</li>

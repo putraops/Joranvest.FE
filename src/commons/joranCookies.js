@@ -4,7 +4,9 @@ const cookies = new Cookies();
 let user = cookies.get('joranvestCookie') || null;
 const joranCookies = {
     set(data) {
-        data.token = user.token;
+        if (user) {
+            data.token = user.token;
+        }
                         
         var maxAge = 7*24*60*60;
         cookies.set(

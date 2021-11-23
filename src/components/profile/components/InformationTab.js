@@ -12,7 +12,6 @@ class InformationTab extends React.Component {
     
     render() {
         const { user } = this.props;
-        console.log("Information Tab: ", user);
         return (
             <Fragment>
                 <Row>

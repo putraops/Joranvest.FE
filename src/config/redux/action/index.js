@@ -1,6 +1,7 @@
 import firebaseApp from "../../firebase/config";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword, deleteUser } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
+import joranCookies from "../../../commons/joranCookies";
 import Cookies from 'universal-cookie';
 
 const auth = getAuth(firebaseApp);
@@ -58,36 +59,15 @@ export const userLogin = (data) => (dispatch) => {
         dispatch({type: "CHANGE_LOADING", value: true});
         signInWithEmailAndPassword(auth, data.email, data.password)
            .then((userCredential) => {
-                var user = userCredential.user;
+                var firebaseUser = userCredential.user;
                 dispatch({type: "CHANGE_LOADING", value: false});
                 axiosApi.post(`/auth/login`, 
                     data
                 ).then(res => {
                     var r = res.data;
                     if (r.status) {
-                        const cookies = new Cookies();
+                        joranCookies.set(r.data);
                         
-                        var maxAge = 7*24*60*60;
-                        cookies.set(
-                            'joranvestCookie', 
-                            JSON.stringify(r.data), 
-                            { 
-                                path: '/',
-                                maxAge: maxAge,
-                                httpOnly: false,
-                            }
-                        );
-                        cookies.set(
-                            'joranvestCookie', 
-                            JSON.stringify(r.data), 
-                            { 
-                                path: '/',
-                                maxAge: maxAge,
-                                httpOnly: false,
-                                domain: "joranvest.com" 
-                            }
-                        );
-
                         dispatch({type: "LOGIN_SUCCESS", user: r.data});
                         resolve(true);
                     } else {
@@ -110,6 +90,34 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "CHANGE_LOADING", value: false});
                 reject(false);
            })
+    })
+}
+
+export const updateUserPassword = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
+        const auth = getAuth();
+        const user = auth.currentUser;
+        updatePassword(user, data.newPassword)
+        .then((res) => {
+            resolve({
+                status: true,
+                message: "Ganti Password Berhasil!",
+            });
+        }).catch((error) => {
+            console.log("ipdateUserPassword:", error);
+            var errMsg = error.message;
+            var errorResponse = "";
+            if (errMsg.includes("auth/weak-password")) {
+                errorResponse = "Password minimal terdiri dari 6 karakter.";
+            }
+
+            dispatch({type: "CHANGE_LOADING", value: false});
+            resolve({
+                status: false,
+                message: errorResponse,
+            });
+        });
     })
 }
 

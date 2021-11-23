@@ -14,12 +14,14 @@ import serverUrl from '../../../config/serverUrl';
 import baseUrl from '../../../config/baseUrl';
 import axiosApi from '../../../config/axiosConfig'
 import joranCookies from '../../../commons/joranCookies';
+import { updateUserPassword } from '../../../config/redux/action';
 import '../css/style.css'
 
 const { Meta } = Card;
 const { Text } = Typography;
 
 const SettingProfile = props => {
+    const { isLoading, errorMessage } = props;
     const [formChangePassword] = Form.useForm();
     const [profilePicture, setProfilePicture] = useState({
         url: serverUrl + "/" + props.user.filepath,
@@ -30,6 +32,7 @@ const SettingProfile = props => {
         isSubmitChangePassword: false
     })
     useEffect(() => {
+        console.log(props);
     }, [profilePicture]);
 
     const uploadProps = {
@@ -82,29 +85,64 @@ const SettingProfile = props => {
 
     const onFormFinish = (values) => {
         setLoading({...loading, isSubmitChangePassword: true});
-        // var payload = {
-        //     id: "",
-        //     record_id: props.record_id,
-        //     order_number: actions.generateOrderNumber(props.payment_type),
-        //     payment_date: null,
-        //     payment_type: props.payment_type,
-        //     payment_status: 2,
-        //     account_name: values.account_name,
-        //     account_number: values.account_number,
-        //     price: props.price,
-        //     unique_number: uniqueNumber
-        // }
-      
-        // axiosApi.post(`/payment/webinarPayment`, payload)
-        // .then(res => {
-        //     setLoading({...loading, isSubmitLoading: false});
-        //     var r = res.data;
-        //     if (r.status) {
-        //         if (r.data.payment_status === 2) {
-        //             window.location.assign("/webinar/payment/pending/" + r.data.id)
-        //         }
-        //     }
-        // });
+        if (values.new_password === values.reenter_new_password) {
+            handleChangePassword(values);
+        } else {
+            sideNotification.open("Gagal!", "Password Baru dan Ulangi Password harus sama.", false);
+        }
+    }
+
+    
+    const handleChangePassword = async (values) => {
+        var payload = {
+            username: props.user.username,
+            email: props.user.email,
+            new_password: values.new_password,
+            old_password: values.old_password
+        }
+
+        axiosApi.post(`/application_user/changePassword`, payload)
+        .then(res => {
+            var r = res.data;
+            console.log(r);
+            if (r.status) {
+                handleChangePasswordFirebase(values);
+            } else {
+                setLoading({...loading, isSubmitChangePassword: false});
+                sideNotification.open("Gagal Ubah Password!", "Silahkan masukkan Password Lama kamu dengan benar.", false);
+            }
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    async function handleChangePasswordFirebase (values) {
+        var oldPassword = values.old_password;
+        var newPassword = values.new_password;
+        const res = await props.updateUserPassword({newPassword})
+            .catch(err => err);
+
+        if (res.status) {
+            sideNotification.open("Berhasil", res.message, true);
+        } else {
+            //... Recover Old Password
+            var payloadRecoverPassword = {
+                username: props.user.id,
+                old_password: oldPassword
+            }
+            axiosApi.post(`/application_user/recoverPassword`, payloadRecoverPassword)
+            .then(resRecover => {
+                var r = resRecover.data;
+                if (r.status) {
+                    sideNotification.open("Gagal!", res.message, false);
+                } else {
+                    sideNotification.open("Gagal!", r.message, false);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+        setLoading({...loading, isSubmitChangePassword: false});
     }
 
     return (
@@ -176,7 +214,7 @@ const SettingProfile = props => {
                             placeholder="Ulangi Password Baru" /> 
                     </Form.Item>
                     
-                    <Button key="pay" type="primary" className="mt-2" htmlType="submit" loading={loading.isSubmitChangePassword} block>Ubah Password</Button>
+                    <Button key="pay" type="primary" className="mt-2" htmlType="submit" loading={isLoading} block>Ubah Password</Button>
                 </Form >
             </Modal>
             <Skeleton active loading={false} paragraph={{ rows: 5 }}>
@@ -199,6 +237,13 @@ const SettingProfile = props => {
 const mapStateToProps = (state) => {
     return {
         parent: state.parentRecord,
+        errorMessage: state.auth.errorMessage,
+        isLoading: state.auth.isLoading,
     }
 }
-export default connect(mapStateToProps, null)(SettingProfile);
+
+const reduxDispatch = (dispatch) => ({
+    updateUserPassword: (data) => dispatch(updateUserPassword(data)),
+})
+
+export default connect(mapStateToProps, reduxDispatch)(SettingProfile);

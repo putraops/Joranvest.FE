@@ -15,10 +15,10 @@ class InformationTab extends React.Component {
         return (
             <Fragment>
                 <Row>
-                    <Col span={6} xs="5" xs={{ order: 2 }} sm="5" sm={{ order: 2 }} md="5" md={{ order: 1 }} lg="5" lg={{ order: 1 }} xl={{ order: 1 }} xl="5">
+                    <Col span={6} xs="5" xs={{ order: 2 }} sm="5" sm={{ order: 1 }} md="5" lg="5"  xl="5">
                         <SettingProfile user={user} />
                     </Col>
-                    <Col span={6} xs="7" xs={{ order: 1 }} sm="7" sm={{ order: 1 }} md="7" md={{ order: 2 }} lg="7" lg={{ order: 2 }} xl={{ order: 2 }} xl="7" className="mb-3">
+                    <Col span={6} xs="7" xs={{ order: 1 }} sm="7" sm={{ order: 2 }} md="7" lg="7"  xl="7" className="mb-3">
                         <p className="mb-2 f-18 font-weight-bold">Biodata</p>
                         <hr className="mt-1 mb-1" />
                         <div className="mb-2 row">

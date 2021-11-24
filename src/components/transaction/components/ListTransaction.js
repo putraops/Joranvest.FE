@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react'
 import { Row, Col } from 'reactstrap';
-import { Button, Image, Alert, message, Upload, Modal, Pagination, List, Select, notification  } from 'antd';
+import { Button, Image, Alert, message, Upload, Modal, Pagination, List, Select, notification, Card } from 'antd';
 import { DatePicker } from 'antd';
 import { connect } from 'react-redux'
 import { showUploadTransferModal, hideUploadTransferModal } from '../../../config/redux/action';
@@ -9,7 +9,7 @@ import axiosApi from '../../../config/axiosConfig';
 import serverUrl from '../../../config/serverUrl';
 import { UploadOutlined } from '@ant-design/icons';
 
-const { Option, OptGroup } = Select;
+const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const ListTransaction = props => {
@@ -18,14 +18,34 @@ const ListTransaction = props => {
     const [payload, setPayload] = useState({
         page: 1,
         size: 10,
+        filter: [
+            {
+                "field": "created_by",
+                "operator": "=",
+                "value": props.user.id,
+            },
+            {
+                "field": "membership_id",
+                "operator": "",
+                "value": "",
+            },
+            {
+                "field": "webinar_id",
+                "operator": "",
+                "value": "",
+            },
+            {
+                "field": "payment_status",
+                "operator": "=",
+                "value": "",
+            },
+        ]
     })
     const [loading, setLoading] = useState({
         isContentLoading: true,
     });
 
     useEffect(() => {
-        console.log("pending page", props);
-     
         window.addEventListener('keyup', onKeyup)
         loadPagination();
     }, []);
@@ -36,6 +56,7 @@ const ListTransaction = props => {
 
     function onPageChange(page, pageSize){
         setPayload({
+            ...payload,
             page: page,
             size: pageSize, 
         })
@@ -46,8 +67,7 @@ const ListTransaction = props => {
         axiosApi.post(`/payment/getPagination`, payload)
         .then(res => {
             var r = res.data;
-            console.log(r);
-            if (r.data.length > 0) {
+            if (r.total > 0) {
                 setlistData(r.data)
                 setTotalData(r.total);
             }
@@ -95,8 +115,34 @@ const ListTransaction = props => {
         showUploadList: false,
     };
 
+    function handlePaymentStatusChange(e) {
+        payload.filter[3].value = "";
+        var payment_status = "";
+        if (e === "pending") {
+            payment_status = "2";
+        } else if (e === "success") {
+            payment_status = "200";
+        } else if (e === "failed") {
+            payment_status = "3";
+        }
+        payload.filter[3].value = payment_status;
+        loadPagination();
+    }
+
+    function handleTypeChange(e) {
+        payload.filter[1].value = "";
+        payload.filter[2].value = "";
+        if (e === "membership") {
+            payload.filter[1].value = "IS NOT NULL";
+            payload.filter[2].value = "";
+        } else if (e === "webinar") {
+            payload.filter[1].value = "";
+            payload.filter[2].value = "IS NOT NULL";
+        }
+        loadPagination();
+    }
+
     const handleChangeUpload = info => {
-        console.log("handleChangeUpload: ", info)
         var formData = new FormData();
         formData.append("file", info.file.originFileObj);
         axiosApi.post(`/filemaster/uploadByType/payment_transfer/1/${props.parent.parentRecord.id}`, formData)
@@ -176,7 +222,6 @@ const ListTransaction = props => {
                         {props.parent.file.filepath ? 
                             <Image
                                 style={{width: "100%"}}
-                                // src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
                                 src={serverUrl + "/" + props.parent.file.filepath}
                             />
                         : null
@@ -186,37 +231,53 @@ const ListTransaction = props => {
             </Modal>
             
             <Row>
-                <Col md="12">
-                    <p className="h5 mb-1 f-16">Filter:</p>
-                    <RangePicker className="mr-1 mb-1" />
-                    <Select className="mr-1 mb-1"  defaultValue="all" style={{ width: 200 }}>
-                        <Option value="all">Semua Status</Option>
-                        <Option value="success">Berhasil</Option>
-                        <Option value="pending">Menunggu Pembayaran</Option>
-                        <Option value="failed">Gagal</Option>
-                    </Select>
-                    <Select className="mr-1 mb-1"  defaultValue="all" style={{ width: 200 }}>
-                        <Option value="all">Semua Tipe</Option>
-                        <Option value="membership">Membership</Option>
-                        <Option value="webinar">Webinar</Option>
-                    </Select>
-                    <hr />
+                <Col md="4" lg="3" className="mb-3">
+                    <Card size="small" title="Filter" className="borderShadow5">
+                        <p className="font-weight-bold f-14 mb-1">Status Bayar:</p>
+                        <Select 
+                            className="mr-1 mb-1"
+                            defaultValue="all"
+                            style={{ width: "100%" }}
+                            onChange={handlePaymentStatusChange}>
+                            <Option value="all">Semua Status</Option>
+                            <Option value="success">Sudah dibayar</Option>
+                            <Option value="pending">Menunggu Pembayaran</Option>
+                            <Option value="failed">Gagal</Option>
+                        </Select>
+                        <p className="font-weight-bold f-14 mb-1">Jenis Transaksi:</p>
+                        <Select 
+                            className="mr-1 mb-1"
+                            defaultValue="all"
+                            style={{ width: "100%" }}
+                            onChange={handleTypeChange}>
+                            <Option value="all">Semua Tipe</Option>
+                            <Option value="membership">Membership</Option>
+                            <Option value="webinar">Webinar</Option>
+                        </Select>
+                    </Card>
                 </Col>
-                <Col md="12">
-                    <List
-                        className="mt-2"
-                        itemLayout="vertical"  size="large"
-                        dataSource={listData}
-                        loading={loading.isContentLoading}
-                        renderItem={item => <ListItem obj={item} />}
-                    />
-                    <Pagination
-                        onChange={onPageChange}
-                        current={payload.page}
-                        className="float-right" 
-                        total={totalData}
-                        responsive={true}
-                    />
+                <Col md="8" lg="9">
+                    {totalData > 0 ? 
+                        <Fragment>
+                            <List
+                                itemLayout="vertical"  size="large"
+                                dataSource={listData}
+                                loading={loading.isContentLoading}
+                                renderItem={item => <ListItem obj={item} />}
+                            />
+                            <Pagination
+                                onChange={onPageChange}
+                                current={payload.page}
+                                className="float-right" 
+                                total={totalData}
+                                responsive={true}
+                            />
+                        </Fragment>
+                    : 
+                        <Card>
+                            <p className="text-center f-16 mb-0">Tidak ada Riwayat Transaksi</p>
+                        </Card>
+                    }
                 </Col>
             </Row>
         </Fragment>
@@ -225,6 +286,7 @@ const ListTransaction = props => {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.user,
         parent: state.parentRecord,
     }
 }

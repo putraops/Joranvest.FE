@@ -80,8 +80,8 @@ class Webinar extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <div className="container-fluid mt-4 pr-0 pl-0">
-                        <div className="container mb-2">
+                    <div className="container-fluid mt-2 mb-2 pr-0 pl-0">
+                        <div className="container">
                             <Breadcrumb className="pt-1">
                                 <Breadcrumb.Item href="/">
                                     <HomeOutlined />

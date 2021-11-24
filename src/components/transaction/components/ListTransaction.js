@@ -67,10 +67,8 @@ const ListTransaction = props => {
         axiosApi.post(`/payment/getPagination`, payload)
         .then(res => {
             var r = res.data;
-            if (r.total > 0) {
-                setlistData(r.data)
-                setTotalData(r.total);
-            }
+            setTotalData(r.total);
+            setlistData(r.data || [])
             window.scrollTo({
                 top: 0,
                 left: 0,
@@ -259,6 +257,7 @@ const ListTransaction = props => {
                 <Col md="8" lg="9">
                     {totalData > 0 ? 
                         <Fragment>
+                            <p className="font-weight-bold f-14 mb-1">Total Transaksi adalah {totalData}</p>
                             <List
                                 itemLayout="vertical"  size="large"
                                 dataSource={listData}

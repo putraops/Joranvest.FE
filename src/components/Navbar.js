@@ -61,7 +61,8 @@ class Navbar extends React.Component {
 								<Image 
 									style={{width: "50px", height: "50px"}} 
 									src={user ? serverUrl + "/" + user.filepath : null}
-									shape="square" 
+									shape="square"
+									preview={false}
 									onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
 								/>}
 							title={

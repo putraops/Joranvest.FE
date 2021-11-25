@@ -15,7 +15,7 @@ const SubNav = (props) => {
                                 {(() => {
                                     if (props.sub_title != "") {
                                         return (
-                                            <p className="card-title text-white font-weight-bold mb-0" style={{fontSize: "14px"}}>{props.sub_title}</p>
+                                            <p className="card-title text-white font-weight-bold mt-2 mb-0" style={{fontSize: "16px"}}>{props.sub_title}</p>
                                         )
                                     }
                                 })()}

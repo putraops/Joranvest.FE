@@ -6,14 +6,14 @@ import { Link, NavLink } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import './css/style.css'
 import Navbar from '../Navbar';
-import SubNav from '../SubNav'
+import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
 import axios from 'axios';
 import axiosApi from '../../config/axiosConfig';
-import { Button, Card, Drawer, List, Avatar, Divider, Skeleton, Input, IconText} from 'antd';
-import { Select, Space, Typography } from 'antd';
-import { PoweroffOutlined } from '@ant-design/icons';
+import { Button, Card, Drawer, List, Avatar, Divider, Skeleton, Tag, Input, IconText} from 'antd';
+import { Select, Space, Typography, Breadcrumb } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
 
 const { Option, OptGroup } = Select;
 const { Text } = Typography;
@@ -121,8 +121,21 @@ class Technical extends React.Component {
         return (
 
             <React.Fragment>
-                <section className="section home-1-bg" id="home">
-                    <SubNav title="Riset Analisa Teknikal" subtitle="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
+                <section className="section home-1-bg">
+                    <div className="container-fluid mt-3 pr-0 pl-0">
+                        <div className="container mb-3">
+                            <Breadcrumb>
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item href="/">
+                                    Analisa
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Teknikal</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                    </div>
+                    <SubNav title="Riset Analisa Teknikal" sub_title="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
                     <div className="container mt-3">
                         <Row className="">
                             <Col md="4" lg="3" className="mb-3">
@@ -156,7 +169,7 @@ class Technical extends React.Component {
                                                 avatar={
                                                     <Avatar 
                                                         src={item.timeframe} 
-                                                        size={{ xs: 55, sm: 55, md: 55, lg: 55, xl: 60, xxl: 100 }}/>
+                                                        size={{ xs: 45, sm: 45, md: 50, lg: 50, xl: 50, xxl: 60 }}/>
                                                     }
                                                 title={<a href='#'>{item.created_by_fullname}</a>}
                                                 description={
@@ -319,9 +332,9 @@ class Technical extends React.Component {
                                                     </Col>
                                                     <Col lg="12" className="pr-0 pl-0 mt-2">
                                                         <p className="mb-0 font-weight-bold f-16 text-uppercase">Reason to Buy:</p>
-                                                        <span>{item.reason_to_buy}</span>
+                                                        <p className="mb-0">{item.reason_to_buy}</p>
 
-                                                        <p className="mb-0 mt-3 font-weight-bold f-18 text-uppercase text-italic text-danger">Reminder!!!</p>
+                                                        <Tag color="red" className="mb-1 mt-3 font-weight-bold f-22 text-uppercase">Reminder!!!</Tag>
                                                         <p className="mb-0">Selalu gunakan Money Management dan disiplin dengan Trading Plan yang sudah diinformasikan.</p>
                                                         <p>Pergerakan market tidak 100% selalu bisa diprediksi dengan tepat. Oleh sebab itu, sebagai seorang trader, <span className="text-uppercase">wajib disiplin trading plan.</span></p>
                                                     </Col>

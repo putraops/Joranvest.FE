@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import ListTransaction from './components/ListTransaction';
 import Footer from '../Footer';
-import { Space, Breadcrumb } from 'antd';
+import { Breadcrumb } from 'antd';
 
 import { 
     HomeOutlined, 
@@ -40,12 +40,12 @@ class Transaaction extends React.Component {
                 <section className="section home-1-bg" id="home">
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">
-                                <HomeOutlined />
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item>Riwayat Transaksi</Breadcrumb.Item>
-                        </Breadcrumb>
+                            <Breadcrumb>
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Riwayat Transaksi</Breadcrumb.Item>
+                            </Breadcrumb>
                         </div>
                     </div>
                     <div className="container-fluid mt-3 pr-0 pl-0">

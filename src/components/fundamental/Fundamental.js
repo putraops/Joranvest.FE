@@ -2,28 +2,27 @@ import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import './css/style.css'
-import Navbar from '../Navbar';
-import SubNav from '../SubNav'
+import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
-import axios from 'axios';
 import axiosApi from '../../config/axiosConfig';
-import { Button, Card, Drawer, List, Avatar, Divider, Skeleton, Popover, Input, IconText} from 'antd';
-import { Select, Space, Typography } from 'antd';
-import { PoweroffOutlined, DownloadOutlined, CheckOutlined } from '@ant-design/icons';
-
-const { Option, OptGroup } = Select;
-const { Text } = Typography;
+import { List, Image, Divider, Skeleton, Space, Popover } from 'antd';
+import { Breadcrumb } from 'antd';
+import ReactHtmlParser from 'react-html-parser';
+import { HomeOutlined, DownloadOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import serverUrl from '../../config/serverUrl';
 
 class Fundamental extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: true,
-            loadingFilter: [],
+            isLoading: {
+               pageLoading: false,
+               contentLoading: true,
+            },
             payload: {
                 page: 1,
                 size: 10,
@@ -39,31 +38,31 @@ class Fundamental extends React.Component {
     }
 
     componentDidMount () {
-        const { payload } = this.state;
         this.LoadData();
-        console.log("did mount")
     }
 
     LoadData = () => {
         const { payload } = this.state; 
         axiosApi.post(`/fundamental_analysis/getPagination`, payload).then(res => {
             var r = res.data;
-            console.log("loaddata", r);
             if (r.total > 0) {
                 this.setState({...this.state, listData: r});
             } else {
                 this.setState({...this.state, listData: []});
             }
-            this.setState({...this.state, loading: false});
+            this.setState({
+                ...this.state, 
+                loading: false,
+                isLoading: {
+                    pageLoading: false,
+                    contentLoading: false,
+                }
+            });
             window.scrollTo(0, 0);
-            // console.log("state: ", this.state)
-            //this.getAllByRecordIds();
         });
     }
 
     componentDidUpdate = () => {
-        console.log("componentDidUpdate")
-        console.log("state: ", this.state)
     }
 
     handlePage = event => {
@@ -71,39 +70,22 @@ class Fundamental extends React.Component {
         payload.page = event;
         this.LoadData();
     }
-        
-    enterLoading = index => {
-        this.setState(({ loadings }) => {
-          const newLoadings = [...loadings];
-          newLoadings[index] = true;
-    
-          return {
-            loadings: newLoadings,
-          };
-        });
-        setTimeout(() => {
-          this.setState(({ loadings }) => {
-            const newLoadings = [...loadings];
-            newLoadings[index] = false;
-    
-            return {
-              loadings: newLoadings,
-            };
-          });
-        }, 6000);
-      };
 
     filtering = (e) => {
-        console.log("filter: ", e);
         const { payload } = this.state
         payload.filter = e.responseFilter
+        this.setState({
+            ...this.state, 
+            isLoading: {
+                pageLoading: false,
+                contentLoading: true,
+            }
+        });
         this.LoadData();
     }
     
     render() {
-        const { listData, payload } = this.state;
-        const { loadingFilter } = this.state;
-        const { loading } = this.state;
+        const { listData, payload, isLoading } = this.state;
 
         const gridAnalysis = {
             left: 0,
@@ -128,47 +110,67 @@ class Fundamental extends React.Component {
         return (
             <React.Fragment>
                 <section className="section home-1-bg" id="home">
-                    <SubNav title="Riset Analisa Teknikal" subtitle="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
+                    <div className="container-fluid mt-3 pr-0 pl-0">
+                        <div className="container mb-3">
+                            <Breadcrumb>
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item href="/fundamental">
+                                    Analisa
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Fundamental</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                    </div>
+                    <SubNav title="Riset Analisa Teknikal" sub_title="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
                     <div className="container mt-3">
                         <Row className="">
-                            <Col md="4" lg="3" className="mb-3">
+                            <Col md="5" lg="4" xl="3" className="mb-3">
                                 <TechnicalFilter 
                                     handleFilterTimeframe={this.handleFilterTimeframe} 
                                     filtering={this.filtering} 
                                 />
                             </Col>
-                            <Col md="8" lg="9">
+                            <Col md="7" lg="8" xl="9">
                                 <Divider dashed className="mt-0 mb-0" />
                                 <Skeleton active loading={this.state.loading} avatar paragraph={{ rows: 5 }}>
                                     <List
                                         itemLayout="vertical"  size="large"
                                         pagination={{
-                                        onChange: page => {
-                                            this.handlePage(page);
-                                        },
-                                        pageSize: payload.size,
-                                        total: listData.total,
-                                        defaultCurrent: payload.page,
-                                        current: payload.page,
+                                            onChange: page => {
+                                                this.handlePage(page);
+                                            },
+                                            pageSize: payload.size,
+                                            total: listData.total,
+                                            defaultCurrent: payload.page,
+                                            current: payload.page,
                                         }}
                                         dataSource={listData.data}
+                                        loading={isLoading.contentLoading}
                                         // footer={}
                                         renderItem={item => (
-                                        <List.Item className="pl-0 pr-0"
+                                        <List.Item className="pl-0 pr-0 pb-0"
                                             key={item.id}
                                             actions={[
                                             ]}>
-                                            <List.Item.Meta className="mt-0"
+                                            <List.Item.Meta 
+                                                className="mt-0"
+                                                key={`item-${item.id}`} 
                                                 avatar={
-                                                    <Avatar 
-                                                        src={item.timeframe} 
-                                                        size={{ xs: 55, sm: 55, md: 55, lg: 55, xl: 60, xxl: 100 }}/>
+                                                    <Image 
+                                                        style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
+                                                        src={item ? serverUrl + "/" + item.analysis_profile_picture_filepath : null}
+                                                        shape="circle"
+                                                        preview={false}
+                                                        onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                                                    />
                                                     }
                                                 title={
                                                     <Fragment>
                                                         <a href='#' className="mr-1">{item.created_by_fullname}</a> 
                                                         <Popover content="Verified">
-                                                            <CheckOutlined className="verified-user" />
+                                                            <CheckCircleOutlined className="verified-user" />
                                                         </Popover>
                                                     </Fragment>
                                                 }
@@ -237,10 +239,10 @@ class Fundamental extends React.Component {
                                                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                                                     <div className="bg-white" style={gridAnalysis}>
                                                                         <Row >
-                                                                            <Col className="text-left" xs="6" sm="6" md="6" lg="6" xl="6" >
+                                                                            <Col className="text-left" xs="6" sm="8" md="8" lg="8" xl="8" >
                                                                                 <h5 className="font-weight-bold text-uppercase f-16 mb-0">{item.emiten_name}</h5>
                                                                             </Col>
-                                                                            <Col className="text-right" xs="6" sm="6" md="6" lg="6" xl="6" >
+                                                                            <Col className="text-right" xs="6" sm="4" md="4" lg="4" xl="4" >
                                                                                 <p className="text-muted mb-0 f-12">Last updated 3 mins ago</p>
                                                                             </Col>
                                                                         </Row>
@@ -251,28 +253,25 @@ class Fundamental extends React.Component {
                                                     </Col>
                                                     <Col lg="12" className="pr-0 pl-0 mt-2">
                                                         <p className="mb-0 font-weight-bold f-16">Data Riset</p>
-                                                        <span>{item.research_data}</span>
-                                                        <br /><span>{item.research_data}</span><br /><span>{item.research_data}</span><br /><span>{item.research_data}</span>
-                                                        <br /><span>{item.research_data}</span><br /><span>{item.research_data}</span><br /><span>{item.research_data}</span>
-                                                        <br /><span>{item.research_data}</span><br /><span>{item.research_data}</span><br /><span>{item.research_data}</span>
-                                                        <Divider className="mt-2 mb-3" dashed />
-                                                        {item.attachments.map((item, i) => {     
-                                                            return (
-                                                                <Popover key={`popover-${item.id}}`} content={
-                                                                    <div>
-                                                                        <p className="mb-1">File: {item.filename}</p>
-                                                                        <Button className="btn-block" type="primary" icon={<DownloadOutlined />} size={30}>
-                                                                            Download
-                                                                        </Button>
-                                                                    </div>
-                                                                }>
-                                                                    <img src="/images/gallery/icon/iconPDF.png" className="mr-4" key={item.id} title={item.filename} style={{width: "40px", cursor: "pointer"}}/>
-                                                                </Popover>
-                                                            ) 
-                                                        })}
-                                                        {/* <img src="/images/gallery/icon/iconPDF.png" className="mr-4" style={{width: "40px"}}/> */}
-                                                        {/* <img src="/images/gallery/icon/iconPDF.png" className="mr-4" style={{width: "40px"}}/> */}
-                                                        {/* <img src="/images/gallery/icon/iconPDF.png" className="mr-4" style={{width: "40px"}}/> */}
+                                                        {ReactHtmlParser(item.research_data)}
+                                                        {item.attachments && item.attachments.length > 0 ? 
+                                                            <Fragment>
+                                                                <Divider className="mt-2 mb-2" dashed />
+                                                                {item.attachments.map((item, i) => {     
+                                                                    return (
+                                                                        <Popover key={`popover-${item.id}}`} content={
+                                                                            <div>
+                                                                                <p className="mb-1 font-weight-bold">File: {item.filename}</p>
+                                                                                <a className="btn btn-primary btn-block btn-xs pt-2 pb-2" href={`${serverUrl}/${item.filepath}`} target="_blank"><DownloadOutlined /> Download</a>
+                                                                            </div>
+                                                                        }>
+                                                                            <img src="/images/gallery/icon/iconPDF.png" className="mr-4" key={item.id} style={{width: "40px", cursor: "pointer"}}/>
+                                                                        </Popover>
+                                                                    ) 
+                                                                })}
+                                                            </Fragment>
+                                                        : null
+                                                        }
                                                     </Col>
                                                 </Row>
                                             }

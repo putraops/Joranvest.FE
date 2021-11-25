@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
@@ -6,8 +6,7 @@ import axiosApi from '../../../config/axiosConfig';
 import { Button, Card, Select, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-const { Option, OptGroup } = Select;
-const { Text } = Typography;
+const { Option } = Select;
 
 class Filter extends React.Component {
     constructor(props) {
@@ -37,12 +36,7 @@ class Filter extends React.Component {
         let { requestEmitenFilter } = this.state;
         axiosApi.post(`/emiten/emitenLookup`, requestEmitenFilter).then(res => {
             var r = res.data;
-            if (r.data.results.length > 0) {
-                this.setState({...this.state, emitenData: r.data.results});
-            } else {
-                this.setState({...this.state, emitenData: []});
-            }
-            console.log("result lookup: ", r);
+            this.setState({...this.state, emitenData: r.data.results || []});
         });
     }
 
@@ -59,7 +53,7 @@ class Filter extends React.Component {
     }
 
     render() {
-        var { requestEmitenFilter, emitenData } = this.state
+        var { emitenData } = this.state
         return (
             <Card size="small" title="Filter" className="borderShadow5">
                 <Row>
@@ -82,9 +76,9 @@ class Filter extends React.Component {
                         >
                             {emitenData.map((item, i) => {     
                                 return (
-                                    <Option value={item.id} label={item.text} key={item.id} >
+                                    <Option value={item.value} label={item.label} key={`option-${item.value}`} >
                                         <div className="demo-option-label-item">
-                                            <span className="font-weight-bold" role="img" aria-label={item.text}>{item.text}</span>
+                                            <span aria-label={item.label}>{item.label}</span>
                                             <p className="text-muted mb-0 f-12">{item.description}</p>
                                         </div>
                                     </Option>

@@ -5,15 +5,14 @@ import { Row, Col } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import './css/style.css'
-import Navbar from '../Navbar';
 import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
-import axios from 'axios';
-import axiosApi from '../../config/axiosConfig';
-import { Button, Card, Drawer, List, Avatar, Divider, Skeleton, Tag, Input, IconText} from 'antd';
+import { Button, Card, Image, List, Avatar, Divider, Skeleton, Tag, Input, IconText} from 'antd';
 import { Select, Space, Typography, Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+import axiosApi from '../../config/axiosConfig';
+import serverUrl from '../../config/serverUrl';
 
 const { Option, OptGroup } = Select;
 const { Text } = Typography;
@@ -23,7 +22,10 @@ class Technical extends React.Component {
         super(props);
         this.state = {
             loading: true,
-            loadingFilter: [],
+            isLoading: {
+               pageLoading: false,
+               contentLoading: true,
+            },
             payload: {
                 page: 1,
                 size: 10,
@@ -54,7 +56,14 @@ class Technical extends React.Component {
             } else {
                 this.setState({...this.state, listData: []});
             }
-            this.setState({...this.state, loading: false});
+            this.setState({
+                ...this.state, 
+                loading: false,
+                isLoading: {
+                    pageLoading: false,
+                    contentLoading: false,
+                }
+            });
             window.scrollTo(0, 0);
         });
     }
@@ -64,39 +73,22 @@ class Technical extends React.Component {
         payload.page = event;
         this.LoadData();
     }
-        
-    enterLoading = index => {
-        this.setState(({ loadings }) => {
-          const newLoadings = [...loadings];
-          newLoadings[index] = true;
-    
-          return {
-            loadings: newLoadings,
-          };
-        });
-        setTimeout(() => {
-          this.setState(({ loadings }) => {
-            const newLoadings = [...loadings];
-            newLoadings[index] = false;
-    
-            return {
-              loadings: newLoadings,
-            };
-          });
-        }, 6000);
-      };
 
     filtering = (e) => {
-        console.log("filter: ", e);
         const { payload } = this.state
         payload.filter = e.responseFilter
+        this.setState({
+            ...this.state, 
+            isLoading: {
+                pageLoading: false,
+                contentLoading: true,
+            }
+        });
         this.LoadData();
     }
     
     render() {
-        const { listData, payload } = this.state;
-        const { loadingFilter } = this.state;
-        const { loading } = this.state;
+        const { listData, payload, isLoading } = this.state;
 
         const gridAnalysis = {
             left: 0,
@@ -150,16 +142,16 @@ class Technical extends React.Component {
                                     <List
                                         itemLayout="vertical"  size="large"
                                         pagination={{
-                                        onChange: page => {
-                                            this.handlePage(page);
-                                        },
-                                        pageSize: payload.size,
-                                        total: listData.total,
-                                        defaultCurrent: payload.page,
-                                        current: payload.page,
+                                            onChange: page => {
+                                                this.handlePage(page);
+                                            },
+                                            pageSize: payload.size,
+                                            total: listData.total,
+                                            defaultCurrent: payload.page,
+                                            current: payload.page,
                                         }}
                                         dataSource={listData.data}
-                                        // footer={}
+                                        loading={isLoading.contentLoading}
                                         renderItem={item => (
                                         <List.Item className="pl-0 pr-0"
                                             key={item.id}
@@ -167,10 +159,14 @@ class Technical extends React.Component {
                                             ]}>
                                             <List.Item.Meta className="mt-0"
                                                 avatar={
-                                                    <Avatar 
-                                                        src={item.timeframe} 
-                                                        size={{ xs: 45, sm: 45, md: 50, lg: 50, xl: 50, xxl: 60 }}/>
-                                                    }
+                                                    <Image 
+                                                        style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
+                                                        src={item ? serverUrl + "/" + item.analysis_profile_picture_filepath : null}
+                                                        shape="circle"
+                                                        preview={false}
+                                                        onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                                                    />
+                                                }
                                                 title={<a href='#'>{item.created_by_fullname}</a>}
                                                 description={
                                                     <div className="row">
@@ -318,7 +314,26 @@ class Technical extends React.Component {
                                                                     <div className="bg-white" style={gridAnalysis}>
                                                                         <Row >
                                                                             <Col className="text-left" xs="6" sm="6" md="6" lg="6" xl="6" >
-                                                                                <h5 className="font-weight-normal f-14">Bandarmology: <span className={item.bandarmology_status == "Bagus" ? "bandarmology-signal bandarmology-good mb-0" : item.bandarmology_status == "Jelek" ? "bandarmology-signal bandarmology-notgood mb-0" : "bandarmology-signal bandarmology-netral mb-0" }>{item.bandarmology_status}</span></h5>
+                                                                                <h5 className="font-weight-normal f-14">Bandarmology:
+                                                                                {/* <span className={item.bandarmology_status == "Bagus" ? "bandarmology-signal bandarmology-good mb-0" : item.bandarmology_status == "Jelek" ? "bandarmology-signal bandarmology-notgood mb-0" : "bandarmology-signal bandarmology-netral mb-0" }>{item.bandarmology_status}</span> */}
+                                                                                
+                                                                                
+                                                                                {(() => {
+                                                                                    if (item.bandarmology_status == "Jelek") {
+                                                                                        return (
+                                                                                            <Tag color="red" className="ml-1 font-weight-bold f-22">{item.bandarmology_status}</Tag>
+                                                                                        )
+                                                                                    } else if (item.bandarmology_status == "Bagus") {
+                                                                                        return (
+                                                                                            <Tag color="green" className="ml-1 font-weight-bold f-22">{item.bandarmology_status}</Tag>
+                                                                                        )
+                                                                                    } else {
+                                                                                        return (
+                                                                                            <Tag color="blue" className="ml-1 font-weight-bold f-22">{item.bandarmology_status}</Tag>
+                                                                                        )
+                                                                                    }
+                                                                                })()}
+                                                                                </h5>
                                                                             </Col>
                                                                             <Col className="text-right" xs="6" sm="6" md="6" lg="6" xl="6" >
                                                                                 <h5 className="font-weight-normal f-14"><Link to="#" className="text-dark">Timeframe: {item.timeframe}</Link></h5>

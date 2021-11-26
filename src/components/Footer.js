@@ -7,7 +7,7 @@ class Footer extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="footer-bg mt-3">
+                <section className="footer-bg mt-1">
                     <div className="container">
                         <Row>
                             <Col md="6" lg="6" className="mb-2">
@@ -16,7 +16,7 @@ class Footer extends React.Component {
                                     <p className="text-muted mb-0">Jl. Tenggilis Timur Dalam 3th Floor, Tenggilis Mejoyo</p>
                                     <span className="text-muted mb-1">Surabaya 60292</span>
 
-                                    <p className="text-muted">www.rkmconsulting.com</p>
+                                    {/* <p className="text-muted">www.rkmconsulting.com</p> */}
                                     {/* <ul className="social-icons list-inline mt-3">
                                         <li className="list-inline-item">
                                             <a target="_blank" href="https://facebook.com/themefisher"><i className="text-primary ti-facebook"></i></a>
@@ -40,11 +40,11 @@ class Footer extends React.Component {
                                     </div>
                                     <div className="col-md-5 mb-3">
                                         <p className="text-uppercase text-dark footer-title mb-2">JORANVEST</p>
-                                        <p className="text-muted mb-0">Blog </p>
-                                        <p className="text-muted mb-0">Webiner & Kelas Online</p>
+                                        {/* <p className="text-muted mb-0">Blog </p> */}
+                                        <p className="text-muted mb-0">Webinar & Kelas Online</p>
                                         <p className="text-muted mb-0">Jadi Member</p>
-                                        <p className="text-muted mb-0">Karir</p>
-                                        <p className="text-muted mb-0">Partnership</p>
+                                        {/* <p className="text-muted mb-0">Karir</p> */}
+                                        {/* <p className="text-muted mb-0">Partnership</p> */}
                                     </div>
                                     <div className="col-md-5">
                                         {/* <p class="text-muted mb-0">BANTUAN & PANDUAN</p> */}

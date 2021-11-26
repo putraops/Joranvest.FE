@@ -123,7 +123,7 @@ class Fundamental extends React.Component {
                             </Breadcrumb>
                         </div>
                     </div>
-                    <SubNav title="Riset Analisa Teknikal" sub_title="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
+                    <SubNav title="Riset Analisa Fundamental" sub_title="Pilih beragam riset analisa fundamental sesuai strategi & timeframe kamu" />
                     <div className="container mt-3">
                         <Row className="">
                             <Col md="5" lg="4" xl="3" className="mb-3">

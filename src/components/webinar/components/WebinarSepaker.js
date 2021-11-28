@@ -9,25 +9,19 @@ const WebinarSpeaker = (props) => {
         <Fragment>
             <Card className="mb-3">
                 <Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{width: "80px", height: "80px"}} />}
+                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{width: "50px", height: "50px"}} />}
                     title={
-                        <div className={props.speaker.speaker_title ? "mt-2" : "mt-1"}>
+                        <div style={{marginTop: (props.speaker.speaker_title ? "-5px" : "0px" )}}>
                             <span className="f-17">{props.speaker.organization_name !== "" ? props.speaker.organization_name : props.speaker.speaker_full_name}</span>
                         </div>
                     }
                     description={
-                        <div style={{marginTop: "-5px"}}>
-                            {(() => {
-                                if (props.speaker.speaker_title) {
-                                    return (
-                                        <span className="f-14 text-muted">{props.speaker.speaker_title}</span>
-                                    )
-                                }
-                            })()}
-                            <div>
-                                <Rate allowHalf disabled defaultValue={4.5} className="mr-2" /> <strong>(142 Ulasan)</strong> 
+                        <Fragment>
+                            <p className="f-13 text-muted" style={{marginTop: "-13px", marginBottom: "5px"}}>{props.speaker.speaker_title}</p>
+                            <div style={{marginTop: "-12px"}}>
+                                <Rate allowHalf disabled defaultValue={0} className="mr-2" /> <strong>(0 Ulasan)</strong> 
                             </div>
-                        </div>
+                        </Fragment>
                     }
                 />
             </Card>

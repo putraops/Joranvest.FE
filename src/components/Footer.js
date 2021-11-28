@@ -7,7 +7,7 @@ class Footer extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="footer-bg mt-1">
+                <section className="footer-bg mt-0">
                     <div className="container">
                         <Row>
                             <Col md="6" lg="6" className="mb-2">
@@ -15,22 +15,7 @@ class Footer extends React.Component {
                                     <p className="text-uppercase text-dark footer-title mb-2">PT. RISAMBESSY KONSULTINDO MANDIRI</p>
                                     <p className="text-muted mb-0">Jl. Tenggilis Timur Dalam 3th Floor, Tenggilis Mejoyo</p>
                                     <span className="text-muted mb-1">Surabaya 60292</span>
-
                                     {/* <p className="text-muted">www.rkmconsulting.com</p> */}
-                                    {/* <ul className="social-icons list-inline mt-3">
-                                        <li className="list-inline-item">
-                                            <a target="_blank" href="https://facebook.com/themefisher"><i className="text-primary ti-facebook"></i></a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a target="_blank" href="https://twitter.com/themefisher"><i className="text-primary ti-twitter-alt"></i></a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a target="_blank" href="https://github.com/themefisher"><i className="text-primary ti-linkedin"></i></a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a target="_blank" href="https://instagram.com/themefisher"><i className="text-primary ti-instagram"></i></a>
-                                        </li>
-                                    </ul> */}
                                 </div>
                             </Col>
                             
@@ -53,7 +38,7 @@ class Footer extends React.Component {
                                         <p className="text-muted mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>
                                         <p className="text-muted mb-0">Disclaimer</p>
                                         <p className="text-muted mb-0"><a href="/about-us" className="text-secondary">Tentang Kami</a></p>
-                                        <p className="text-muted mb-0">Hubungi Kami</p>
+                                        <p className="text-muted mb-0"><a href="/contact-us" className="text-secondary">Hubungi Kami</a></p>
                                     </div>
                                 </div>
                             </Col>

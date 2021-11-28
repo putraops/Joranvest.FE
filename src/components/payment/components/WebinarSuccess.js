@@ -6,32 +6,41 @@ import axiosApi from '../../../config/axiosConfig';
 import Footer from '../../Footer';
 
 const WebinarSuccess = props => {
-    const [record, setRecord] = useState({});
+    const [webinarRegistrationRecord, setWebinarRegistrationRecord] = useState({});
+    const [paymentRecord, setPaymentRecord] = useState({});
     
     const [loading, setLoading] = useState({
         isContentLoading: true,
     });
 
     useEffect(() => {
-        getPaymentById(props.record_id);
+        getWebinarRegistrationById(props.record_id);
     }, []);
 
+    const getWebinarRegistrationById = async (id) => {
+        axiosApi.get(`/webinar_registration/getViewById/${id}`)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                setWebinarRegistrationRecord(r.data);
+                setLoading({...loading, isContentLoading: false})
+            }
+        }).catch(function (error) {
+            //-- Will run this if record is not found
+            getPaymentById(id)
+        });
+    }
+
     const getPaymentById = async (id) => {
-        return new Promise((resolve, reject) => {
-            axiosApi.get(`/payment/getById/${id}`)
-            .then(res => {
-                var r = res.data;
-                if (r.status) {
-                    setLoading({...loading, isContentLoading: false})
-                    setRecord(r.data)
-                    resolve(r.data);
-                } else {
-                    reject(false);
-                }
-            }).catch(function (error) {
-                message.error(error);
-                reject(false);
-            });
+        axiosApi.get(`/payment/getById/${id}`)
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+                setPaymentRecord(r.data)
+            }
+            setLoading({...loading, isContentLoading: false})
+        }).catch(function (error) {
+            message.error(error);
         });
     }
 
@@ -56,12 +65,12 @@ const WebinarSuccess = props => {
                                     </div>
                                     
                                     <Card 
-                                        title={record.payment_type === "credit_card" ? "Kartu Kredit" : ""}
+                                        title={paymentRecord.payment_type === "credit_card" ? "Kartu Kredit" : ""}
                                         className="borderShadow5 mt-3 mb-3"
                                         extra={
                                             <Fragment>
                                                 {(() => {
-                                                if (record.payment_type === "transfer_bca") {
+                                                if (paymentRecord.payment_type === "transfer_bca") {
                                                     return (
                                                         <Image
                                                             style={{marginTop: "5px"}}
@@ -80,19 +89,22 @@ const WebinarSuccess = props => {
                                                 <p className="mb-0 text-center f-14">Kami mengharapkan kehadiranmu pada Webinar yang kami laksanakan.</p>
                                             </Col>
                                         </Row>
-                                        <Row className="mt-2">
-                                            <Col md="12" className="text-center">
-                                                <p className="mb-0 font-weight-bold">Total Pembayaran</p>
-                                                <NumberFormat
-                                                    value={record ? record.price + record.unique_number : 0}
-                                                    className="f-20"
-                                                    style={{marginTop: "-15px", fontWeight: "800", color: "#005bea"}}
-                                                    displayType="text"
-                                                    thousandSeparator={true}
-                                                    prefix="Rp "
-                                                />
-                                            </Col>
-                                        </Row>
+                                        {paymentRecord.price > 0 ? (
+                                            <Row className="mt-2">
+                                                <Col md="12" className="text-center">
+                                                    <p className="mb-0 font-weight-bold">Total Pembayaran</p>
+                                                    <NumberFormat
+                                                        value={paymentRecord ? paymentRecord.price + paymentRecord.unique_number : 0}
+                                                        className="f-20"
+                                                        style={{marginTop: "-15px", fontWeight: "800", color: "#005bea"}}
+                                                        displayType="text"
+                                                        thousandSeparator={true}
+                                                        prefix="Rp "
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        ) : null}
+                                        
                                     </Card>
                                     
                                     <Row>

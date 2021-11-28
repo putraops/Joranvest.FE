@@ -154,7 +154,7 @@ class WebinarDetail extends React.Component {
             var r = res.data;
             if (r.status) {
                 if (r.status) {
-                    window.location.assign(baseUrl + "/membership/payment-success/" + r.data.id);
+                    window.location.assign(baseUrl + "/webinar/payment/success/" + r.data.id);
                 }
             }
         });

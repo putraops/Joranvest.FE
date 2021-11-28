@@ -4,9 +4,7 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import SubNav from './_nav/subNav';
 import Footer from './Footer';
-import { Breadcrumb, List } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebookSquare, faInstagram, faTwitter, faWhatsapp, faLinkedin, faTelegram } from '@fortawesome/free-brands-svg-icons'
+import { Breadcrumb } from 'antd';
 
 import { 
     HomeOutlined, 

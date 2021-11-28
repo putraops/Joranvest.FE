@@ -22,7 +22,8 @@ import WebinarPaymentStatus from './components/payment/WebinarPayment'
 import Transaction from './components/transaction/Transaction';
 
 import Privacy from './components/Privacy';
-import ContactUs from './components/ContactUs'
+import ContactUs from './components/ContactUs';
+import Disclaimer from './components/Disclaimer';
 import AboutUs from './components/AboutUs';
 
 import * as serviceWorker from './serviceWorker';
@@ -58,6 +59,7 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
                         
                         <Route exat path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
+                        <Route exat path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>
                         <Route exat path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
                         <Route exat path={`${process.env.PUBLIC_URL}/contact-us`} component={ContactUs}/>
                         

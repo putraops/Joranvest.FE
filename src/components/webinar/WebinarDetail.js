@@ -3,6 +3,7 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux'
 import { Typography, Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
+import moment from 'moment';
 import {
     HomeOutlined, 
     UserOutlined,
@@ -40,6 +41,7 @@ class WebinarDetail extends React.Component {
                 register: false,
             },
             isRegistered: false,
+            isExpired: false,
             detailData: [],
             webinarDate: {
                 startDate: {
@@ -67,15 +69,22 @@ class WebinarDetail extends React.Component {
         axiosApi.get(`/webinar/getById/${this.props.match.params.id}`)
         .then(res => {
             var r = res.data;
+            var now = Date.now();
             if (r.status) {
-                this.setState({...this.state, detailData: r.data});
+                var isExpired = moment(now).isAfter(moment(r.data.webinar_start_date.Time))
+
                 var temp = {
                     startDate: r.data.webinar_start_date,
                     endDate: r.data.webinar_end_date,
                 }
-                this.setState({...this.state, webinarDate: temp});
+                this.setState({
+                    ...this.state, 
+                    detailData: r.data,
+                    webinarDate: temp,
+                    isExpired: isExpired,
+                });
 
-                if (user) {
+                if (user && !isExpired) {
                     this.isWebinarRegistered();
                 }
                 this.getSpeakers();
@@ -152,7 +161,7 @@ class WebinarDetail extends React.Component {
     }
     
     render() {
-        const { isLoading, isRegistered, detailData, speakers, webinar_speakers } = this.state;
+        const { isLoading, isRegistered, isExpired, detailData, speakers, webinar_speakers } = this.state;
         const { webinarDate } = this.state;
         const { user } = this.props;
 
@@ -355,11 +364,11 @@ class WebinarDetail extends React.Component {
                                         type="primary"
                                         block
                                         size='large'
-                                        disabled={isRegistered}
+                                        disabled={isRegistered || isExpired}
                                         loading={isLoading.register}
                                         onClick={user ? () => registration() : () => showLoginConfirm()}
                                         >
-                                        <span>{isRegistered ? "Sudah Terdaftar" : "Daftar Sekarang" }</span>
+                                        <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
                                     </Button>
                                 </Card>
                             </Col>

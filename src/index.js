@@ -21,6 +21,8 @@ import WebinarPaymentStatus from './components/payment/WebinarPayment'
 
 import Transaction from './components/transaction/Transaction';
 
+import Privacy from './components/Privacy';
+
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { store } from './config/redux/index'
@@ -52,6 +54,8 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
+                        
+                        <Route exat path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

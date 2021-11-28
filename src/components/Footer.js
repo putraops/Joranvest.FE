@@ -41,7 +41,7 @@ class Footer extends React.Component {
                                     <div className="col-md-5 mb-3">
                                         <p className="text-uppercase text-dark footer-title mb-2">JORANVEST</p>
                                         {/* <p className="text-muted mb-0">Blog </p> */}
-                                        <p className="text-muted mb-0">Webinar & Kelas Online</p>
+                                        <p className="text-muted mb-0"><a href="/webinar" className="text-secondary">Webinar</a></p>
                                         <p className="text-muted mb-0">Jadi Member</p>
                                         {/* <p className="text-muted mb-0">Karir</p> */}
                                         {/* <p className="text-muted mb-0">Partnership</p> */}
@@ -50,7 +50,7 @@ class Footer extends React.Component {
                                         {/* <p class="text-muted mb-0">BANTUAN & PANDUAN</p> */}
                                         <p className="text-uppercase text-dark footer-title mb-2">Bantuan & Panduan</p>
                                         <p className="text-muted mb-0">Syarat & Ketentuan</p>
-                                        <p className="text-muted mb-0">kebijakan & Privasi</p>
+                                        <p className="text-muted mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>
                                         <p className="text-muted mb-0">Disclaimer</p>
                                         <p className="text-muted mb-0">Hubungi Kami</p>
                                     </div>

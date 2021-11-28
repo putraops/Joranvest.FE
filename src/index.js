@@ -22,6 +22,7 @@ import WebinarPaymentStatus from './components/payment/WebinarPayment'
 import Transaction from './components/transaction/Transaction';
 
 import Privacy from './components/Privacy';
+import AboutUs from './components/AboutUs';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -56,6 +57,7 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
                         
                         <Route exat path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
+                        <Route exat path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
                     </Fragment>
                 </BrowserRouter>
             </React.Fragment>

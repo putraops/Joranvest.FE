@@ -52,6 +52,7 @@ class Footer extends React.Component {
                                         <p className="text-muted mb-0">Syarat & Ketentuan</p>
                                         <p className="text-muted mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>
                                         <p className="text-muted mb-0">Disclaimer</p>
+                                        <p className="text-muted mb-0"><a href="/about-us" className="text-secondary">Tentang Kami</a></p>
                                         <p className="text-muted mb-0">Hubungi Kami</p>
                                     </div>
                                 </div>

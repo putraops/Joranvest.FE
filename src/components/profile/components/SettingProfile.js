@@ -1,12 +1,10 @@
-import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
-import { Row, Col } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
-import NumberFormat from "react-number-format";
-import { Button, Card, Drawer, List, Upload, Image, Divider, Skeleton, Rate, Tabs, Badge } from 'antd';
-import { Alert, Modal } from 'antd';
-import { Form, Input, Space, Typography, message  } from 'antd';
-import { Dropdown, Menu } from 'antd';
+import { 
+    Button, Card, Upload, Image, Skeleton,
+    Alert, Modal, Form, Input, Space, 
+    Typography 
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux'
 import sideNotification from '../../../commons/sideNotification'
@@ -17,11 +15,10 @@ import joranCookies from '../../../commons/joranCookies';
 import { updateUserPassword } from '../../../config/redux/action';
 import '../css/style.css'
 
-const { Meta } = Card;
 const { Text } = Typography;
 
 const SettingProfile = props => {
-    const { isLoading, errorMessage } = props;
+    const { isLoading } = props;
     const [formChangePassword] = Form.useForm();
     const [profilePicture, setProfilePicture] = useState({
         url: serverUrl + "/" + props.user.filepath,

@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../../config/axiosConfig';
-import { Button, Card, Select, Typography } from 'antd';
+import { Button, Card, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -47,28 +47,28 @@ class Filter extends React.Component {
 
     handleEmitenSearch = (value) => {
         let { requestEmitenFilter } = this.state;
-        requestEmitenFilter.q = value == undefined ? "" :value;
+        requestEmitenFilter.q = value === undefined ? "" :value;
         this.setState({...this.state, emitenData: []});
         this.emitenLookup();
     }
 
     handleFilterEmiten = (value) => {
         const { responseFilter } = this.state;
-        responseFilter.emiten_id = value == undefined ? "" : value;
+        responseFilter.emiten_id = value === undefined ? "" : value;
     }
 
     handleFilterSignal = (value) => {
         const { responseFilter } = this.state;
-        responseFilter.signal = value == undefined ? "" : value;
+        responseFilter.signal = value === undefined ? "" : value;
     }
 
     handleFilterTimeframe = (value) => {
         const { responseFilter } = this.state;
-        responseFilter.timeframe = value == undefined ? "" : value;
+        responseFilter.timeframe = value === undefined ? "" : value;
     }
 
     render() {
-        var { requestEmitenFilter, emitenData } = this.state
+        var { emitenData } = this.state
         return (
             <Card size="small" title="Filter" className="borderShadow5">
                 <Row>

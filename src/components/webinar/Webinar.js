@@ -7,7 +7,7 @@ import SubNav from '../_nav/subNav';
 import Filter from './components/Filter';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { List, Select, Card, Breadcrumb } from 'antd';
+import { List, Card, Breadcrumb } from 'antd';
 import sideNotification from '../../commons/sideNotification'
 
 import { 
@@ -31,7 +31,7 @@ const Webinar = props => {
 
     useEffect(() => {
         LoadData();
-    }, []);
+    });
 
     useLayoutEffect(() => {
         LoadData();

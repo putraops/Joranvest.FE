@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
@@ -24,11 +24,11 @@ const WebinarDetailHeader = (props) => {
         endDate = moment(props.data.webinar_end_date.Time,  "YYYY/MM/DD").format('DD MMMM YYYY');
         endTime = moment(props.data.webinar_end_date.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');
     
-        if (startDate != endDate) {
+        if (startDate !== endDate) {
             startDate += " - " + endDate;
         } 
 
-        if (startTime != endTime) {
+        if (startTime !== endTime) {
             startTime += " - " + endTime;
         }
     }
@@ -89,7 +89,7 @@ const WebinarDetailHeader = (props) => {
                             <Row className="g-0">
                                 <Col xs="6" sm="6" md="6" lg="4 g-0">
                                     <span className="f-14" style={{fontWeight: "500"}}>
-                                        {props.data.min_age == 0 ? "Semua Umur" : <span>Min Umur: {props.data.min_age} tahun</span>}
+                                        {props.data.min_age === 0 ? "Semua Umur" : <span>Min Umur: {props.data.min_age} tahun</span>}
                                     </span>
                                 </Col>
                                 <Col xs="6" sm="6" md="6" lg="4">

@@ -67,7 +67,7 @@ const WebinarList = (props) => {
                                         <Tag className="mr-1" color="#531dab">{props.obj.webinar_category_name}</Tag>
                                         {(() => {
                                             return (
-                                                <Tag className="mr-1" color={props.obj.webinar_level == "Pemula" ? "#2db7f5" : "#b92222"} >{props.obj.webinar_level}</Tag>
+                                                <Tag className="mr-1" color={props.obj.webinar_level === "Pemula" ? "#2db7f5" : "#b92222"} >{props.obj.webinar_level}</Tag>
                                             )
                                         })()}
                                         {(() => {

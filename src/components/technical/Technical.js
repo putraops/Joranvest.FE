@@ -2,20 +2,16 @@ import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NumberFormat from "react-number-format";
 import './css/style.css'
 import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
-import { Button, Card, Image, List, Avatar, Divider, Skeleton, Tag, Input, IconText} from 'antd';
-import { Select, Space, Typography, Breadcrumb } from 'antd';
+import { Image, List, Divider, Skeleton, Tag, Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import axiosApi from '../../config/axiosConfig';
 import serverUrl from '../../config/serverUrl';
-
-const { Option, OptGroup } = Select;
-const { Text } = Typography;
 
 class Technical extends React.Component {
     constructor(props) {
@@ -41,9 +37,7 @@ class Technical extends React.Component {
     }
 
     componentDidMount () {
-        const { payload } = this.state;
         this.LoadData();
-        console.log("did mount")
     }
 
     LoadData = () => {
@@ -103,15 +97,7 @@ class Technical extends React.Component {
             transition: 'all 0.5s'
         }
 
-        const IconText = ({ icon, text }) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-        );
-      
         return (
-
             <React.Fragment>
                 <section className="section home-1-bg">
                     <div className="container-fluid mt-3 pr-0 pl-0">
@@ -171,7 +157,7 @@ class Technical extends React.Component {
                                                 description={
                                                     <div className="row">
                                                         <div className= "col-md-12">
-                                                            <span className="font-weight-bold">{item.user_create_title == "" ? "" : item.user_create_title}</span>
+                                                            <span className="font-weight-bold">{item.user_create_title === "" ? "" : item.user_create_title}</span>
                                                         </div>
                                                     </div>
                                                 } />
@@ -183,7 +169,7 @@ class Technical extends React.Component {
                                                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Signal</h5>
-                                                                        <p className={item.signal == "Uptrend" ? "signal-technical signal-uptrend mb-0" : item.signal == "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{item.signal}</p>
+                                                                        <p className={item.signal === "Uptrend" ? "signal-technical signal-uptrend mb-0" : item.signal === "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{item.signal}</p>
                                                                     </div>
                                                                 </div>
                                                             </Col>
@@ -209,7 +195,7 @@ class Technical extends React.Component {
                                                                                         prefix=""
                                                                                         />
                                                                                     {(() => {
-                                                                                        if (item.end_buy != 0 && item.start_buy != item.end_buy) {
+                                                                                        if (item.end_buy !== 0 && item.start_buy !== item.end_buy) {
                                                                                         return (
                                                                                             <Fragment>
                                                                                                 <span className="text-primary font-weight-bold"> - </span>
@@ -243,7 +229,7 @@ class Technical extends React.Component {
                                                                                         prefix=""
                                                                                     />
                                                                                     {(() => {
-                                                                                        if (item.end_sell != 0 && item.start_sell != item.end_sell) {
+                                                                                        if (item.end_sell !== 0 && item.start_sell !== item.end_sell) {
                                                                                         return (
                                                                                             <Fragment>
                                                                                                 <span className="text-success"> - </span>
@@ -277,7 +263,7 @@ class Technical extends React.Component {
                                                                                         prefix=""
                                                                                         />
                                                                                     {(() => {
-                                                                                        if (item.end_cut != 0 && item.start_cut != item.end_cut) {
+                                                                                        if (item.end_cut !== 0 && item.start_cut !== item.end_cut) {
                                                                                         return (
                                                                                             <Fragment>
                                                                                                 <span className="text-danger"> - </span>
@@ -319,11 +305,11 @@ class Technical extends React.Component {
                                                                                 
                                                                                 
                                                                                 {(() => {
-                                                                                    if (item.bandarmology_status == "Jelek") {
+                                                                                    if (item.bandarmology_status === "Jelek") {
                                                                                         return (
                                                                                             <Tag color="red" className="ml-1 font-weight-bold f-22">{item.bandarmology_status}</Tag>
                                                                                         )
-                                                                                    } else if (item.bandarmology_status == "Bagus") {
+                                                                                    } else if (item.bandarmology_status === "Bagus") {
                                                                                         return (
                                                                                             <Tag color="green" className="ml-1 font-weight-bold f-22">{item.bandarmology_status}</Tag>
                                                                                         )

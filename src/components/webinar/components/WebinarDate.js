@@ -1,4 +1,4 @@
-import React, { Fragment, Text } from 'react';
+import React from 'react';
 import moment from 'moment';
 import 'antd/dist/antd.css';
 
@@ -18,11 +18,11 @@ const WebinarDate = (props) => {
         endDate = moment(props.webinar_date.endDate.Time,  "YYYY/MM/DD").format('DD MMM YYYY');
         endTime = moment(props.webinar_date.endDate.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');
     
-        if (startDate != endDate) {
+        if (startDate !== endDate) {
             startDate += " - " + endDate;
         } 
 
-        if (startTime != endTime) {
+        if (startTime !== endTime) {
             startTime += " - " + endTime;
         }
     }

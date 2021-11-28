@@ -2,7 +2,6 @@ import firebaseApp from "../../firebase/config";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword, deleteUser } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
 import joranCookies from "../../../commons/joranCookies";
-import Cookies from 'universal-cookie';
 
 const auth = getAuth(firebaseApp);
 
@@ -59,7 +58,6 @@ export const userLogin = (data) => (dispatch) => {
         dispatch({type: "CHANGE_LOADING", value: true});
         signInWithEmailAndPassword(auth, data.email, data.password)
            .then((userCredential) => {
-                var firebaseUser = userCredential.user;
                 dispatch({type: "CHANGE_LOADING", value: false});
                 axiosApi.post(`/auth/login`, 
                     data

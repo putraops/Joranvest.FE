@@ -2,15 +2,11 @@ import React, { Fragment, useEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Image, Button} from 'antd';
-import { Card, Badge, List, Avatar, Tag, message } from 'antd';
+import { Card, List, Tag } from 'antd';
 import { connect } from 'react-redux'
 import { showUploadTransferModal, hideUploadTransferModal } from '../../../config/redux/action';
-import axiosApi from '../../../config/axiosConfig';
 import NumberFormat from "react-number-format";
 import moment from 'moment';
-
-const { Meta } = Card;
 
 const ListItem = (props) => {
     useEffect(() => {

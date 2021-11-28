@@ -27,7 +27,7 @@ class Footer extends React.Component {
                                         <p className="text-uppercase text-dark footer-title mb-2">JORANVEST</p>
                                         {/* <p className="text-muted mb-0">Blog </p> */}
                                         <p className="text-muted mb-0"><a href="/webinar" className="text-secondary">Webinar</a></p>
-                                        <p className="text-muted mb-0">Jadi Member</p>
+                                        {/* <p className="text-muted mb-0">Jadi Member</p> */}
                                         {/* <p className="text-muted mb-0">Karir</p> */}
                                         {/* <p className="text-muted mb-0">Partnership</p> */}
                                     </div>

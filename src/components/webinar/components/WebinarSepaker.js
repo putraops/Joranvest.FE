@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
 import { Card, Avatar, Rate } from 'antd';

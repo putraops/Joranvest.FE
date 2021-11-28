@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux'
-import { Typography, Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
+import { Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
 import moment from 'moment';
 import {
     HomeOutlined, 
@@ -23,17 +23,12 @@ import serverUrl from '../../config/serverUrl';
 
 const { confirm } = Modal;
 
-const { Text } = Typography;
 const { Meta } = Card;
 
 class WebinarDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            payload: {
-                page: 1,
-                size: 10,
-            },
             user: {
                 name: "",
             },
@@ -133,7 +128,7 @@ class WebinarDetail extends React.Component {
     }
 
     handleRegistration = () => {
-        const { isLoading, detailData, payload, webinar_speakers } = this.state;
+        const { isLoading, detailData, payload } = this.state;
         isLoading.register = true;
         payload.id = "";
         payload.webinar_id = detailData.id;
@@ -254,7 +249,7 @@ class WebinarDetail extends React.Component {
                                     </Col>
                                     <Col lg="12 mt-2">
                                         <Card >
-                                            {detailData.description == "" ? 
+                                            {detailData.description === "" ? 
                                                 <span className="">Tidak ada Ringkasan</span> : 
                                                 <div className="">{detailData.description}</div>}
                                         </Card> 

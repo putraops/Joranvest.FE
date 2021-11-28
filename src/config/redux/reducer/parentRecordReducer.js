@@ -1,5 +1,3 @@
-import serverUrl from "../../serverUrl";
-
 const initState = {
     isParentModal: false,
     parentRecord: {},

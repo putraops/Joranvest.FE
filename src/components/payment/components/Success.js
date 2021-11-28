@@ -1,9 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { Button, Card, Image, Alert, Skeleton, message, Radio, List } from 'antd';
+import { Button, Card, Image, Skeleton, message } from 'antd';
 import NumberFormat from "react-number-format";
-import { connect } from 'react-redux';
 import moment from 'moment';
 import axiosApi from '../../../config/axiosConfig';
 import Footer from '../../Footer';
@@ -43,10 +41,6 @@ const Success = props => {
                 if (r.status) {
                     setLoading({...loading, isContentLoading: false})
                     setRecord(r.data)
-                    var now = Date.now();
-                    var expired = r.data.payment_date_expired.Time;
-                    
-                    setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
                     resolve(r.data);
                     // reject(false);
                 } else {

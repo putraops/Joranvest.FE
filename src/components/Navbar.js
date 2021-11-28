@@ -125,7 +125,7 @@ class Navbar extends React.Component {
 										)
 									}
 								})()}
-								<li className="nav-item"><a href="#" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li>
+								{/* <li className="nav-item"><a href="#" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li> */}
 								{(() => {
 									if (user && user.id != "") {
 										return (

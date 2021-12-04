@@ -29,9 +29,9 @@ const Webinar = props => {
         data: []
     })
 
-    useEffect(() => {
-        LoadData();
-    });
+    // useEffect(() => {
+    //     //LoadData();
+    // });
 
     useLayoutEffect(() => {
         LoadData();

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input, Button, Divider, Alert } from 'antd';
 
 import { connect } from 'react-redux';
-import { userLogin, actionFormUpdate } from '../../../config/redux/action';
+import { userLogin, userLoginWithGoogle, actionFormUpdate } from '../../../config/redux/action';
 import baseUrl from '../../../config/baseUrl';
 
 const LoginForm = (props) => {
@@ -47,43 +47,58 @@ const LoginForm = (props) => {
         }
     }
 
-  return (
-    <Fragment>
-        {
-            errorMessage ? <Alert className="mb-3" message={errorMessage} type="error"showIcon  /> : null
-        }
-        <Form
-            name="basic"
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-            >
-            <Form.Item 
-                name="email"
-                rules={[{ required: true, message: 'Please input your Email' }]}>
-                <Input className="mb-2" size="large" placeholder="Email" name="email" onChange={handleChange} />
-            </Form.Item>
-            <Form.Item 
-                name="password"
-                rules={[{ required: true, message: 'Please input your password' }]}>
-                <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onChange={handleChange} />
-            </Form.Item>
+    const handleLoginWithGoogle = async () => {
+        var email = "email";
+        var password = "password";
 
+        const res = await props.userLoginWithGoogle({email, password})
+            .catch(err => err);
+
+        if (res) {
+            alert();
+            // window.location.assign(baseUrl);
+        } else {
+            console.log(errorMessage);
+        }
+    }
+
+    return (
+        <Fragment>
+            {
+                errorMessage ? <Alert className="mb-3" message={errorMessage} type="error"showIcon  /> : null
+            }
+            <Form
+                name="basic"
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+                >
+                <Form.Item 
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your Email' }]}>
+                    <Input className="mb-2" size="large" placeholder="Email" name="email" onChange={handleChange} />
+                </Form.Item>
+                <Form.Item 
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password' }]}>
+                    <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onChange={handleChange} />
+                </Form.Item>
+            </Form>
             <Form.Item>
                 <Button type="primary" size="medium" loading={isLoading} block htmlType="submit" onClick={handleLogin}>Login</Button> 
             </Form.Item>
+            {/* <Button type="danger" size="medium" block onClick={handleLoginWithGoogle}>Login dengan Google</Button>  */}
 
             <div className="text-center mt-4">
                 <Divider className="mt-2 mb-2" plain>Belum punya akun?</Divider>
                 <Link to="/register"><Button type="primary" className="mb-2" size="medium" block >Register</Button> </Link>
-                <Link to="/forgotpassword"><Button type="danger" size="medium" block >Lupa Password</Button> </Link>
-                {/* <Button type="danger" size="medium" block>Lupa Password</Button> */}
+                {/* <Divider className="mt-2 mb-2" plain><Link to="/forgotpassword">Lupa Password</Link></Divider> */}
+                <Button type="danger" size="medium" block>Lupa Password</Button>
             </div>
-        </Form>
-    </Fragment>
+        </Fragment>
     );
 }
 
@@ -97,6 +112,7 @@ const reduxState = (state) => ({
 
 const reduxDispatch = (dispatch) => ({
     userLogin: (data) => dispatch(userLogin(data)),
+    userLoginWithGoogle: (data) => dispatch(userLoginWithGoogle(data)),
     actionFormUpdate: () => dispatch(actionFormUpdate())
 })
 

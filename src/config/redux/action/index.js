@@ -1,9 +1,12 @@
 import firebaseApp from "../../firebase/config";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword, deleteUser } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
 import joranCookies from "../../../commons/joranCookies";
 
 const auth = getAuth(firebaseApp);
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 export const actionFormUpdate = () => (dispatch) => {
     return dispatch({type: 'FORM_UPDATE', value: ""});
@@ -88,6 +91,34 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "CHANGE_LOADING", value: false});
                 reject(false);
            })
+    })
+}
+
+export const userLoginWithGoogle = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        // dispatch({type: "CHANGE_LOADING", value: true});
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+
+                console.log(credential);
+                console.log(token);
+                console.log(user);
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
     })
 }
 

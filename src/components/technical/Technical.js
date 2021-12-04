@@ -9,7 +9,8 @@ import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 import TechnicalFilter from './components/Filter';
 import { Image, List, Divider, Skeleton, Tag, Breadcrumb } from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, MinusOutlined } from '@ant-design/icons';
+import ReactHtmlParser from 'react-html-parser';
 import axiosApi from '../../config/axiosConfig';
 import serverUrl from '../../config/serverUrl';
 
@@ -165,7 +166,7 @@ class Technical extends React.Component {
                                                 <Row className="ml-2 mr-2 mb-4">
                                                     <Col md="12">
                                                         <Row>
-                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="6" xl="2" >
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Signal</h5>
@@ -173,7 +174,7 @@ class Technical extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </Col>
-                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="6" xl="2" >
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                                                 <div className="blog" style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Emiten</h5>
@@ -181,7 +182,15 @@ class Technical extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </Col>
-                                                        <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="3" xl="2" >
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
+                                                                <div className="blog"  style={{borderRadius: "0px"}}>
+                                                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
+                                                                        <h5 className="f-15 box-title">Risk Reward</h5>
+                                                                        <p className="text-primary f-16 mb-0 emiten-price">{item.start_ratio} : {item.end_ratio}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </Col>
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                                                 <div className="blog" style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Area Beli</h5>
@@ -215,7 +224,7 @@ class Technical extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </Col>
-                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="3" xl="2" >
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                                                 <div className="blog" style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Area Jual</h5>
@@ -232,7 +241,7 @@ class Technical extends React.Component {
                                                                                         if (item.end_sell !== 0 && item.start_sell !== item.end_sell) {
                                                                                         return (
                                                                                             <Fragment>
-                                                                                                <span className="text-success"> - </span>
+                                                                                                <span className="text-success"> <MinusOutlined /> </span>
                                                                                                 <NumberFormat className="text-success f-16 mb-0 emiten-price"
                                                                                                     value={item.end_sell}
                                                                                                     displayType="text"
@@ -249,7 +258,7 @@ class Technical extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </Col>
-                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="3" xl="2" >
+                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                                                         <h5 className="f-15 box-title">Area Stoploss</h5>
@@ -283,14 +292,6 @@ class Technical extends React.Component {
                                                                     </div>
                                                                 </div>
                                                             </Col>
-                                                            <Col className="pr-0 pl-0" xs="6" sm="6" md="4" lg="3" xl="2" >
-                                                                <div className="blog"  style={{borderRadius: "0px"}}>
-                                                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
-                                                                        <h5 className="f-15 box-title">Risk Reward</h5>
-                                                                        <p className="text-primary f-16 mb-0 emiten-price">{item.start_ratio} : {item.end_ratio}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </Col>
                                                         </Row>
                                                     </Col>
                                                     <Col md="12">
@@ -301,9 +302,6 @@ class Technical extends React.Component {
                                                                         <Row >
                                                                             <Col className="text-left" xs="6" sm="6" md="6" lg="6" xl="6" >
                                                                                 <h5 className="font-weight-normal f-14">Bandarmology:
-                                                                                {/* <span className={item.bandarmology_status == "Bagus" ? "bandarmology-signal bandarmology-good mb-0" : item.bandarmology_status == "Jelek" ? "bandarmology-signal bandarmology-notgood mb-0" : "bandarmology-signal bandarmology-netral mb-0" }>{item.bandarmology_status}</span> */}
-                                                                                
-                                                                                
                                                                                 {(() => {
                                                                                     if (item.bandarmology_status === "Jelek") {
                                                                                         return (
@@ -333,7 +331,7 @@ class Technical extends React.Component {
                                                     </Col>
                                                     <Col lg="12" className="pr-0 pl-0 mt-2">
                                                         <p className="mb-0 font-weight-bold f-16 text-uppercase">Reason to Buy:</p>
-                                                        <p className="mb-0">{item.reason_to_buy}</p>
+                                                        <p className="mb-0">{ReactHtmlParser(item.reason_to_buy)}</p>
 
                                                         <Tag color="red" className="mb-1 mt-3 font-weight-bold f-22 text-uppercase">Reminder!!!</Tag>
                                                         <p className="mb-0">Selalu gunakan Money Management dan disiplin dengan Trading Plan yang sudah diinformasikan.</p>

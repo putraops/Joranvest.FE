@@ -257,6 +257,7 @@ class Fundamental extends React.Component {
                                                         {item.attachments && item.attachments.length > 0 ? 
                                                             <Fragment>
                                                                 <Divider className="mt-2 mb-2" dashed />
+                                                                <p className="mb-1 font-weight-bold">File: </p>
                                                                 {item.attachments.map((item, i) => {     
                                                                     return (
                                                                         <Popover key={`popover-${item.id}}`} content={

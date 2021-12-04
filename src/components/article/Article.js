@@ -10,6 +10,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
 import { Button, Breadcrumb, List, Spin, Skeleton  } from 'antd';
+import SubNav from '../_nav/subNav'; 
 import { HomeOutlined } from '@ant-design/icons';
 
 class Article extends React.Component {
@@ -18,7 +19,7 @@ class Article extends React.Component {
         this.state = {
             payload: {
                 page: 1,
-                size: 5,
+                size: 8,
             },
             user: {
                 name: "",
@@ -62,6 +63,7 @@ class Article extends React.Component {
         let { existingData } = this.state;
         const {listData, payload} = this.state; 
         axiosApi.post(`/article/getPagination`, payload).then(r => {
+            console.log(r);
             if (r.data.total > 0) {
                 callback(r);
             }
@@ -195,18 +197,7 @@ class Article extends React.Component {
                                 <Breadcrumb.Item>Article</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
-                            <div className="card-body">
-                                <div className="container pb-3 pt-3">
-                                    <Row>
-                                        <Col lg="12">
-                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "24px"}}>Artikel Pilihan</h5>
-                                            <p className="card-title text-white font-weight-bold" style={{fontSize: "16px"}}>Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional</p>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
+                        <SubNav title="Artikel Pilihan" sub_title="Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional" />
                     </div>  
 
                     <div className="container mt-4">

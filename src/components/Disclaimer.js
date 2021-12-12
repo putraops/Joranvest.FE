@@ -16,7 +16,7 @@ import {
 const Disclaimer = () => {
     return (
         <React.Fragment>
-            <section className="section home-1-bg" id="home">
+            <section className="section" id="home">
                 <div className="container-fluid mt-2 mb-2 pr-0 pl-0">
                     <div className="container">
                         <Breadcrumb className="pt-1">

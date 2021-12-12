@@ -1,8 +1,13 @@
-var _serverUrl = "http://www.joranvest.com";
-var _serverPort = "10000";
-if (window.location.hostname === "localhost") {
-    _serverUrl = "http://" + window.location.hostname;
-} 
-_serverUrl += _serverPort === "" ? "" : (":" + _serverPort);
-const serverUrl = _serverUrl;
+var protocol = window.location.protocol;
+var hostname = window.location.hostname;
+
+var baseURL = "";
+if (hostname.includes("localhost")) {
+    baseURL = protocol + "//" + hostname + ":10000";
+} else if (hostname.includes("dev")) {
+    baseURL = protocol + "//dev.api.joranvest.com"
+} else {
+    baseURL = protocol + "//api.joranvest.com"
+}
+const serverUrl = baseURL;
 export default serverUrl

@@ -4,8 +4,11 @@ import ReactDOM from 'react-dom';
 import Home from './home';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
+
 import Register from './components/auth/Register';
 import Profile from './components/profile/Profile';
+import RegisterVerification from './components/auth/RegisterVerification';
+
 import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
@@ -58,10 +61,12 @@ class Root extends React.Component {
 
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
                         
-                        <Route exat path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
-                        <Route exat path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>
-                        <Route exat path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
-                        <Route exat path={`${process.env.PUBLIC_URL}/contact-us`} component={ContactUs}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/contact-us`} component={ContactUs}/>
+                        
+                        <Route exact path={`${process.env.PUBLIC_URL}/register-verification/:id`} component={RegisterVerification}/>
                         
                     </Fragment>
                 </BrowserRouter>

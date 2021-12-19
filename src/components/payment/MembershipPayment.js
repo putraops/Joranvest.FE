@@ -8,12 +8,7 @@ import Pending from './components/Pending';
 import Success from './components/Success';
 
 const MembershipPayment = props => {
-
     useEffect(() => {
-        console.log(props);
-        console.log(props.match.params.status);
-        // loadData(props.match.params.id);
-        
     }, []);
 
     if (props.match.params.status === "pending") {

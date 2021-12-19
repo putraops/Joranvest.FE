@@ -1571,11 +1571,18 @@ p {
 .card-label > span > svg {
   margin-top: -6px;
 }
-.sc-gsDKAQ.bsIdxO {
+.sc-gsDKAQ.bsIdxO,
+.sc-gsDKAQ.hDhDYS {
   border: 1px solid #a1a3a4;
 }
+
+.sc-gsDKAQ.hDhDYS.input > label
 .sc-gsDKAQ.bsIdxO.input > label {
   margin-bottom: 0px !important;
+}
+
+.credit-card-input {
+  margin-top: 6px !important;
 }
 
 .ant-breadcrumb > span > .ant-breadcrumb-link > .anticon > svg {

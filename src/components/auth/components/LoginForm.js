@@ -78,12 +78,12 @@ const LoginForm = (props) => {
                 >
                 <Form.Item 
                     name="email"
-                    rules={[{ required: true, message: 'Please input your Email' }]}>
+                    rules={[{ required: true, message: 'Email tidak boleh kosong' }]}>
                     <Input className="mb-2" size="large" placeholder="Email" name="email" onChange={handleChange} />
                 </Form.Item>
                 <Form.Item 
                     name="password"
-                    rules={[{ required: true, message: 'Please input your password' }]}>
+                    rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
                     <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onChange={handleChange} />
                 </Form.Item>
             </Form>

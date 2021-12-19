@@ -9,6 +9,9 @@ import baseUrl from '../config/baseUrl';
 import { Comment, Tooltip } from 'antd';
 import "./_nav/navbar.css"
 import { NotificationOutlined } from '@ant-design/icons';
+import axiosApi from '../config/axiosConfig'
+import sideNotification from '../commons/sideNotification';
+import joranCookies from '../commons/joranCookies';
 
 const { Meta } = Card;
 
@@ -36,12 +39,26 @@ class Navbar extends React.Component {
 	handlerError = (event) => {
 		console.log(event);
 	}
+
+	getUserDetail = (user_id) => {
+		axiosApi.get(`/application_user/getViewById/${user_id}`)
+		.then(res => {
+			var r = res.data;
+			console.log("/membershop", r);
+			if (r.status) {
+				joranCookies.set(r.data);
+			}
+		}).catch(function (error) {
+			sideNotification.open("Error", error, false);
+		});
+    }
     
 	render() {
 		const cookies = new Cookies();
         let user = cookies.get('joranvestCookie') || null;
-		console.log("userLogin: ", user);
-		console.log("userRedux: ", this.props.user);
+		if (user) {
+			this.getUserDetail(user.id);
+		}
 		
 		const analysisMenu = (
             <Menu style={{minWidth: "200px"}}>

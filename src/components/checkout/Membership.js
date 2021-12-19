@@ -16,6 +16,7 @@ import {
     InfoCircleOutlined,
     ExclamationCircleOutlined
 } from '@ant-design/icons';
+import sideNotification from '../../commons/sideNotification';
 const { Panel } = Collapse;
 
 const { Text, Link } = Typography;
@@ -130,22 +131,11 @@ const Membership = props => {
         });
     }
 
-    const openNotification = (title, message) => {
-        notification.open({
-          message: title,
-          description:
-            message,
-            icon: <ExclamationCircleOutlined style={{ color: 'red' }} />,
-          onClick: () => {
-          },
-        });
-    };
-
     const handlePayment = () => {
         const { user } = props
         setLoading({...loading, isButtonCardPaymentLoading: false});
         if (!user) {
-            openNotification("Peringatan!", "Silahkan Login terlebih dahulu.")
+            sideNotification.open("Peringatan!", "Silahkan Login terlebih dahulu.", false);
             return;
         }
 
@@ -161,7 +151,7 @@ const Membership = props => {
         } else if (paymentType == "gopay") {
             handleCharge();
         } else {
-            openNotification("Peringatan!", "Silahkan Pilih Tipe Pembayaran terlebih dahulu.")
+            sideNotification.open("Peringatan!", "Silahkan Pilih Tipe Pembayaran terlebih dahulu.", false);
         }
     }
     const onFormPaymentManualFinish = (values) => {
@@ -205,7 +195,7 @@ const Membership = props => {
 
     const handleCardToken = (e) => {
         if (cardRecord.cardNumber == "" || cardRecord.cvv == "" || cardRecord.expiry == "") {
-            openNotification('Notification Title', 'This is the content of the notification. This is the content of the notification. This is the content of the notification.');
+            sideNotification.open("Peringatan!", "Silahkan Lengkapi Form Kartu terlebih dahulu.", false);
         } else {
             var expired = (cardRecord.expiry).replace(/\s/g, '').split("/");
             var payload = {
@@ -223,7 +213,7 @@ const Membership = props => {
                         resolve(r.data);
                     } else {
                         reject(r.data);
-                        openNotification("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.")
+                        sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
                     }
                 });
             })
@@ -243,7 +233,7 @@ const Membership = props => {
     const handleCharge = (tokenId) => {
         var today = new Date();
         if (!membershipRecord) {
-            message.error("Koneksi internet tidak stabil. Silahkan Refresh halaman ini.");
+            sideNotification.open("Peringatan", "Koneksi internet tidak stabil. Silahkan Refresh halaman ini.", false);
             return;
         }
 
@@ -313,7 +303,7 @@ const Membership = props => {
                     }
                 }
             } else {
-                openNotification("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.")
+                sideNotification.open("Kartu tidak Valid", "Silahkan masukkan informasi Kartu yang benar.", false);
             }
         });
     }
@@ -343,12 +333,12 @@ const Membership = props => {
             console.log("handleCardPayment: ", r);
             if (r.status) {
                 if (r.data.payment_status === 200) {
-                    openNotification('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
+                    sideNotification.open('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
                     setModal({...modal, auth3dsModal: false})
                     window.location.assign("/membership/payment/success/" + r.data.id)
                 }
             } else {
-                message.error(r.message);
+                sideNotification.open("Transaksi Gagal", r.message, false);
             }
         });
     }
@@ -378,7 +368,7 @@ const Membership = props => {
         if (e.data.status_code === "202") {
             // status message = Card is not authenticated.
             // transaction_status = deny
-            openNotification('Verifikasi Gagal!', 'Silahkan ulangi pembayaran dan masukkan OTP yang benar.');
+            sideNotification.open('Verifikasi Gagal!', 'Silahkan ulangi pembayaran dan masukkan OTP yang benar.', false);
         }
         
         if (e.data.status_code === "202") {

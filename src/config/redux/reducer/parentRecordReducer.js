@@ -8,7 +8,6 @@ const initState = {
 const parentTransactionHistoryReducer = (state = initState, res) => {
     switch (res.type) {
         case "SHOW_UPLOAD_TRANSFER_MODAL":
-            console.log("parentRecordReducer: ", res);
             return {
                 ...state,
                 isParentModal: true,

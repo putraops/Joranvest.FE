@@ -3,6 +3,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, up
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
 import joranCookies from "../../../commons/joranCookies";
+import sideNotification from "../../../commons/sideNotification"
 
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
@@ -17,6 +18,29 @@ export const actionPasswordAndRepasswordNotMatch = () => (dispatch) => {
 }
 
 export const registerUser = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: 'FORM_UPDATE', value: ""})
+        dispatch({type: "CHANGE_LOADING", value: true});
+
+        axiosApi.post(`/application_user/register`, 
+            data
+        ).then(res => {
+            var r = res.data;
+            dispatch({type: "CHANGE_LOADING", value: false});
+            if (r.status) {
+                resolve(true);
+            } else {
+                reject(false);
+                sideNotification.open(r.message);   
+            }
+        }).catch((error) => {
+            sideNotification.open(error.message);
+            dispatch({type: "CHANGE_LOADING", value: false});
+        });
+    })
+}
+
+export const registerUserWithFirebase = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         const auth = getAuth(firebaseApp);
 
@@ -57,6 +81,29 @@ export const registerUser = (data) => (dispatch) => {
 }
 
 export const userLogin = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
+        axiosApi.post(`/auth/login`, data
+        ).then(res => {
+            console.log(res);
+            var r = res.data;
+            if (r.status) {
+                joranCookies.set(r.data);
+                
+                dispatch({type: "LOGIN_SUCCESS", user: r.data});
+                resolve(true);
+            } else {
+                sideNotification.open("Login Gagal", r.message, false);
+                dispatch({type: "LOGIN_FAILED", errorMessage: r.message});
+                reject(false);
+            }
+            
+        dispatch({type: "CHANGE_LOADING", value: false});
+        });
+    })
+}
+
+export const userLoginWithFirebase = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         dispatch({type: "CHANGE_LOADING", value: true});
         signInWithEmailAndPassword(auth, data.email, data.password)

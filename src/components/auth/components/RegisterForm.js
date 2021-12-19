@@ -5,6 +5,7 @@ import { Form, Input, Button, Divider, Alert, message } from 'antd';
 
 import { connect } from 'react-redux';
 import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../../config/redux/action';
+import sideNotification from '../../../commons/sideNotification';
 
 const RegisterForm = (props) => {
     const [values, setValues] = useState({
@@ -56,7 +57,7 @@ const RegisterForm = (props) => {
             if (res) {
                 props.actionFormUpdate();
                 form.resetFields();
-                message.success("Register berhasil. Silahkan Login.");
+                sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan verifikasi", true);
             } else {
             }
         }

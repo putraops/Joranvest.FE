@@ -14,12 +14,9 @@ const RegisterVerification = (props) => {
 
 
     const handleVerification = (id) => {
-        const payload = {
-            id: id
-        }
-
-        axiosApi.post(`/application_user/emailVerificationById`, payload)
+        axiosApi.patch(`/application_user/emailVerificationById/${id}`)
         .then(res => {
+            console.log(res);
         });
     }
 

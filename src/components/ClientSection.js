@@ -105,7 +105,7 @@ class ClientSection extends React.Component {
                                                             </div>
                                                         </div>
                                                         <div className="clients-name text-right pt-3">
-                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span>Dadik Utama</h6>
+                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span>Dadik Utomo</h6>
                                                             {/* <p className="text-white-70 f-13 mb-0">UI/UX Designer</p> */}
                                                         </div>
                                                     </div>

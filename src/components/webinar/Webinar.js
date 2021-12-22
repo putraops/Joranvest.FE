@@ -75,7 +75,7 @@ const Webinar = props => {
         } else if (value === "lowest_price") {
             setPayload({...payload, order: {"price": "ASC"}});
         } else if (value === "newest") {
-            setPayload({...payload, order: {"webinar_start_date": "DESC"}});
+            setPayload({...payload, order: {"nearest": ""}});
         }
     }
 

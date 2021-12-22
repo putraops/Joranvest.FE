@@ -39,7 +39,8 @@ class ArticleTag extends React.Component {
                                     {tags.map((item, i) => {     
                                         return (
                                             <Tag color="blue" key={item.id} className="pr-3 pl-3 pt-1 pb-1 mb-1">
-                                                <Link to={`/article-tag/${item.tag_name}`} className="f-15" >{item.tag_name}</Link>
+                                                {/* <Link to={`/article-tag/${item.tag_name}`} className="f-15" >{item.tag_name}</Link> */}
+                                                <span className="f-15" >{item.tag_name}</span>
                                             </Tag>
                                         ) 
                                     })}

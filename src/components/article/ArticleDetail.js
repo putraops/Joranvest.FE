@@ -134,8 +134,7 @@ class ArticleDetail extends React.Component {
                                 />
                                 <Row>
                                     <Col md="12" lg="12" xl="12">
-                                        {/* <p><span>Sumber: {data.source} </span> <span style={{fontSize: "13px"}}>|</span> <span>Editor: - </span></p> */}
-                                        <p><span>Editor: </span><span className="font-weight-bold">{data.submitted_by_fullname == "" ? data.created_by_fullname : data.submitted_by_fullname} </span></p>
+                                        <p><span>Sumber: {data.source} </span> <span style={{fontSize: "13px"}}>|</span> <span>Editor: </span><span className="font-weight-bold">{data.submitted_by_fullname == "" ? data.created_by_fullname : data.submitted_by_fullname} </span></p>
                                     </Col>
                                     <Col md="12" lg="12" xl="12">
                                         <Skeleton active loading={loadingArticleBody}>

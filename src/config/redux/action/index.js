@@ -197,6 +197,34 @@ export const updateUserPassword = (data) => (dispatch) => {
     })
 }
 
+export const updateUserPasswordWithFirebase = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
+        const auth = getAuth();
+        const user = auth.currentUser;
+        updatePassword(user, data.newPassword)
+        .then((res) => {
+            resolve({
+                status: true,
+                message: "Ganti Password Berhasil!",
+            });
+        }).catch((error) => {
+            console.log("ipdateUserPassword:", error);
+            var errMsg = error.message;
+            var errorResponse = "";
+            if (errMsg.includes("auth/weak-password")) {
+                errorResponse = "Password minimal terdiri dari 6 karakter.";
+            }
+
+            dispatch({type: "CHANGE_LOADING", value: false});
+            resolve({
+                status: false,
+                message: errorResponse,
+            });
+        });
+    })
+}
+
 export const showUploadTransferModal = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         axiosApi.get(`/filemaster/getAll?record_id=${data.data.id}`)

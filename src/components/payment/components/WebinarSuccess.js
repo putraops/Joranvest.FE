@@ -109,9 +109,9 @@ const WebinarSuccess = props => {
                                     
                                     <Row>
                                         <Col md="12">
-                                            <a href={`/transaction`}>
+                                            <a href={`/profile`}>
                                                 <Button type="primary"  className="mb-2" block>
-                                                    Lihat Riwayat Transaksi
+                                                    Lihat Riwayat Webinar
                                                 </Button>
                                             </a>
                                             <a href="/">

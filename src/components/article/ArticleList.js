@@ -30,7 +30,7 @@ const ArticleList = (props) => {
     } 
 
     articleLongDate = moment(articleDate,  "YYYY/MM/DD").format('DD MMMM YYYY');
-    articleTime = moment(articleDate,  "HH:mm").format('HH:mm')
+    articleTime = moment(articleDate,  "YYYY/MM/DD HH:mm").format('HH:mm')
     articleDayName = moment(articleDate,  "YYYY/MM/DD HH:mm").format('dddd');
 
     if (articleDayName == "Monday") articleDayName = "Senin";
@@ -39,7 +39,7 @@ const ArticleList = (props) => {
     if (articleDayName == "Thursday") articleDayName = "Kamis";
     if (articleDayName == "Friday") articleDayName = "Jumat";
     if (articleDayName == "Saturday") articleDayName = "Sabtu";
-    if (articleDayName == "Sundary") articleDayName = "Minggu";
+    if (articleDayName == "Sunday") articleDayName = "Minggu";
     
     return (
         <a href={`/article/detail/${props.obj.id}`}>

@@ -37,14 +37,12 @@ class Navbar extends React.Component {
 	}
 
 	handlerError = (event) => {
-		console.log(event);
 	}
 
 	getUserDetail = (user_id) => {
 		axiosApi.get(`/application_user/getViewById/${user_id}`)
 		.then(res => {
 			var r = res.data;
-			console.log("/membershop", r);
 			if (r.status) {
 				joranCookies.set(r.data);
 			}
@@ -132,7 +130,7 @@ class Navbar extends React.Component {
 								<li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
 								<li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
 								{(() => {
-									if (user && user.id != "") {
+									if (user && user.is_membership) {
 										return (
 											<li className="nav-item">
 												<Dropdown overlay={analysisMenu}>
@@ -182,6 +180,7 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state);
     return {
         services: state.joranservice.joranServices,
         authStatus: state.auth.authStatus,

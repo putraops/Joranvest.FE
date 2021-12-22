@@ -4,6 +4,7 @@ const cookies = new Cookies();
 const initState = {
     isLogin: false,
     isLoading: false,
+    isShowProduct: false,
     authError: "", 
     errorMessage: "", 
     authStatus: false,

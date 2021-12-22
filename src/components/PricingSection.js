@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Row, Col } from 'reactstrap';
 import { Typography } from 'antd';
 import Pricing from './membership/components/Pricing'
@@ -11,7 +11,6 @@ class PricingSection extends React.Component {
         this.state = {
         };
     }
-
     render() {
         return (
             <React.Fragment>
@@ -25,7 +24,7 @@ class PricingSection extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                        <Pricing />
+                        <Pricing  />
                     </div>
                 </section>
             </React.Fragment>

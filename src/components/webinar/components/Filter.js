@@ -19,6 +19,7 @@ const Filter = props => {
             axiosApi.get(`/webinar_category/lookup?q=&page=1&field=${JSON.stringify(["name"])}`)
             .then(res => {
                 var r = res.data;
+                console.log(r);
                 const data = [];
                 if (r.status) {
                     if (r.data.results.length > 0) {
@@ -56,15 +57,20 @@ const Filter = props => {
         }); 
 
     const options = webinarCategory.map(item => (
-        <OptGroup label={item.label} key={`optGroup-${item.value}`}>
-            {item.options.length > 0 ? (
-                <Fragment>
-                    { item.options.map(children => (
-                        <Option value={children.value} key={`opt-${children.value}`}>{children.label}</Option>
-                    ))}
-                </Fragment>
-            ) : null }
-        </OptGroup>
+        <Fragment key={`fragment-${item.value}`}>
+            {item.options && item.options.length > 0 ? (
+            <OptGroup label={item.label} key={`optGroup-${item.value}`}>
+                {item.options && item.options.length > 0 ? (
+                    <Fragment>
+                        { item.options.map(children => (
+                            <Option value={children.value} key={`optGroupValue-${children.value}`}>{children.label}</Option>
+                        ))}
+                    </Fragment>
+                ) : null }
+            </OptGroup>
+            ) : <Option value={item.value} key={`optValue-${item.value}`}>{item.label}</Option>
+            }
+        </Fragment>
     ));
 
     return (

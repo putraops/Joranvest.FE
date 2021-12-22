@@ -104,7 +104,9 @@ const SettingProfile = props => {
             var r = res.data;
             console.log(r);
             if (r.status) {
-                handleChangePasswordFirebase(values);
+                sideNotification.open("Berhasil", "Password telah diubah.", true);
+                setModalChangePasswordVisible(false);
+                // handleChangePasswordFirebase(values);
             } else {
                 sideNotification.open("Gagal Ubah Password!", "Silahkan masukkan Password Lama kamu dengan benar.", false);
                 setLoading({...loading, isSubmitChangePassword: false});

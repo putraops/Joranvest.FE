@@ -16,6 +16,12 @@ class Pricing extends React.Component {
         };
     }
 
+    componentDidMount(){
+        // const { user } = this.props;
+		const element = document.getElementById("joranvest-pricing");
+		// element.scrollIntoView({behavior: 'smooth'});
+    }
+
     componentWillMount() {
         axiosApi.get(`/membership/getAll`)
         .then(res => {
@@ -35,7 +41,7 @@ class Pricing extends React.Component {
        
         return (
             <React.Fragment>
-                <Row>
+                <Row id="joranvest-pricing">
                     <Skeleton active={true} loading={isSkeletionPricing} paragraph={true} row="5">
                         {pricings.map((item, index) => {
                             return  <Col lg="3" md="4" sm="6" xs="12" key={index}>

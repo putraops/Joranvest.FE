@@ -269,7 +269,7 @@ class WebinarDetail extends React.Component {
                                                 <div style={{marginTop: "-5px"}}>
                                                     <p>
                                                         Kamu bisa mendaftar webinar ini dengan mengklik tombol <strong>"Daftar Sekarang"</strong>.<br /><br />
-                                                        1.Pastikan kamu sudah terdaftar menjadi pengguna dan login. <br />
+                                                        1. Pastikan kamu sudah terdaftar menjadi pengguna dan login. <br />
                                                         2. 15 menit sebelum event berlangsung, kamu sudah bisa bergabung.<br />
                                                         3. Bergabung webinar terdaftar.<br />
                                                         Buka halaman webinar yang sudah terdaftar.<br />

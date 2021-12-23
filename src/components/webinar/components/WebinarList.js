@@ -87,18 +87,25 @@ const WebinarList = (props) => {
                         <Row>
                             <Col className="text-right" lg="12">
                                 <hr className="mt-2 mb-2" />
+                            </Col>
+                            <Col className="text-left mt-3" style={{"position": "absolute"}}>
                                 {isExpired > 0 ? (
                                     <Tag className="font-weight-bold mr-0" color="red">Telah Berakhir</Tag>
                                 ) : 
+                                    null
+                                }
+                            </Col>
+                            <Col className="text-right" lg="12">
+                                {
                                     (props.obj.price > 0 ? (
                                         <NumberFormat
-                                        className="font-weight-bold"
-                                        value={props.obj.price}
-                                        displayType="text"
-                                        thousandSeparator={true}
-                                        prefix="Rp "
+                                            className="font-weight-bold"
+                                            value={props.obj.price}
+                                            displayType="text"
+                                            thousandSeparator={true}
+                                            prefix="Rp "
                                         />
-                                        ) : <Tag className="font-weight-bold mr-0" color="green">Gratis</Tag>)
+                                    ) : <Tag className="font-weight-bold mr-0" color="green">Gratis</Tag>)
                                 }
                             </Col>
                         </Row>

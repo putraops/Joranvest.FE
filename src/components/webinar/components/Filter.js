@@ -88,12 +88,13 @@ const Filter = props => {
                 </Select>
                 <Select
                     placeholder="Urutkan"
-                    defaultValue="newest"
+                    defaultValue="#newest"
                     className="mr-1" 
                     style={{ width: 200 }}
                     onChange={props.handleOrder}
                 >
-                    <Option value="newest">Webinar Terdekat</Option>
+                    <Option value="#newest">Webinar Terdekat</Option>
+                    <Option value="#free">Gratis</Option>
                     {/* <Option value="newest">Terbaru</Option>
                     <Option value="popularity">Popularitas</Option> */}
                     <Option value="lowest_price">Harga Terendah</Option>

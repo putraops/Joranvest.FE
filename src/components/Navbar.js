@@ -118,7 +118,7 @@ class Navbar extends React.Component {
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
                     <div className="container">
 							<a href="/" className="navbar-brand logo" >
-								<img src="assets/img/logo.png" alt="" className="img-fluid" style={{width: "150px"}}/>
+								<img src="assets/img/logo-white.png" alt="" className="img-fluid" style={{width: "150px"}}/>
 							</a>
 							<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 								<i className="mdi mdi-menu"></i>

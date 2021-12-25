@@ -1,4 +1,3 @@
-import moment from 'moment';
 const monthName = {
     getNameByLangID(number) {
         var name = "";
@@ -16,6 +15,5 @@ const monthName = {
         if (number === "12") name = "Desember";
         return name;
     },
-
 }
 export default monthName

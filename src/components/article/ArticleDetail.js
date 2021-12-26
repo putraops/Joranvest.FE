@@ -13,7 +13,6 @@ import "./style/style.css"
 
 import { Breadcrumb, Skeleton, Image, List } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import serverUrl from '../../config/serverUrl';
 import dateFormat from '../../commons/dateFormat';
 
@@ -43,38 +42,13 @@ class ArticleDetail extends React.Component {
                     loadingArticleBody: false, 
                     recordId: r.data.id,
                     isArticlePremium: r.data.article_type == "Premium" ? true : false,
-                    articlePostedDate: this.getPostedDate(r.data.submitted_at, r.data.created_at)
                 });
             }
         });
     }
 
-    getPostedDate = (submitted_at, created_at) => {
-        var articleDate = submitted_at.Time; 
-        let articleLongDate = "";
-        let articleTime = "";
-        let articleDayName = "";
-        if (!submitted_at.Valid) {
-            articleDate = created_at.Time;
-        } 
-
-        articleLongDate = moment(articleDate,  "YYYY/MM/DD").format('DD MMMM YYYY');
-        articleTime = moment(articleDate, "YYYY/MM/DD HH:mm").format('HH:mm')
-        articleDayName = moment(articleDate,  "YYYY/MM/DD HH:mm").format('dddd');
-
-        if (articleDayName == "Monday") articleDayName = "Senin";
-        if (articleDayName == "Tuesday") articleDayName = "Selasa";
-        if (articleDayName == "Wednesday") articleDayName = "Rabu";
-        if (articleDayName == "Thursday") articleDayName = "Kamis";
-        if (articleDayName == "Friday") articleDayName = "Jumat";
-        if (articleDayName == "Saturday") articleDayName = "Sabtu";
-        if (articleDayName == "Sunday") articleDayName = "Minggu";
-
-        return articleDayName + ", " + articleLongDate + " | " + articleTime + " WIB";
-    }
-
     render() {
-        const { data, loadingArticleBody, articleCoverPath, recordId, isArticlePremium, articlePostedDate } = this.state;
+        const { data, loadingArticleBody, articleCoverPath, recordId, isArticlePremium, } = this.state;
         const dataTerpopuler = [
             {
                 no: 1,

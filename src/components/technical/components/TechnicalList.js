@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
-import { List, Image, Tag } from 'antd';
+import { List, Image, Tag, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
 import serverUrl from '../../../config/serverUrl';
 import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
+import { 
+    CheckCircleOutlined 
+} from '@ant-design/icons';
 
 const TechnicalList = (props) => {
     const gridAnalysis = {
@@ -39,7 +42,14 @@ const TechnicalList = (props) => {
                         onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
                     />
                 }
-                title={<a href='#'>{props.obj.created_by_fullname}</a>}
+                title={
+                    <Fragment>
+                        <a href='#' className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <Popover content="Verified">
+                            <CheckCircleOutlined className="verified-user" />
+                        </Popover>
+                    </Fragment>
+                }
                 description={
                     <div className="row">
                         <div className= "col-md-12">

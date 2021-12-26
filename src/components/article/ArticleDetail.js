@@ -15,6 +15,7 @@ import { Breadcrumb, Skeleton, Image, List } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import serverUrl from '../../config/serverUrl';
+import dateFormat from '../../commons/dateFormat';
 
 class ArticleDetail extends React.Component {
     constructor(props) {
@@ -122,7 +123,7 @@ class ArticleDetail extends React.Component {
                         <Row>
                             <Col md="12" lg="9">
                                 <h5 className="card-title article-title font-weight-bold mb-1" style={{fontSize: "25pt"}}>{data.title}</h5>
-                                <p className="text-muted">{articlePostedDate}</p>
+                                <p className="text-muted">{dateFormat.getInteractiveLongDateTimeFormatID(data.submitted_at ? (data.submitted_at.Valid ? data.submitted_at.Time : data.created_at.Time) : null)}</p>
 
                                 <Image
                                     style={{width: "100%"}}

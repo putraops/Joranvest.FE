@@ -1,5 +1,9 @@
 import { initializeApp } from 'firebase/app';
 
+//-- Project: Joranvest-dev
+
+
+//-- Project: Joranvest 
 const firebaseConfig = {
     apiKey: "AIzaSyBpu2z_h6JSI-Y82pJQW_BZGQquYqWrTjc",
     authDomain: "joranvest.firebaseapp.com",

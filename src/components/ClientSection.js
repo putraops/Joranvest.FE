@@ -6,7 +6,6 @@ import RBCarousel from "react-bootstrap-carousel";
 const styles = { height: 400, width: "50%" };
 
 class ClientSection extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -64,11 +63,11 @@ class ClientSection extends React.Component {
                                 >
                                     <div className="item">
                                         <Row>
-                                            <Col lg="6">
+                                            <Col lg="12">
                                                 <div className="testi-content">
                                                     <div className="testi-box mt-4">
-                                                        <h4 className="text-white mb-3 font-weight-light">"Senior Management"</h4>
-                                                        <p className="text-white-70 font-weight-light mb-0 f-15">At vero eos et accusamus et iusto odio dignissimos that site ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores quas molestias excepturi cupiditate non.</p>
+                                                        {/* <h4 className="text-white mb-3 font-weight-light">"Senior Management"</h4> */}
+                                                        <p className="text-white-70 font-weight-light mb-0 f-15">Saya ibu RT (rumah tangga), newbie di saham dan belajar dari 0 murni cuma dari youtube dan baru belakangan ini ikut beberapa webinar dan workshop. Ada banyak macam style di youtube yang saya nonton dan pelajari selama ini dan beberapa yang cocok dengan style saya, salah satunya youtube dari Kak Renaldo Ndona (JORAN). Saya belajar tentang risk reward, reason to buy dan tidak fomo dan disini tidak ada namanya pom-pom saham. Selama saya trading (Januari 2021-sekarang) reward terbesar saya dari saham BBKP dan BRIS (saham kesayangan JORAN😀) . Terima kasih banyak Kak Renaldo atas bimbingan dan supportnya. Maju dan sukses selalu buat Joran. GBU😇😇</p>
                                                         <div className="quote-img">
                                                             <img src="images/quote-img.png" alt="" className="img-fluid" />
                                                         </div>
@@ -76,48 +75,25 @@ class ClientSection extends React.Component {
                                                     <div className="mt-2">
                                                         <div className="float-right ml-3">
                                                             <div className="client-img">
-                                                                <img src="images/clients/img-1.jpg" alt="" className="img-fluid rounded-circle" />
+                                                                <img src="images/clients/img1.png" alt="" className="img-fluid rounded-circle" />
                                                             </div>
                                                         </div>
                                                         <div className="clients-name text-right pt-3">
-                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span> Sherrie Barboza</h6>
-                                                            <p className="text-white-70 f-13 mb-0">UI/UX Designer</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Col>
-                                            <Col lg="6">
-                                                <div className="testi-content">
-                                                    <div className="testi-box mt-4">
-                                                        <h4 className="text-white mb-3 font-weight-light">"Senior Management"</h4>
-                                                        <p className="text-white-70 font-weight-light mb-0 f-15">At vero eos et accusamus et iusto odio dignissimos that site ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores quas molestias excepturi cupiditate non.</p>
-                                                        <div className="quote-img">
-                                                            <img src="images/quote-img.png" alt="" className="img-fluid" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="mt-2">
-                                                        <div className="float-right ml-3">
-                                                            <div className="client-img">
-                                                                <img src="images/clients/img-1.jpg" alt="" className="img-fluid rounded-circle" />
-                                                            </div>
-                                                        </div>
-                                                        <div className="clients-name text-right pt-3">
-                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span> Sherrie Barboza</h6>
-                                                            <p className="text-white-70 f-13 mb-0">UI/UX Designer</p>
+                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span>Linati Djoni</h6>
+                                                            <p className="text-white-70 f-13 mb-0">Ibu Rumah Tangga</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </Col>
                                         </Row>
                                     </div>
-
                                     <div className="item">
                                         <Row>
-                                            <Col lg="6">
+                                            <Col lg="12">
                                                 <div className="testi-content">
                                                     <div className="testi-box mt-4">
-                                                        <h4 className="text-white mb-3 font-weight-light">"Senior Management"</h4>
-                                                        <p className="text-white-70 font-weight-light mb-0 f-15">At vero eos et accusamus et iusto odio dignissimos that site ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores quas molestias excepturi cupiditate non.</p>
+                                                        {/* <h4 className="text-white mb-3 font-weight-light">"Senior Management"</h4> */}
+                                                        <p className="text-white-70 font-weight-light mb-0 f-15">Mentor hebat, edukasi setiap saat dan bisa konsultasi. Harapan kedepannya ada kelas offline dan suatu hari nanti ada aplikasi.</p>
                                                         <div className="quote-img">
                                                             <img src="images/quote-img.png" alt="" className="img-fluid" />
                                                         </div>
@@ -125,35 +101,12 @@ class ClientSection extends React.Component {
                                                     <div className="mt-2">
                                                         <div className="float-right ml-3">
                                                             <div className="client-img">
-                                                                <img src="images/clients/img-5.jpg" alt="" className="img-fluid rounded-circle" />
+                                                                <img src="images/clients/img2.png" alt="" className="img-fluid rounded-circle" />
                                                             </div>
                                                         </div>
                                                         <div className="clients-name text-right pt-3">
-                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span> Shana Esposito</h6>
-                                                            <p className="text-white-70 f-13 mb-0">Web Developer</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </Col>
-                                            <Col lg="6">
-                                                <div className="testi-content">
-                                                    <div className="testi-box mt-4">
-                                                        <h4 className="text-white mb-3 font-weight-light">"Graphic Developer"</h4>
-                                                        <p className="text-white-70 font-weight-light mb-0 f-15">At vero eos et accusamus et iusto odio dignissimos that site ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores quas molestias excepturi cupiditate non.</p>
-                                                        <div className="quote-img">
-                                                            <img src="images/quote-img.png" alt="" className="img-fluid" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="mt-2">
-                                                        <div className="float-right ml-3">
-                                                            <div className="client-img">
-                                                                <img src="images/clients/img-6.jpg" alt="" className="img-fluid rounded-circle" />
-                                                            </div>
-                                                        </div>
-                                                        <div className="clients-name text-right pt-3">
-                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span> Linda Sanor</h6>
-                                                            <p className="text-white-70 f-13 mb-0">UI/UX Designer</p>
+                                                            <h6 className="text-white font-weight-normal position-relative f-17 mb-0"><span className="after-border"></span>Dadik Utomo</h6>
+                                                            {/* <p className="text-white-70 f-13 mb-0">UI/UX Designer</p> */}
                                                         </div>
                                                     </div>
                                                 </div>

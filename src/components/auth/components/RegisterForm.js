@@ -1,10 +1,11 @@
 import React, { useState, Fragment } from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, Divider, Alert } from 'antd';
+import { Form, Input, Button, Divider, Alert, message } from 'antd';
 
 import { connect } from 'react-redux';
 import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../../config/redux/action';
+import sideNotification from '../../../commons/sideNotification';
 
 const RegisterForm = (props) => {
     const [values, setValues] = useState({
@@ -46,16 +47,17 @@ const RegisterForm = (props) => {
             email: values.email,
             password: values.password,
         }
-
+        
         if (values.password != values.repassword) {
             props.actionPasswordAndRepasswordNotMatch();
         } else if (values.first_name != "" || values.last_name != "" && values.email != "" && values.password != "") {
             const res = await props.registerUser(userData)
-                .catch(err => err);
-
+            .catch(err => err);
+            
             if (res) {
                 props.actionFormUpdate();
                 form.resetFields();
+                sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan verifikasi", true);
             } else {
             }
         }

@@ -2,19 +2,16 @@ import React from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Link, withRouter, Route, useParams  } from 'react-router-dom';
-import Navbar from '../Navbar';
+import { withRouter } from 'react-router-dom';
 import ArticleList from './ArticleList';
 import ArticlePopular from './ArticlePopular';
+import ArticleRecomendation from './ArticleRecomendation';
+import InfiniteScroll from 'react-infinite-scroller';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { Image } from 'antd';
-import { Button, Card, Drawer, Badge, Avatar, Divider, IconText, Tag } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Select, Breadcrumb, Skeleton  } from 'antd';
-import { Space, List, message, Spin } from 'antd';
-import InfiniteScroll from 'react-infinite-scroller';
-import ArticleRecomendation from './ArticleRecomendation';
+import { Button, Breadcrumb, List, Spin, Skeleton  } from 'antd';
+import SubNav from '../_nav/subNav'; 
+import { HomeOutlined } from '@ant-design/icons';
 
 class Article extends React.Component {
     constructor(props) {
@@ -22,7 +19,7 @@ class Article extends React.Component {
         this.state = {
             payload: {
                 page: 1,
-                size: 5,
+                size: 8,
             },
             user: {
                 name: "",
@@ -66,6 +63,7 @@ class Article extends React.Component {
         let { existingData } = this.state;
         const {listData, payload} = this.state; 
         axiosApi.post(`/article/getPagination`, payload).then(r => {
+            console.log(r);
             if (r.data.total > 0) {
                 callback(r);
             }
@@ -192,33 +190,14 @@ class Article extends React.Component {
                 <section className="section home-1-bg" id="home">
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
-                            <ul className="nav subNav">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/technical">Teknikal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/fundamental">Fundamental</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Artikel Pilihan</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/webinar">Webinar</a>
-                                </li>
-                            </ul>
+                            <Breadcrumb>
+                                <Breadcrumb.Item href="/">
+                                    <HomeOutlined />
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>Article</Breadcrumb.Item>
+                            </Breadcrumb>
                         </div>
-                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
-                            <div className="card-body">
-                                <div className="container pb-3 pt-3">
-                                    <Row>
-                                        <Col lg="12">
-                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "24px"}}>Artikel Pilihan</h5>
-                                            <p className="card-title text-white font-weight-bold" style={{fontSize: "16px"}}>Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional</p>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
+                        <SubNav title="Artikel Pilihan" sub_title="Info seputar Bisnis Emiten, Ekonomi Nasional dan Internasional" />
                     </div>  
 
                     <div className="container mt-4">
@@ -245,7 +224,7 @@ class Article extends React.Component {
                                     </InfiniteScroll>
                                 </div>
                             </Col>
-                            <Col md="3">
+                            <Col md="3" className="d-none">
                                 <Row>
                                     <Col lg="12">
                                         <div className="title-heading mb-5">
@@ -263,7 +242,7 @@ class Article extends React.Component {
                                 </Row>
                             </Col>
                         </Row>
-                        <Row className="mb-5">
+                        <Row className="mb-5 d-none">
                             <Col lg="9">
                                 <div className="title-heading mb-5">
                                     <h3 className="text-dark mb-1 font-weight-light text-uppercase">Baca Juga</h3>

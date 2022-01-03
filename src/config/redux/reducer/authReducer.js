@@ -1,16 +1,25 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 const initState = {
     isLogin: false,
     isLoading: false,
+    isShowProduct: false,
     authError: "", 
     errorMessage: "", 
     authStatus: false,
-    user: JSON.parse(localStorage.getItem("joranvestUser")),
+    user: cookies.get('joranvestCookie') || null,
     username: "",
 }
 
 const authReducer = (state = initState, res) => {
     switch (res.type) {
         case "LOGIN_SUCCESS":
+            return {
+                ...state,
+                errorMessage: ""
+            }
+        case "LOGIN_FAILED":
             return {
                 ...state,
                 errorMessage: ""

@@ -1,10 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Avatar } from 'antd';
+import { Menu, Dropdown, Card, Avatar, Image, Badge } from 'antd';
 import { connect } from 'react-redux'
+import serverUrl from '../config/serverUrl';
 import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
+import { Comment, Tooltip } from 'antd';
+import "./_nav/navbar.css"
+import { NotificationOutlined } from '@ant-design/icons';
+import axiosApi from '../config/axiosConfig'
+import sideNotification from '../commons/sideNotification';
+import joranCookies from '../commons/joranCookies';
+
 const { Meta } = Card;
 
 class Navbar extends React.Component {
@@ -19,27 +27,59 @@ class Navbar extends React.Component {
 		this.setState({ Tab: tab });
 	}
 
-	
 	handleLogout = () => {
-		localStorage.removeItem("joranvestUser");
+		const cookies = new Cookies();
+		cookies.remove('joranvestCookie')
+		cookies.remove('joranvestCookie', {
+			domain: "joranvest.com"
+		})
 		window.location.assign(baseUrl);
 	}
 
-	getCookie = () => {
-		const cookies = new Cookies();
-		console.log(cookies.get('joranvest')); 
+	handlerError = (event) => {
 	}
+
+	getUserDetail = (user_id) => {
+		axiosApi.get(`/application_user/getViewById/${user_id}`)
+		.then(res => {
+			var r = res.data;
+			if (r.status) {
+				joranCookies.set(r.data);
+			}
+		}).catch(function (error) {
+			sideNotification.open("Error", error, false);
+		});
+    }
     
 	render() {
-        let user = JSON.parse(localStorage.getItem("joranvestUser"));
-		const cookies = new Cookies();  
-
-        console.log("Navbar User: ", JSON.parse(localStorage.getItem("joranvestUser")));
+		const cookies = new Cookies();
+        let user = cookies.get('joranvestCookie') || null;
+		if (user) {
+			this.getUserDetail(user.id);
+		}
+		
+		const analysisMenu = (
+            <Menu style={{minWidth: "200px"}}>
+				<Menu.Item key="fundamental">
+					<a  rel="noopener noreferrer" href="/fundamental">Fundamental</a>
+				</Menu.Item>
+				<Menu.Item key="teknikal">
+					<a  rel="noopener noreferrer" href="/technical">Teknikal</a>
+				</Menu.Item>
+            </Menu>
+		);
         const menu = (
             <Menu style={{minWidth: "200px"}}>
-				<Menu.Item key="0">
+				<Menu.Item key="member_status">
 					<Meta className="mt-1"
-							avatar={<Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" shape="square" style={{width: "50px", height: "50px"}} />}
+							avatar={
+								<Image 
+									style={{width: "50px", height: "50px"}} 
+									src={user ? serverUrl + "/" + user.filepath : null}
+									shape="square"
+									preview={false}
+									onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+								/>}
 							title={
 								<div className="row mt-0">
 									<Col md="6">
@@ -62,53 +102,78 @@ class Navbar extends React.Component {
 						/>
 				</Menu.Item>
 				<Menu.Divider />
-				<Menu.Item key="1">
-					<a  rel="noopener noreferrer" href="/profile">Profile</a>
+				<Menu.Item key="profile">
+					<a  rel="noopener noreferrer" href="/profile">Profile Saya</a>
 				</Menu.Item>
-				<Menu.Divider />
-				<Menu.Item key="3" onClick={() => this.handleLogout()}>
+				<Menu.Item key="webinar_history">
+					<a  rel="noopener noreferrer" href="/my-webinar">Riwayat Webinar</a>
+				</Menu.Item>
+				<Menu.Item key="transaction_history">
+					<a  rel="noopener noreferrer" href="/transaction">Riwayat Transaksi</a>
+				</Menu.Item>
+				<Menu.Item key="logout" onClick={() => this.handleLogout()}>
 					Logout
 				</Menu.Item>
             </Menu>
-          );
+		);
         return (
             <React.Fragment>
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
                     <div className="container">
-                        <Link className="navbar-brand logo" to="/">
-                            {/* <img src="images/logo.png" alt="" height="20" /> */}
-                            <span className="text-white">Joranvest</span>
-                        </Link>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                            <i className="mdi mdi-menu"></i>
-                        </button>
+							<a href="/" className="navbar-brand logo" >
+								<img src="assets/img/logo-white.png" alt="" className="img-fluid" style={{width: "150px"}}/>
+							</a>
+							<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+								<i className="mdi mdi-menu"></i>
+							</button>
 
-
-                        <div className="collapse navbar-collapse" id="navbarCollapse">
-                          <ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
-                              <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li>
-                              <li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
-                              <li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
-                              {/* <li className="nav-item"><a href="/blog" className="nav-link text-white font-weight-bold">Blog</a></li> */}
-                              <li className="nav-item"><a href="/member" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li>
-                              {(() => {
-                                  if (user && user.id != "") {
-                                      return (
-                                        <li className="nav-item">
-                                          <Dropdown overlay={menu}>
-                                            <a className="ant-dropdown-link nav-link text-white"  id="nav-profile" onClick={e => e.preventDefault()}>
-                                              <Avatar src="https://ecs7.tokopedia.net/img/cache/300/user-1/2020/7/7/7810711/7810711_99bc1cb2-3584-41d5-a508-3f1c222439d2.jpg" /> <span className="ml-2">Hi, {user.first_name}</span>          
-                                            </a>
-                                          </Dropdown>
-                                        </li>
-                                      )
-                                  } else {
-                                      return (
-                                        <li className="nav-item"><a href="/login"className="nav-link text-white font-weight-bold">Login</a></li>
-                                      )
-                                  }
-                              })()}
-                          </ul>
+							<div className="collapse navbar-collapse" id="navbarCollapse">
+							<ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
+								<li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li>
+								<li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
+								<li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
+								{(() => {
+									if (user && user.is_membership) {
+										return (
+											<li className="nav-item">
+												<Dropdown overlay={analysisMenu}>
+													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>
+												</Dropdown>
+											</li>
+										)
+									}
+								})()}
+								{/* <li className="nav-item"><a href="#" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li> */}
+								{(() => {
+									if (user && user.id != "") {
+										return (
+											<li className="nav-item nav-avatar-profile">
+												<Dropdown overlay={menu}>
+													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  id="nav-profile" onClick={e => e.preventDefault()}>
+														<Comment
+															className="p-0 m-0 avatar-profile"
+															author={<span className="text-white">Hi, {user.first_name}</span>}
+															avatar={
+															<Image 
+																className="p-0 m-0"
+																src={user ? serverUrl + "/" + user.filepath : null}
+																preview={false}
+																style={{width: "30px", height: "30px", marginTop: "-45px"}} 
+																onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+															/>
+														}
+														/>
+													</a>
+												</Dropdown>
+											</li>
+										)
+									} else {
+										return (
+											<li className="nav-item"><a href="/login"className="nav-link text-white font-weight-bold">Login</a></li>
+										)
+									}
+								})()}
+							</ul>
                         </div>
                     </div>
                 </nav>

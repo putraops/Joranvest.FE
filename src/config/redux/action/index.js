@@ -1,9 +1,13 @@
 import firebaseApp from "../../firebase/config";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword, deleteUser } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axiosApi from '../../axiosConfig'
-import Cookies from 'universal-cookie';
+import joranCookies from "../../../commons/joranCookies";
+import sideNotification from "../../../commons/sideNotification"
 
 const auth = getAuth(firebaseApp);
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 export const actionFormUpdate = () => (dispatch) => {
     return dispatch({type: 'FORM_UPDATE', value: ""});
@@ -14,6 +18,29 @@ export const actionPasswordAndRepasswordNotMatch = () => (dispatch) => {
 }
 
 export const registerUser = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: 'FORM_UPDATE', value: ""})
+        dispatch({type: "CHANGE_LOADING", value: true});
+
+        axiosApi.post(`/application_user/register`, 
+            data
+        ).then(res => {
+            var r = res.data;
+            dispatch({type: "CHANGE_LOADING", value: false});
+            if (r.status) {
+                resolve(true);
+            } else {
+                reject(false);
+                sideNotification.open(r.message);   
+            }
+        }).catch((error) => {
+            sideNotification.open(error.message);
+            dispatch({type: "CHANGE_LOADING", value: false});
+        });
+    })
+}
+
+export const registerUserWithFirebase = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         const auth = getAuth(firebaseApp);
 
@@ -56,18 +83,47 @@ export const registerUser = (data) => (dispatch) => {
 export const userLogin = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         dispatch({type: "CHANGE_LOADING", value: true});
+        axiosApi.post(`/auth/login`, data
+        ).then(res => {
+            console.log(res);
+            var r = res.data;
+            if (r.status) {
+                joranCookies.set(r.data);
+                
+                dispatch({type: "LOGIN_SUCCESS", user: r.data});
+                resolve(true);
+            } else {
+                sideNotification.open("Login Gagal", r.message, false);
+                dispatch({type: "LOGIN_FAILED", errorMessage: r.message});
+                reject(false);
+            }
+            
+            dispatch({type: "CHANGE_LOADING", value: false});
+        }).catch(error => {
+            dispatch({type: "CHANGE_LOADING", value: false});
+        });
+    })
+}
+
+export const userLoginWithFirebase = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
         signInWithEmailAndPassword(auth, data.email, data.password)
            .then((userCredential) => {
-                var user = userCredential.user;
                 dispatch({type: "CHANGE_LOADING", value: false});
                 axiosApi.post(`/auth/login`, 
                     data
-                ).then(r => {                
-                    const cookies = new Cookies();
-                    cookies.set('joranvest', JSON.stringify(r.data.data), { path: '/' });
-                    localStorage.setItem("joranvestUser", JSON.stringify(r.data.data));
-                    dispatch({type: "LOGIN_SUCCESS", user: r.data.data});
-                    resolve(true);
+                ).then(res => {
+                    var r = res.data;
+                    if (r.status) {
+                        joranCookies.set(r.data);
+                        
+                        dispatch({type: "LOGIN_SUCCESS", user: r.data});
+                        resolve(true);
+                    } else {
+                        dispatch({type: "LOGIN_FAILED", errorMessage: r.message});
+                        reject(false);
+                    }
                 });
            }).catch((error) => {
                 var type = "";
@@ -84,5 +140,123 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "CHANGE_LOADING", value: false});
                 reject(false);
            })
+    })
+}
+
+export const userLoginWithGoogle = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        // dispatch({type: "CHANGE_LOADING", value: true});
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+
+                console.log(credential);
+                console.log(token);
+                console.log(user);
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
+    })
+}
+
+export const updateUserPassword = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
+        const auth = getAuth();
+        const user = auth.currentUser;
+        updatePassword(user, data.newPassword)
+        .then((res) => {
+            resolve({
+                status: true,
+                message: "Ganti Password Berhasil!",
+            });
+        }).catch((error) => {
+            console.log("ipdateUserPassword:", error);
+            var errMsg = error.message;
+            var errorResponse = "";
+            if (errMsg.includes("auth/weak-password")) {
+                errorResponse = "Password minimal terdiri dari 6 karakter.";
+            }
+
+            dispatch({type: "CHANGE_LOADING", value: false});
+            resolve({
+                status: false,
+                message: errorResponse,
+            });
+        });
+    })
+}
+
+export const updateUserPasswordWithFirebase = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "CHANGE_LOADING", value: true});
+        const auth = getAuth();
+        const user = auth.currentUser;
+        updatePassword(user, data.newPassword)
+        .then((res) => {
+            resolve({
+                status: true,
+                message: "Ganti Password Berhasil!",
+            });
+        }).catch((error) => {
+            console.log("ipdateUserPassword:", error);
+            var errMsg = error.message;
+            var errorResponse = "";
+            if (errMsg.includes("auth/weak-password")) {
+                errorResponse = "Password minimal terdiri dari 6 karakter.";
+            }
+
+            dispatch({type: "CHANGE_LOADING", value: false});
+            resolve({
+                status: false,
+                message: errorResponse,
+            });
+        });
+    })
+}
+
+export const showUploadTransferModal = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        axiosApi.get(`/filemaster/getAll?record_id=${data.data.id}`)
+        .then(res => {
+            var r = res.data;
+            console.log("loadAttachments: ", r);
+            if (r.status) {
+                // if (r.data.length > 0) {
+                //     this.setState({
+                //         ...this.state,
+                //         webinarCoverUrl: r.data[0].filepath
+                //     })
+                // }
+                //message.success("Success to save Webinar Speakers.");
+                if (r.data.length > 0) {
+                    dispatch({type: "SHOW_UPLOAD_TRANSFER_MODAL", value: data, file: r.data[0]});
+                } else {
+                    dispatch({type: "SHOW_UPLOAD_TRANSFER_MODAL", value: data, file: {}});
+                }
+            } else {
+                //message.error(r.message);
+            }
+        });
+        resolve(true);
+    })
+}
+
+export const hideUploadTransferModal = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "HIDE_UPLOAD_TRANSFER_MODAL", value: data});
+        resolve(true);
     })
 }

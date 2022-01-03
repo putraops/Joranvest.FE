@@ -1,160 +1,133 @@
-import React from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
-import WebinarList from './WebinarList';
+import WebinarList from './components/WebinarList';
+import SubNav from '../_nav/subNav';
+import Filter from './components/Filter';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { List, Select, Space } from 'antd';
+import { List, Card, Breadcrumb } from 'antd';
+import sideNotification from '../../commons/sideNotification'
 
-const { Option, OptGroup } = Select;
+import { 
+    HomeOutlined, 
+} from '@ant-design/icons';
 
-class Webinar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            payload: {
-                page: 1,
-                size: 10,
-            },
-            user: {
-                name: "",
-            },
-            listData: {total:0,data:[]}
-        };
-    }
+const Webinar = props => {
+    const [payload, setPayload] = useState({
+        page: 1,
+        size: 10,
+        order: {"webinar_start_date": "DESC"},
+        filter: []
+    })
+    const [isLoading, setIsloading] = useState({
+        contentLoading: true
+    })
+    const [listData, setListData] = useState({
+        total: 0,
+        data: []
+    })
 
-    componentDidMount () {
-        this.LoadData();
-    }
+    // useEffect(() => {
+    //     //LoadData();
+    // });
 
-    LoadData = () =>
-    {
-        const {payload} = this.state; 
-        axiosApi.post(`/webinar/getPagination`, payload).then(r => {
-            console.log(r.data);
-            if (r.data.total > 0) {
-                    this.setState({...this.state, listData:r.data});
-                }
+    useLayoutEffect(() => {
+        LoadData();
+    }, [payload]);
+
+    function LoadData(){
+        setIsloading({...isLoading, contentLoading: true});
+        axiosApi.post(`/webinar/getPagination`, payload)
+        .then(res => {
+            var r = res.data;
+            setIsloading({...isLoading, contentLoading: false});
+
+            if (r.status && r.status === false) {
+                sideNotification.open("Error", r.Message, false);
+                return;
+            }
+            setListData(r || { total: 0, data: []});
+
         });
     }
 
-    handlePage = event => {
-        const {payload} = this.state;
-        payload.page = event;
-        this.LoadData();
+    function handlePage(event){
+        setPayload({...payload, page: event});
     }
 
-    handleDetail = (id) => {
-        //this.props.history.push(`/webinar/detail/${id}`);
+    function handleCategoryChange(e) {
+        setPayload({...payload,
+            filter: [
+                {
+                    "field": "webinar_category_id",
+                    "operator": "=",
+                    "value": e,
+                },
+            ] 
+        });
     }
 
-    render() {
-        const { listData, payload } = this.state;
-
-        const gridAnalysis = {
-            left: 0,
-            right: 0,
-            // margin: '0 0px',
-            padding: '15px',
-            WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            borderRadius: '0px',
-            top: '-25px',
-            WebkitTransition: 'all 0.5s',
-            transition: 'all 0.5s'
+    function handleOrder(value) {
+        if (value === "highest_price") {
+            setPayload({...payload, order: {"price": "DESC"}});
+        } else if (value === "lowest_price") {
+            setPayload({...payload, order: {"price": "ASC"}});
+        } else if (value === "#newest") {
+            setPayload({...payload, order: {"#nearest": ""}});
+        } else if (value === "#free") {
+            setPayload({...payload, order: {"#free": ""}});
         }
-        
-        const IconText = ({ icon, text }) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-        );
-      
-        return (
-            <React.Fragment>
-                <section className="section home-1-bg" id="home">
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="container mb-3">
-                            <ul className="nav subNav">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/technical">Teknikal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/fundamental">Fundamental</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/article">Artikel Pilihan</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Webinar</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="container-fluid mt-3 pr-0 pl-0">
-                        <div className="card no-radius" style={{backgroundColor: "#1c1d1f"}}>
-                            <div className="card-body">
-                                <div className="container pb-4 pt-4">
-                                    <Row>
-                                        <Col span={6} xs={{ order: 1 }} sm={{ order: 1 }} sm="12" md={{ order: 2 }} lg={{ order: 2 }} lg="12">
-                                            <h5 className="card-title text-white font-weight-bold" style={{fontSize: "28px"}}>Kumpulan Webinar Terbaik untuk Kamu</h5>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
+    }
 
-                    <div className="container mt-4">
-                        <Row className="">
-                            <Col md="12">
-                            <p className="h5 mb-3 f-18">Semua Webinar</p>
-                            <div>
-                                <span>Filter: </span>
-                                <Select className="mr-1" defaultValue="all" style={{ width: 200 }}>
-                                    <Option value="all">Semua Kategori</Option>
-                                    <OptGroup label="Manager">
-                                        <Option value="jack">Jack</Option>
-                                        <Option value="lucy">Lucy</Option>
-                                    </OptGroup>
-                                    <OptGroup label="Engineer">
-                                        <Option value="Yiminghe">yiminghe</Option>
-                                    </OptGroup>
-                                </Select>
-                                <Select className="mr-1"  defaultValue="soon" style={{ width: 200 }}>
-                                    <Option value="soon">Webinar Terdekat</Option>
-                                    <Option value="newest">Terbaru</Option>
-                                    <Option value="popularity">Popularitas</Option>
-                                    <Option value="lowest_price">Harga Terendah</Option>
-                                    <Option value="highest_price">Harga Tertinggi</Option>
-                                </Select>
-                                <hr />
-                            </div>
-                            </Col>
-                            <Col md="12">
+    return (
+        <React.Fragment>
+            <section className="section home-1-bg" id="home">
+                <div className="container-fluid mt-2 mb-2 pr-0 pl-0">
+                    <div className="container">
+                        <Breadcrumb className="pt-1">
+                            <Breadcrumb.Item href="/">
+                                <HomeOutlined />
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item>Webinar</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                </div>
+                <SubNav title="Webinar" sub_title="Kumpulan Webinar Terbaik untuk Kamu" />
+
+                <div className="container mt-4">
+                    <Row className="">
+                        <Col md="12">
+                            <Filter webinarCategoryChange={handleCategoryChange} handleOrder={handleOrder} />
+                        </Col>
+                        <Col md="12">
+                            {listData.total > 0 ? (
                                 <List
                                     itemLayout="vertical"  size="large"
                                     pagination={{
-                                    onChange: page => {
-                                        this.handlePage(page);
-                                    },
-                                    pageSize: payload.size,
-                                    total: listData.total
+                                        onChange: page => {
+                                            handlePage(page);
+                                        },
+                                        pageSize: payload.size,
+                                        total: listData.total
                                     }}
+                                    loading={isLoading.contentLoading}
                                     dataSource={listData.data}
                                     // footer={}
-                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} goDetail={this.handleDetail} />}
+                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
                                 />
-                            </Col>
-                        </Row>
-                    </div>      
-                    <Footer />
-                </section>
-            </React.Fragment>
-        );
-    }
+                            ) : <Card>
+                                    <p className="text-center f-16 mb-0">Tidak ada Webinar tersedia.</p>
+                                </Card>
+                            }
+                        
+                        </Col>
+                    </Row>
+                </div>      
+                <Footer />
+            </section>
+        </React.Fragment>
+    );
 }
-export default withRouter(Webinar);
+export default (Webinar);

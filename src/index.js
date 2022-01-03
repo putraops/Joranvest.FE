@@ -4,17 +4,32 @@ import ReactDOM from 'react-dom';
 import Home from './home';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
+
 import Register from './components/auth/Register';
 import Profile from './components/profile/Profile';
+import RegisterVerification from './components/auth/RegisterVerification';
+
 import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
+import WebinarHistory from './components/webinar/WebinarHistory';
+import WebinarReview from './components/webinar/WebinarReview';
+import WebinarPayment from './components/payment/Webinar';
+
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
+
 import CheckoutMembership from './components/checkout/Membership'
-import MembershipPaymentSuccess from './components/checkout/MembershipPaymentSuccess'
-import WebinarPaymentSuccess from './components/payment/WebinarPaymentSuccess'
+import MembershipPayment from './components/payment/MembershipPayment'
+import WebinarPaymentStatus from './components/payment/WebinarPayment'
+
+import Transaction from './components/transaction/Transaction';
+
+import Privacy from './components/Privacy';
+import ContactUs from './components/ContactUs';
+import Disclaimer from './components/Disclaimer';
+import AboutUs from './components/AboutUs';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -37,14 +52,25 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/profile`} component={Profile}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/my-webinar`} component={WebinarHistory}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/review/:id`} component={WebinarReview}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
                         <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
-                        <Route path={`${process.env.PUBLIC_URL}/membership/payment-success`} component={MembershipPaymentSuccess}/>
-                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment-success/:id`} component={WebinarPaymentSuccess}/>
+                        <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:status/:id`} component={WebinarPaymentStatus}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>
 
+                        <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
+                        
+                        <Route exact path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/contact-us`} component={ContactUs}/>
+                        
+                        <Route exact path={`${process.env.PUBLIC_URL}/register-verification/:id`} component={RegisterVerification}/>
                         
                     </Fragment>
                 </BrowserRouter>

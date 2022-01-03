@@ -39,9 +39,9 @@ class JoranServiceSection extends React.Component {
                                                 <h5 className="font-weight-normal f-18"><Link to="#" className="text-dark">{blog.title}</Link></h5>
                                                 <p className="text-muted f-14">
                                                     {blog.content}</p>
-                                                <div className="read-more">
+                                                {/* <div className="read-more">
                                                     <Link to="#" className=" text-primary f-15">Lihat Detail<i className="mdi mdi-arrow-right"></i></Link>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

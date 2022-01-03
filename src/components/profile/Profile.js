@@ -83,9 +83,6 @@ const Profile = props => {
                                         <TabPane tab="Membership" key="2">
                                             <MembershipTab user={userRecord || null} />
                                         </TabPane>
-                                        <TabPane tab="Daftar Webinar" key="3">
-                                            <WebinarTab user={userRecord || null} />
-                                        </TabPane>
                                     </Tabs>
                                 </Skeleton>
                             </Card>

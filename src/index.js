@@ -13,6 +13,8 @@ import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
+import WebinarHistory from './components/webinar/WebinarHistory';
+import WebinarReview from './components/webinar/WebinarReview';
 import WebinarPayment from './components/payment/Webinar';
 
 import Article from './components/article/Article';
@@ -50,6 +52,8 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/profile`} component={Profile}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/my-webinar`} component={WebinarHistory}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/review/:id`} component={WebinarReview}/>
 
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>

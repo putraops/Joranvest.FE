@@ -2,20 +2,18 @@ import React, { Fragment, useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Card, List, Tag } from 'antd';
-import { Image } from 'antd';
-import { connect } from 'react-redux'
-import { showUploadTransferModal, hideUploadTransferModal } from '../../../config/redux/action';
+import { Card, Button, Image, List, Tag } from 'antd';
 import NumberFormat from "react-number-format";
 import serverUrl from "../../../config/serverUrl"
 import moment from 'moment';
 import monthName from '../../../commons/monthName';
+import { connect } from 'react-redux';
 
-const WebinarItemList = (props) => {
+const WebinarReviewItem = (props) => {
     const [isWebinarOver, setIsWebinarOver] = useState(false);
     var startDate, startTime, endTime = "";
     var isOneDay = false;
-    console.log(props);
+    console.log("props: ", props);
     if (props.obj.webinar_start_date && props.obj.webinar_start_date.Valid && props.obj.webinar_end_date && props.obj.webinar_end_date.Valid) {
         startTime = moment(props.obj.webinar_start_date.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');
         endTime = moment(props.obj.webinar_end_date.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');
@@ -112,9 +110,12 @@ const WebinarItemList = (props) => {
                             </Row>
                             <Row>
                                 <Col className="text-left" xs="6" sm="6">
+                                    <a href={`/webinar/detail/${props.obj.webinar_id}`} style={{"fontWeight": "500"}}>Lihat Detail</a>
                                     {
                                         (isWebinarOver ? (
-                                            <a href={`/webinar/rate/${props.obj.id}`}>Beri Ulasan</a>
+                                            <>
+                                                <Button type="primary" size='small' className='ml-3' key={`show-${props.obj.id}`} onClick={() => props.showReviewModal(props.obj)}>Beri Ulasan</Button>
+                                            </>
                                         ) : null)
                                     }
                                 </Col>
@@ -141,11 +142,7 @@ const WebinarItemList = (props) => {
 const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
-        parent: state.parentRecord,
     }
 }
-const reduxDispatch = (dispatch) => ({
-    showUploadTransferModal: (data) => dispatch(showUploadTransferModal(data)),
-    hideUploadTransferModal: () => dispatch(hideUploadTransferModal(false))
-})
-export default connect(mapStateToProps, reduxDispatch)(WebinarItemList);
+
+export default connect(mapStateToProps, null)(WebinarReviewItem);

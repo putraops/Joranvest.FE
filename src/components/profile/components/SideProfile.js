@@ -24,7 +24,7 @@ const SideProfile = props => {
         },
         {
             title: 'Daftar Webinar',
-            url: '/webinar/registration'
+            url: '/my-webinar'
         },
     ];
 

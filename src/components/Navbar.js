@@ -105,6 +105,9 @@ class Navbar extends React.Component {
 				<Menu.Item key="profile">
 					<a  rel="noopener noreferrer" href="/profile">Profile Saya</a>
 				</Menu.Item>
+				<Menu.Item key="webinar_history">
+					<a  rel="noopener noreferrer" href="/my-webinar">Riwayat Webinar</a>
+				</Menu.Item>
 				<Menu.Item key="transaction_history">
 					<a  rel="noopener noreferrer" href="/transaction">Riwayat Transaksi</a>
 				</Menu.Item>
@@ -180,7 +183,6 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
     return {
         services: state.joranservice.joranServices,
         authStatus: state.auth.authStatus,

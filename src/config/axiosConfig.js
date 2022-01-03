@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie';
+import sideNotification from '../commons/sideNotification';
 
 const cookies = new Cookies();
 var user = cookies.get('joranvestCookie') || null;
@@ -20,6 +21,11 @@ const instance = axios.create({
     headers: {
         'Authorization': user ? user.token : null,
     },
-    
+});
+instance.interceptors.response.use((response) => response, 
+(error) => {
+    // whatever you want to do with the error
+    sideNotification.open("Something went wrong!", "Please check your connection...", false);
+    throw error;
 });
 export default instance

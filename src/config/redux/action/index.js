@@ -98,7 +98,9 @@ export const userLogin = (data) => (dispatch) => {
                 reject(false);
             }
             
-        dispatch({type: "CHANGE_LOADING", value: false});
+            dispatch({type: "CHANGE_LOADING", value: false});
+        }).catch(error => {
+            dispatch({type: "CHANGE_LOADING", value: false});
         });
     })
 }

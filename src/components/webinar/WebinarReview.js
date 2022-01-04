@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import { Card, Avatar, Image, List, Breadcrumb, Rate, Input, Button, Alert } from 'antd';
+import { Card, Image, List, Breadcrumb, Rate, Input, Button, Alert } from 'antd';
 
 import SubNav from '../_nav/subNav';
 import Footer from '../Footer';
@@ -52,7 +52,6 @@ const WebinarReview = props => {
         .then(res => {
             var r = res.data;
             if (r.status) {
-                console.log("getWebinarRatingByUserId: ", r);
                 setWebinarRecord(r.data);
                 getWebinarSpeakers(webinarId);
             } else {
@@ -65,7 +64,6 @@ const WebinarReview = props => {
         axiosApi.get(`/webinar_speaker/getSpeakersRatingByWebinarId/${webinar_id}`)
         .then(res => {
             var r = res.data;
-            console.log("getWebinarSpeakers: ", r);
             if (r.status) {
                 if (r.data.length > 0) {
                     setWebinarSpeakers(r.data);

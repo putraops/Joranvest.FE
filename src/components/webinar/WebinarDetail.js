@@ -92,6 +92,7 @@ class WebinarDetail extends React.Component {
         axiosApi.get(`/webinar_speaker/getAll?webinar_id=${detailData.id}`)
         .then(res => {
             var r = res.data;
+            console.log("getSpeakers:: ", r);
             if (r.status) {
                 var webinar_speakers = "";
                 if (r.data && r.data.length > 0) {

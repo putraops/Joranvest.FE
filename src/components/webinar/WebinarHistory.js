@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axiosApi from '../../config/axiosConfig'
 import { Row, Col } from 'reactstrap';
-import { Button, Image, Alert, message, Breadcrumb, Modal, Pagination, List, Select, notification, Card } from 'antd';
+import { Breadcrumb, Pagination, List, Select, Card } from 'antd';
 import { connect } from 'react-redux'
 
 import SubNav from '../_nav/subNav';
@@ -10,11 +10,8 @@ import WebinarHistoryItem from './components/WebinarHistoryItem'
 
 import { 
     HomeOutlined, 
-    ScheduleOutlined,
 } from '@ant-design/icons';
 
-const { Meta } = Card;
-const { Option } = Select;
 
 const WebinarHistory = props => { 
     const [listData, setlistData] = useState([{}]);
@@ -34,7 +31,6 @@ const WebinarHistory = props => {
         if (props.user && props.user.id != "") {
             LoadWebinarUser();
         }
-        console.log("as", props);
     }, []);
 
     function onPageChange(page, pageSize){
@@ -59,8 +55,6 @@ const WebinarHistory = props => {
         }
         axiosApi.post(`/webinar_registration/getPagination`, webinarPayload)
         .then(res => {
-
-            console.log("loadWebinarUser: ", res);
             var r = res.data;
 
             setTotalData(r.total);

@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect, useLayoutEffect } from 'react';
 import { Row, Col, Image, Alert, Tag, Rate, Breadcrumb, List, Card } from 'antd';
+import { Tabs } from 'antd';
+
 import { connect } from 'react-redux'
+import ReactHtmlParser from 'react-html-parser';
 
 import SubNav from '../../_nav/subNav';
 import Footer from '../../Footer';
@@ -11,6 +14,7 @@ import {
 import axiosApi from '../../../config/axiosConfig';
 import serverUrl from '../../../config/serverUrl';
 
+const { TabPane } = Tabs;
 const { Meta } = Card;
 
 const SpeakerReview = props => { 
@@ -114,6 +118,11 @@ const SpeakerReview = props => {
             });
         });
     }
+
+    function callback(key) {
+        console.log(key);
+    }
+
     return (
         <Fragment>
             <section className="section" id="home">
@@ -158,7 +167,7 @@ const SpeakerReview = props => {
                                 <>
                                     <Card className={`mb-3 mt-3 borderShadow5`}>
                                         <div className="row">
-                                            <div className="col-md-10">
+                                            <div className="col-md-12">
                                                 <Meta
                                                     avatar={
                                                         <Image
@@ -189,67 +198,92 @@ const SpeakerReview = props => {
                                                         </>
                                                     }
                                                 />
-                                                <hr className="mb-0" />
                                             </div>
-                                            <div className='col-md-10 offset-md-1 mt-0 mb-3'>
-                                                <p className="mt-4 mb-2" style={{"fontSize" :"13pt", "fontWeight" : "500","lineHeight" :"1.2"}}>Penilaian dan Ulasan Peserta</p>
-                                                <span style={{"fontSize" :"11pt"}}>Apa kata mereka?</span>                                                
-                                                <p className='h6 mt-3 mb-1'>Filter dengan: </p>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(-1)} style={{"minWidth": "85px", cursor: "pointer"}}><span style={{"fontSize": "15px"}}>Semua</span></Tag>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(5)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>5</span></Tag>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(4)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>4</span></Tag>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(3)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>3</span></Tag>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(2)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>2</span></Tag>
-                                                <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(1)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>1</span></Tag>
-                                                <hr />
-                                                {(() => {
-                                                    if (pagination.total > 0) {
-                                                        return (
-                                                            <List
-                                                                itemLayout="horizontal"
-                                                                dataSource={listData}
-                                                                loading={loading.isPagingLoading}
-                                                                pagination={{
-                                                                    onChange: page => {
-                                                                        onPageChange(page);
-                                                                    },
-                                                                    pageSize: 5,
-                                                                    total: pagination.total,
-                                                                }}
-                                                                renderItem={item => (
-                                                                    <List.Item>
-                                                                        <List.Item.Meta
-                                                                            avatar={
-                                                                                <Image
-                                                                                    style={{width: "50px", height: "50px", borderRadius: "50px", border: "1px solid #ccc"}} 
-                                                                                    preview={false}
-                                                                                    src={serverUrl + "/" + item.user_profile_picture_filepath}
-                                                                                    onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                                        </div>
+                                    </Card>
+
+                                    <Card className={`mb-3 mt-3 borderShadow5`}>
+                                        <Tabs onChange={callback} style={{marginTop: "-10px"}}>
+                                            <TabPane tab="Ulasan & Penilaian" key="ulasan">
+                                                <div className="row">
+                                                    <div className='col-md-12 mt-0 mb-3'>
+                                                        <p className="mt-2 mb-2" style={{"fontSize" :"13pt", "fontWeight" : "500","lineHeight" :"1.2"}}>Penilaian dan Ulasan Peserta</p>
+                                                        <span style={{"fontSize" :"11pt"}}>Apa kata mereka?</span>                                                
+                                                        <p className='h6 mt-3 mb-1'>Filter dengan: </p>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(-1)} style={{"minWidth": "85px", cursor: "pointer"}}><span style={{"fontSize": "15px"}}>Semua</span></Tag>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(5)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>5</span></Tag>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(4)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>4</span></Tag>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(3)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>3</span></Tag>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(2)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>2</span></Tag>
+                                                        <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(1)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>1</span></Tag>
+                                                        <hr />
+                                                        {(() => {
+                                                            if (pagination.total > 0) {
+                                                                return (
+                                                                    <List
+                                                                        itemLayout="horizontal"
+                                                                        dataSource={listData}
+                                                                        loading={loading.isPagingLoading}
+                                                                        pagination={{
+                                                                            onChange: page => {
+                                                                                onPageChange(page);
+                                                                            },
+                                                                            pageSize: 5,
+                                                                            total: pagination.total,
+                                                                        }}
+                                                                        renderItem={item => (
+                                                                            <List.Item>
+                                                                                <List.Item.Meta
+                                                                                    avatar={
+                                                                                        <Image
+                                                                                            style={{width: "50px", height: "50px", borderRadius: "50px", border: "1px solid #ccc"}} 
+                                                                                            preview={false}
+                                                                                            src={serverUrl + "/" + item.user_profile_picture_filepath}
+                                                                                            onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                                                                                        />
+                                                                                    }
+                                                                                    // <Avatar src={} />}
+                                                                                    title={<a href="https://ant.design">{item.rater_full_name}</a>}
+                                                                                    description={
+                                                                                        <div style={{"marginTop": "-5px"}}>
+                                                                                                <Rate count={5} value={item.rating} style={{"fontSize": "17px"}} />
+                                                                                                <p className="mb-0 text-muted f-12">Mengikuti Webinar <strong>"{item.webinar_title}"</strong></p>
+                                                                                                <p className="mb-0 text-dark">{item.comment}</p>
+                                                                                        </div>
+                                                                                    }
                                                                                 />
-                                                                            }
-                                                                            // <Avatar src={} />}
-                                                                            title={<a href="https://ant.design">{item.rater_full_name}</a>}
-                                                                            description={
-                                                                                <div style={{"marginTop": "-5px"}}>
-                                                                                        <Rate count={5} value={item.rating} style={{"fontSize": "17px"}} />
-                                                                                        <p className="mb-0 text-muted f-12">Mengikuti Webinar <strong>"{item.webinar_title}"</strong></p>
-                                                                                        <p className="mb-0 text-dark">{item.comment}</p>
-                                                                                </div>
-                                                                            }
-                                                                        />
-                                                                    </List.Item>
-                                                                )}
-                                                            />                                                        
+                                                                            </List.Item>
+                                                                        )}
+                                                                    />                                                        
+                                                                )
+                                                            } else {
+                                                                return (
+                                                                    <Alert className="text-center" message="Tidak ada ulasan." type="warning" />
+                                                                )
+                                                            }
+                                                        })()}
+                                                        
+                                                    </div>
+                                                </div>
+                                            </TabPane>
+                                            <TabPane tab="Informasi Pembicara" key="ulasan-pembicara">
+                                                {(() => {
+                                                    if (speakerRecord && speakerRecord.description === "") {
+                                                        return (
+                                                            <>
+                                                                <p className="text-center mb-0">Tidak ada informasi tersedia.</p>          
+                                                            </>
                                                         )
                                                     } else {
                                                         return (
-                                                            <Alert className="text-center" message="Tidak ada ulasan." type="warning" />
+                                                            <>
+                                                                {ReactHtmlParser(speakerRecord.description)}
+                                                            </>
                                                         )
                                                     }
                                                 })()}
-                                                
-                                            </div>
-                                        </div>
+                                            </TabPane>
+                                        </Tabs>
                                     </Card>
                                 </>
                             )

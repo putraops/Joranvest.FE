@@ -1,18 +1,25 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
-import { Card, Avatar, Rate } from 'antd';
+import { Card, Image, Rate } from 'antd';
+
+import serverUrl from '../../../config/serverUrl';
 const { Meta } = Card;
 
 const WebinarSpeaker = (props) => {
-    console.log("props: ", props);
     return (
         <Fragment>
             <Card className="mb-3">
                 <Meta
                     avatar={
                         <a href={`/speaker/review/${props.speaker.speaker_id}`}>
-                            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{width: "50px", height: "50px"}} />
+                            <Image 
+                                style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
+                                src={serverUrl}
+                                shape="square"
+                                preview={false}
+                                onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                            />
                         </a>
                     }
                     title={

@@ -2,14 +2,16 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
-import WebinarList from './components/WebinarList';
-import SubNav from '../_nav/subNav';
-import Filter from './components/Filter';
-import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
 import { List, Card, Breadcrumb } from 'antd';
-import sideNotification from '../../commons/sideNotification'
 
+import WebinarList from './components/WebinarList';
+import SubNav from '../_nav/subNav';
+import NoData from '../NoData';
+import Filter from './components/Filter';
+import Footer from '../Footer';
+
+import sideNotification from '../../commons/sideNotification'
 import { 
     HomeOutlined, 
 } from '@ant-design/icons';
@@ -49,7 +51,11 @@ const Webinar = props => {
                 return;
             }
             setListData(r || { total: 0, data: []});
-
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
         });
     }
 
@@ -117,9 +123,8 @@ const Webinar = props => {
                                     // footer={}
                                     renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
                                 />
-                            ) : <Card>
-                                    <p className="text-center f-16 mb-0">Tidak ada Webinar tersedia.</p>
-                                </Card>
+                            ) : 
+                                <NoData />
                             }
                         
                         </Col>

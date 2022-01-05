@@ -74,7 +74,7 @@ class Navbar extends React.Component {
 					<Meta className="mt-1"
 							avatar={
 								<Image 
-									style={{width: "50px", height: "50px"}} 
+									style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
 									src={user ? serverUrl + "/" + user.filepath : null}
 									shape="square"
 									preview={false}
@@ -158,7 +158,7 @@ class Navbar extends React.Component {
 																className="p-0 m-0"
 																src={user ? serverUrl + "/" + user.filepath : null}
 																preview={false}
-																style={{width: "30px", height: "30px", marginTop: "-45px"}} 
+																style={{width: "30px", height: "30px", marginTop: "-45px", borderRadius: "200px", border: "1px solid #ccc"}} 
 																onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
 															/>
 														}

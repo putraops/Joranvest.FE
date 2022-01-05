@@ -15,7 +15,7 @@ const ArticleBody = (props) => {
     const { children, user } = props;
     var totalContent = totalContent = React.Children.count(children);
     if (isArticlePremium && user && !user.is_membership) {
-        totalContent = (React.Children.count(children) * 0.3);
+        totalContent = (React.Children.count(children) * 0.2);
     }
 
     if (totalContent == 0) totalContent = 1;

@@ -29,7 +29,6 @@ const SettingProfile = props => {
         isSubmitChangePassword: false
     })
     useEffect(() => {
-        console.log(props);
     }, [profilePicture]);
 
     const uploadProps = {
@@ -46,7 +45,6 @@ const SettingProfile = props => {
     };
 
     const handleChangeUpload = info => {
-        console.log("handleChangeUpload: ", info)
         var formData = new FormData();
         formData.append("file", info.file.originFileObj);
         axiosApi.post(`/filemaster/uploadProfilePicture/${props.user.id}`, formData)
@@ -102,17 +100,13 @@ const SettingProfile = props => {
         axiosApi.post(`/application_user/changePassword`, payload)
         .then(res => {
             var r = res.data;
-            console.log(r);
             if (r.status) {
                 sideNotification.open("Berhasil", "Password telah diubah.", true);
                 setModalChangePasswordVisible(false);
-                // handleChangePasswordFirebase(values);
             } else {
                 sideNotification.open("Gagal Ubah Password!", "Silahkan masukkan Password Lama kamu dengan benar.", false);
                 setLoading({...loading, isSubmitChangePassword: false});
             }
-        }).catch(error => {
-            console.log(error);
         });
     }
 
@@ -145,7 +139,6 @@ const SettingProfile = props => {
             }).catch(error => {
                 setModalChangePasswordVisible(false);
                 setLoading({...loading, isSubmitChangePassword: false});
-                console.log(error);
             });
         }
     }
@@ -227,7 +220,7 @@ const SettingProfile = props => {
                     <Image 
                         src={profilePicture.url}
                         preview={false}
-                        style={{width: "100%", height: "auto"}} 
+                        style={{width: "100%", height: "auto", border: "1px solid #ccc"}} 
                         onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/No-Image-Square.jpg?t=9999"}}
                     />
                     <Upload id="upload" {...uploadProps} style={{width: "100%"}}>

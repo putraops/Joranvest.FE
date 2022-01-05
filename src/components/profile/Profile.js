@@ -23,7 +23,6 @@ const Profile = props => {
         isContentLoading: true,
     });
     useEffect(() => {
-        // getWebinarRegistrationById(props.record_id);
         setUserRecord(props.user);
         if (props.user) {
             LoadData(props.user.id);
@@ -31,12 +30,10 @@ const Profile = props => {
     }, []);
 
     const LoadData = (userId) => {
-        // const { user } = this.props;
         axiosApi.get(`/application_user/getViewById/${userId}`)
         .then(res => {
             var r = res.data;
             var user = {};
-            console.log("loadUser:", r);
             if (r.status) {
                 user = r.data;
             } 
@@ -86,9 +83,6 @@ const Profile = props => {
             </section>
         </React.Fragment>
     );
-        // const { user } = this.state;
-        // console.log("user Profile: ", user);
- 
 }
 
 const reduxState = (state) => ({

@@ -45,13 +45,12 @@ const SpeakerReview = props => {
                     }
                 ]
             })
-            getPagination();
         }
     }, []);
 
     useLayoutEffect(() => {
         if (props.match.params.id) {
-            getPagination();
+            getReviewPagination();
         }
     }, [payload]);
 
@@ -94,7 +93,7 @@ const SpeakerReview = props => {
         })
     }
 
-    const getPagination = () => {
+    const getReviewPagination = () => {
         setLoading({
             ...loading,
             isPagingLoading: true
@@ -163,9 +162,9 @@ const SpeakerReview = props => {
                                                 <Meta
                                                     avatar={
                                                         <Image
-                                                            style={{width: "100px", height: "100px", borderRadius: "50px"}} 
+                                                            style={{width: "100px", height: "100px", borderRadius: "50px", border: "1px solid #ccc"}} 
                                                             preview={false}
-                                                            src={serverUrl + "/"}
+                                                            src={speakerRecord && speakerRecord.filepath ? serverUrl + "/" + speakerRecord.filepath_thumb: serverUrl + "/" + speakerRecord.filepath_thumb}
                                                             onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
                                                         />
                                                     }
@@ -222,7 +221,7 @@ const SpeakerReview = props => {
                                                                         <List.Item.Meta
                                                                             avatar={
                                                                                 <Image
-                                                                                    style={{width: "50px", height: "50px", borderRadius: "50px"}} 
+                                                                                    style={{width: "50px", height: "50px", borderRadius: "50px", border: "1px solid #ccc"}} 
                                                                                     preview={false}
                                                                                     src={serverUrl + "/" + item.user_profile_picture_filepath}
                                                                                     onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}

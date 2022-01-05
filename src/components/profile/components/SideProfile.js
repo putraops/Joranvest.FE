@@ -36,7 +36,7 @@ const SideProfile = props => {
                         src={profilePicture.thumbnail}
                         shape="square"
                         preview={false}
-                        style={{width: "50px", height: "50px"}}
+                        style={{width: "50px", height: "50px", borderRadius: "200px",  border: "1px solid #ccc"}}
                         onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/No-Image-Square.jpg?t=9999"}}
                     />
                 }

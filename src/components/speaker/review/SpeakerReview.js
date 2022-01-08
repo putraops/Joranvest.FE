@@ -207,8 +207,7 @@ const SpeakerReview = props => {
                                             <TabPane tab="Ulasan & Penilaian" key="ulasan">
                                                 <div className="row">
                                                     <div className='col-md-12 mt-0 mb-3'>
-                                                        <p className="mt-2 mb-2" style={{"fontSize" :"13pt", "fontWeight" : "500","lineHeight" :"1.2"}}>Penilaian dan Ulasan Peserta</p>
-                                                        <span style={{"fontSize" :"11pt"}}>Apa kata mereka?</span>                                                
+                                                        <p className="mt-2 mb-2" style={{"fontSize" :"13pt", "fontWeight" : "500","lineHeight" :"1.2"}}>Apa kata mereka?</p>
                                                         <p className='h6 mt-3 mb-1'>Filter dengan: </p>
                                                         <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(-1)} style={{"minWidth": "85px", cursor: "pointer"}}><span style={{"fontSize": "15px"}}>Semua</span></Tag>
                                                         <Tag className="pt-1 pb-1 pr-3 pl-3 mb-1 text-center" onClick={() => handleStarFilter(5)} style={{"minWidth": "85px", cursor: "pointer"}}><Rate count={1} value={1} style={{"fontSize": "17px"}} /> <span style={{"fontSize": "15px"}}>5</span></Tag>

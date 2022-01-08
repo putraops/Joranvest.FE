@@ -6,6 +6,7 @@ import NumberFormat from "react-number-format";
 import serverUrl from '../../../config/serverUrl';
 import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
+
 import { 
     DownloadOutlined, 
     CheckCircleOutlined 
@@ -37,7 +38,7 @@ const FundamentalList = (props) => {
                 key={`item-${props.obj.id}`} 
                 avatar={
                     <Image 
-                        style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
+                        style={{width: "50px", height: "50px", borderRadius: "50px", border: "1px solid #ccc"}} 
                         src={props.obj ? serverUrl + "/" + props.obj.analysis_profile_picture_filepath : null}
                         shape="circle"
                         preview={false}
@@ -46,7 +47,7 @@ const FundamentalList = (props) => {
                     }
                 title={
                     <Fragment>
-                        <a href='#' className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <a href={`/analysis/information/${props.obj.created_by}`} className="mr-1">{props.obj.created_by_fullname}</a> 
                         <Popover content="Verified">
                             <CheckCircleOutlined className="verified-user" />
                         </Popover>

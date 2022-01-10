@@ -3,13 +3,14 @@ import 'antd/dist/antd.css';
 import { List, Image, Divider, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
-import serverUrl from '../../../config/serverUrl';
 import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
 
+import baseUrl from '../../../config/baseUrl';
+import serverUrl from '../../../config/serverUrl';
+
 import { 
     DownloadOutlined, 
-    CheckCircleOutlined 
 } from '@ant-design/icons';
 
 const FundamentalList = (props) => {
@@ -47,19 +48,26 @@ const FundamentalList = (props) => {
                     }
                 title={
                     <Fragment>
-                        <a href={`/analysis/information/${props.obj.created_by}`} className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <a href={`/j/${props.obj.created_by}/${props.obj.created_by_fullname}`} className="text-dark mr-1">{props.obj.created_by_fullname}</a> 
                         <Popover content="Verified">
-                            <CheckCircleOutlined className="verified-user" />
+                            <img src={baseUrl + "/assets/icons/verified.svg"} />
                         </Popover>
                     </Fragment>
                 }
                 description={
                     <div className="row">
-                        <div className= "col-md-12 form-inline">
-                            <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
-                        </div>
+                        {(() => {
+                            if (props.obj.user_create_title !== "") {
+                                return (
+                                    <div className= "col-md-12 form-inline mt-n1">
+                                        <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
+                                    </div>
+                                )
+                            }
+                        })()}
                     </div>
-                } />
+                } 
+            />
             {
                 <Row className="ml-2 mr-2 mb-4">
                     <Col md="12">

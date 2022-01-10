@@ -91,7 +91,6 @@ class Filter extends React.Component {
                         type="primary"
                         block
                         icon={<SearchOutlined />}
-                        // loading={loading[1]}
                         onClick={() => this.props.filtering(this.state)}
                     > Cari
                     </Button>

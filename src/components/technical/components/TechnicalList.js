@@ -3,10 +3,14 @@ import 'antd/dist/antd.css';
 import { List, Image, Tag, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
-import serverUrl from '../../../config/serverUrl';
 import { Link } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
+
+import ReactHtmlParser from 'react-html-parser';
+
+import baseUrl from '../../../config/baseUrl';
+import serverUrl from '../../../config/serverUrl';
+
 import { 
     CheckCircleOutlined 
 } from '@ant-design/icons';
@@ -44,17 +48,23 @@ const TechnicalList = (props) => {
                 }
                 title={
                     <Fragment>
-                        <a href='#' className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <a href={`/j/${props.obj.created_by}/${props.obj.created_by_fullname}`} className="mr-1">{props.obj.created_by_fullname}</a> 
                         <Popover content="Verified">
-                            <CheckCircleOutlined className="verified-user" />
+                            <img src={baseUrl + "/assets/icons/verified.svg"} />
                         </Popover>
                     </Fragment>
                 }
                 description={
                     <div className="row">
-                        <div className= "col-md-12">
-                            <span className="font-weight-bold">{props.obj.user_create_title === "" ? "" : props.obj.user_create_title}</span>
-                        </div>
+                        {(() => {
+                            if (props.obj.user_create_title !== "") {
+                                return (
+                                    <div className= "col-md-12 form-inline mt-n1">
+                                        <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
+                                    </div>
+                                )
+                            }
+                        })()}
                     </div>
                 } />
             {

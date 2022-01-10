@@ -1,13 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 class Footer extends React.Component {
     render() {
 
         return (
             <React.Fragment>
-                <section className="footer-bg mt-0">
+                <section className="footer-bg mt-0 pb-0">
                     <div className="container">
                         <Row>
                             <Col md="6" lg="6" className="mb-2">
@@ -44,6 +43,15 @@ class Footer extends React.Component {
                             </Col>
                         </Row>
                     </div>
+                    <section className="footer-alt bg-dark pt-3 pb-3">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-12 text-center">
+                                    <p className="copyright text-white f-14 font-weight-light mb-0"> {new Date().getFullYear()} copyright © 2021. PT Risambessy Konsultindo Mandiri</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </section>
             </React.Fragment>
         );

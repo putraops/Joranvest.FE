@@ -6,11 +6,14 @@ import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
 
 import Register from './components/auth/Register';
-import Profile from './components/profile/Profile';
+import MyProfile from './components/profile/Profile';
 import RegisterVerification from './components/auth/RegisterVerification';
 
 import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
+
+import Profile from './components/main/Profile';
+
 import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import WebinarHistory from './components/webinar/WebinarHistory';
@@ -48,9 +51,15 @@ class Root extends React.Component {
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-1`} component={Index1}/>   */}
                         <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
                         <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
+
+                        
+                        <Route path={`${process.env.PUBLIC_URL}/j/:id/:profile_name`} component={Profile}/>
+
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
                         <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
-                        <Route path={`${process.env.PUBLIC_URL}/profile`} component={Profile}/>
+
+
+                        <Route path={`${process.env.PUBLIC_URL}/profile`} component={MyProfile}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar`} component={Webinar}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/detail/:id`} component={WebinarDetail}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/my-webinar`} component={WebinarHistory}/>

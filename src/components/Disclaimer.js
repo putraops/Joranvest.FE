@@ -4,9 +4,7 @@ import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import SubNav from './_nav/subNav';
 import Footer from './Footer';
-import { Breadcrumb, List } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebookSquare, faInstagram, faTwitter, faWhatsapp, faLinkedin, faTelegram } from '@fortawesome/free-brands-svg-icons'
+import { Breadcrumb } from 'antd';
 
 import { 
     HomeOutlined, 
@@ -16,7 +14,7 @@ import {
 const Disclaimer = () => {
     return (
         <React.Fragment>
-            <section className="section" id="home">
+            <section className="section pb-0" id="home">
                 <div className="container-fluid mt-2 mb-2 pr-0 pl-0">
                     <div className="container">
                         <Breadcrumb className="pt-1">

@@ -150,7 +150,8 @@ const FundamentalList = (props) => {
                                         <Popover key={`popover-${item.id}}`} content={
                                             <div>
                                                 <p className="mb-1 font-weight-bold">File: {item.filename}</p>
-                                                <a href={`/fundamental-review/` + props.obj.emiten_code.toLowerCase() + `/` + props.obj.id + '/' + item.id} className="btn btn-primary btn-block btn-xs pt-2 pb-2" target="_blank"><DownloadOutlined /> Download</a>
+                                                <a className="btn btn-primary btn-block btn-xs pt-2 pb-2" href={`${serverUrl}/${item.filepath}`} target="_blank"><DownloadOutlined /> Download</a>
+                                                {/* <a href={`/fundamental-review/` + props.obj.emiten_code.toLowerCase() + `/` + props.obj.id + '/' + item.id} className="btn btn-primary btn-block btn-xs pt-2 pb-2" target="_blank"><DownloadOutlined /> Download</a> */}
                                             </div>
                                         }>
                                             <img src="/images/gallery/icon/iconPDF.png" className="mr-4" key={item.id} style={{width: "40px", cursor: "pointer"}}/>

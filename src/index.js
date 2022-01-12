@@ -11,6 +11,7 @@ import RegisterVerification from './components/auth/RegisterVerification';
 
 import Technical from './components/technical/Technical';
 import Fundamental from './components/fundamental/Fundamental';
+import FundamentalAnalysis from './components/fundamental/Analysis';
 
 import Profile from './components/main/Profile';
 
@@ -57,6 +58,7 @@ class Root extends React.Component {
 
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
                         <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
+                        <Route path={`${process.env.PUBLIC_URL}/fundamental-review/:emiten_code/:id/:filemaster_id`} component={FundamentalAnalysis}/>
 
 
                         <Route path={`${process.env.PUBLIC_URL}/profile`} component={MyProfile}/>

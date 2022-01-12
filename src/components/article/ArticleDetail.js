@@ -95,7 +95,7 @@ class ArticleDetail extends React.Component {
                     </div> 
                     <div className="container mt-4">
                         <Row>
-                            <Col md="12" lg="9">
+                            <Col sm="12" md="9" lg="9">
                                 <h5 className="card-title article-title font-weight-bold mb-1" style={{fontSize: "25pt"}}>{data.title}</h5>
                                 <p className="text-muted">{dateFormat.getInteractiveLongDateTimeFormatID(data.submitted_at ? (data.submitted_at.Valid ? data.submitted_at.Time : data.created_at.Time) : null)}</p>
 

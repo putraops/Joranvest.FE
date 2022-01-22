@@ -1588,3 +1588,8 @@ p {
 .ant-breadcrumb > span > .ant-breadcrumb-link > .anticon > svg {
   margin-top: -8px
 }
+
+.ant-pagination.mini .ant-pagination-prev, 
+.ant-pagination.mini .ant-pagination-next {
+  margin-top: -5px !important;
+}

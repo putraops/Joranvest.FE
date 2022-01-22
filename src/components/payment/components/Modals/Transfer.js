@@ -37,6 +37,7 @@ const Transfer = props => {
         setLoading({...loading, isSubmitLoading: true});
         var payload = {
             id: "",
+            application_user_id: props.user.id,
             record_id: props.record_id,
             order_number: actions.generateOrderNumber(props.payment_type),
             payment_date: null,

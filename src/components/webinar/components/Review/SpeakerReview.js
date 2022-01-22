@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 
-import { Card, Avatar, Rate, Input, Button } from 'antd';
+import { Card, Image, Rate, Input, Button } from 'antd';
 
 import { connect } from 'react-redux'
 import axiosApi from '../../../../config/axiosConfig';
 import sideNotification from '../../../../commons/sideNotification';
+import serverUrl from '../../../../config/serverUrl';
+
 const { Meta } = Card;
 const { TextArea } = Input;
 
@@ -21,7 +23,8 @@ const SpeakerReview = props => {
                 "id": props.speaker_item.id,
                 "user_id": props.user.id,
                 "object_rated_id": props.speaker_item.speaker_id,
-                "speaker_name": props.speaker_item.organization_name || props.speaker_item.speaker_full_name,
+                "speaker_name": props.speaker_item.organization_name || props.speaker_item.speaker_fullname,
+                "speaker_filepath": props.speaker_item.organization_name === "" ? props.speaker_item.speaker_filepath : props.speaker_item.organization_filepath,
                 "reference_id": props.webinar_id,
                 "rating": props.speaker_item.rating,
                 "comment": props.speaker_item.comment
@@ -70,7 +73,16 @@ const SpeakerReview = props => {
                 className="mb-2"
                 size='small'>
                 <Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                    avatar={
+                        <Image 
+                            style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
+                            src={serverUrl + "/" + speakerRecord.speaker_filepath}
+                            shape="square"
+                            preview={false}
+                            onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                        />
+                    // <Avatar src="https://joeschmoe.io/api/v1/random" />
+                    }
                     title={<p className='mb-0'>{speakerRecord.speaker_name}</p>}
                     description={
                         <div style={{"marginTop": "-5px"}} >

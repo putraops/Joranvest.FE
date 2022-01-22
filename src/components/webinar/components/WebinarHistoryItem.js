@@ -10,7 +10,7 @@ import monthName from '../../../commons/monthName';
 import { connect } from 'react-redux';
 
 const WebinarHistoryItem = (props) => {
-    const [isWebinarOver, setIsWebinarOver] = useState(false);
+    //const [isWebinarOver, setIsWebinarOver] = useState(false);
     var startDate, startTime, endTime = "";
     var isOneDay = false;
     console.log("props: ", props);
@@ -38,15 +38,26 @@ const WebinarHistoryItem = (props) => {
         }
     }
 
-    useEffect(() => {
-        if (props.obj) {
-            handleIsWebinarOver()
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (props.obj) {
+    //         handleIsWebinarOver()
+    //     }
+    // }, []);
 
-    const handleIsWebinarOver = () => {
-        if (props.obj) {
-            setIsWebinarOver(moment().isAfter(moment(props.obj.webinar_end_date)));
+    // const handleIsWebinarOver = () => {
+    //     if (props.obj) {
+    //         setIsWebinarOver();
+    //     }
+    // }
+
+    const isWebinarOver = () => {
+        var todayDate = moment();
+        var pastDate = moment(props.obj.webinar_end_date.Time);
+        var dDiff = todayDate.diff(pastDate);
+        if (dDiff > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -69,7 +80,7 @@ const WebinarHistoryItem = (props) => {
                                 style={{height: "80px", maxWidth: "150px"}}
                                 preview={false}
                                 // src={imgUrl}
-                                src={serverUrl + "/" + props.obj.filepath}
+                                src={serverUrl + "/" + props.obj.webinar_filepath}
                                 onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/No-Image.png?t=9999"}}
                             />
                         }
@@ -112,13 +123,14 @@ const WebinarHistoryItem = (props) => {
                             <Row>
                                 <Col className="text-left" xs="6" sm="6">
                                     <a href={`/webinar/detail/${props.obj.webinar_id}`} style={{"fontWeight": "500"}}>Lihat Detail</a>
-                                    {
-                                        (isWebinarOver ? (
+                                        {/* ((moment().isAfter(moment(props.obj.webinar_end_date))) ? (
                                             <>
-                                                <a href={`/webinar/review/${props.obj.id}`}><Button type="primary" size='small' className='ml-3' key={`show-${props.obj.id}`}>Beri Ulasan</Button></a>
+                                                
                                             </>
-                                        ) : null)
-                                    }
+                                        ) : null) */}
+                                        {props.obj.webinar_end_date && isWebinarOver() && (
+                                            <a href={`/webinar/review/${props.obj.id}`}><Button type="primary" size='small' className='ml-3' key={`show-${props.obj.id}`}>Beri Ulasan</Button></a>
+                                        )}
                                 </Col>
                                 <Col className="text-right"  xs="6" sm="6">
                                     {

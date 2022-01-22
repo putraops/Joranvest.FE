@@ -58,7 +58,6 @@ const Success = props => {
             axiosApi.get(`/application_user/getViewById/${user_id}`)
             .then(res => {
                 var r = res.data;
-                console.log("/membershop", r);
                 if (r.status) {
                     joranCookies.set(r.data);
                     resolve(true);

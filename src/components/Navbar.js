@@ -1,14 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Avatar, Image, Badge } from 'antd';
+import { Menu, Dropdown, Card, Image } from 'antd';
 import { connect } from 'react-redux'
 import serverUrl from '../config/serverUrl';
-import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
-import { Comment, Tooltip } from 'antd';
+import { Comment } from 'antd';
 import "./_nav/navbar.css"
-import { NotificationOutlined } from '@ant-design/icons';
 import axiosApi from '../config/axiosConfig'
 import sideNotification from '../commons/sideNotification';
 import joranCookies from '../commons/joranCookies';
@@ -28,11 +25,7 @@ class Navbar extends React.Component {
 	}
 
 	handleLogout = () => {
-		const cookies = new Cookies();
-		cookies.remove('joranvestCookie')
-		cookies.remove('joranvestCookie', {
-			domain: "joranvest.com"
-		})
+		joranCookies.remove();
 		window.location.assign(baseUrl);
 	}
 
@@ -52,8 +45,7 @@ class Navbar extends React.Component {
     }
     
 	render() {
-		const cookies = new Cookies();
-        let user = cookies.get('joranvestCookie') || null;
+        let user = joranCookies.get();
 		if (user) {
 			this.getUserDetail(user.id);
 		}

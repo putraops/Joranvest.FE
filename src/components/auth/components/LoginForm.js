@@ -5,6 +5,7 @@ import { Form, Input, Button, Divider, Alert } from 'antd';
 import { connect } from 'react-redux';
 import { userLogin, userLoginWithGoogle, actionFormUpdate } from '../../../config/redux/action';
 import baseUrl from '../../../config/baseUrl';
+import sideNotification from '../../../commons/sideNotification';
 
 const LoginForm = (props) => {
     const [values, setValues] = useState({
@@ -29,13 +30,23 @@ const LoginForm = (props) => {
         props.actionFormUpdate();
     }
 
-    const handleLogin = async (event) => {
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    }
+
+    const handleLogin = async () => {
         const { email, password } = values; 
-        const { user } = props;
 
         if (email == "" || password == "") {
+            sideNotification.open("Gagal", "Email dan Password tidak boleh kosong!.", false);
             return;
         }
+        
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) { /* Do Nothing */ }
+        else { sideNotification.open("Gagal", "Silahkan masukkan Email yang benar.", false); return; }
+
 
         const res = await props.userLogin({email, password})
             .catch(err => err);
@@ -79,12 +90,12 @@ const LoginForm = (props) => {
                 <Form.Item 
                     name="email"
                     rules={[{ required: true, message: 'Email tidak boleh kosong' }]}>
-                    <Input className="mb-2" size="large" placeholder="Email" name="email" onChange={handleChange} />
+                    <Input className="mb-2" size="large" placeholder="Email" name="email" onKeyDown={handleKeyDown} onChange={handleChange} />
                 </Form.Item>
                 <Form.Item 
                     name="password"
                     rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
-                    <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onChange={handleChange} />
+                    <Input.Password className="mb-2" size="large" placeholder="Password" name="password" onKeyDown={handleKeyDown} onChange={handleChange} />
                 </Form.Item>
             </Form>
             <Form.Item>

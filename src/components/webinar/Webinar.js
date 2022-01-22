@@ -3,11 +3,11 @@ import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../config/axiosConfig';
-import { List, Card, Breadcrumb } from 'antd';
+import { List, Pagination, Breadcrumb } from 'antd';
 
 import WebinarList from './components/WebinarList';
 import SubNav from '../_nav/subNav';
-import NoData from '../NoData';
+import NoDataCard from '../NoDataCard';
 import Filter from './components/Filter';
 import Footer from '../Footer';
 
@@ -108,25 +108,23 @@ const Webinar = props => {
                             <Filter webinarCategoryChange={handleCategoryChange} handleOrder={handleOrder} />
                         </Col>
                         <Col md="12">
-                            {listData.total > 0 ? (
-                                <List
-                                    itemLayout="vertical"  size="large"
-                                    pagination={{
-                                        onChange: page => {
-                                            handlePage(page);
-                                        },
-                                        pageSize: payload.size,
-                                        total: listData.total
-                                    }}
-                                    loading={isLoading.contentLoading}
-                                    dataSource={listData.data}
-                                    // footer={}
-                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
-                                />
-                            ) : 
-                                <NoData />
-                            }
-                        
+                            <List
+                                itemLayout="vertical"  size="large"
+                                locale={{emptyText: 
+                                    <NoDataCard title={<p className="mb-0" style={{fontSize: "1.4em"}}>Oopss... Tidak ada Webinar yang bisa ditampilkan.</p>} />
+                                }}
+                                loading={isLoading.contentLoading}
+                                dataSource={listData.data}
+                                renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
+                            />
+                            
+                            <Pagination
+                                onChange={handlePage}
+                                current={payload.page}
+                                className={`float-right ${listData.length == 0 ? "d-none" : ""}`} 
+                                total={listData.total}
+                                responsive={true}
+                            />  
                         </Col>
                     </Row>
                 </div>      

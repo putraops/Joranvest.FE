@@ -6,7 +6,7 @@ const actions = {
         var payment_code = "";
         if (payment_type === "credit_card") payment_code = "CC";
         if (payment_type === "gopay") payment_code = "GOPAY";
-        if (payment_type === "transfer") payment_code = "TRF";
+        if (payment_type === "transfer" || payment_type === "transfer_bca") payment_code = "TRF";
 
         return "JORAN/" + payment_code + "/" + today.getFullYear() + "/" + monthRoman + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds();
     },

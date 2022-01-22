@@ -76,31 +76,32 @@ const Filter = props => {
     return (
         <React.Fragment>
             <strong>Pencarian: </strong>
-                <Select
-                    placeholder="Kategori"
-                    className="mr-1" 
-                    showSearch={true}
-                    allowClear={true}
-                    style={{ width: 200 }}
-                    onChange={props.webinarCategoryChange}
-                >
-                    {options}
-                </Select>
-                <Select
-                    placeholder="Urutkan"
-                    defaultValue="#newest"
-                    className="mr-1" 
-                    style={{ width: 200 }}
-                    onChange={props.handleOrder}
-                >
-                    <Option value="#newest">Webinar Terdekat</Option>
-                    <Option value="#free">Gratis</Option>
-                    {/* <Option value="newest">Terbaru</Option>
-                    <Option value="popularity">Popularitas</Option> */}
-                    <Option value="lowest_price">Harga Terendah</Option>
-                    <Option value="highest_price">Harga Tertinggi</Option>
-                </Select>
-                <hr />
+            <div class="w-100 mb-2 d-lg-none d-md-block"></div>
+            <Select
+                placeholder="Kategori"
+                className="mr-1 mb-2" 
+                showSearch={true}
+                allowClear={true}
+                style={{ width: 200 }}
+                onChange={props.webinarCategoryChange}
+            >
+                {options}
+            </Select>
+            <Select
+                placeholder="Urutkan"
+                defaultValue="#newest"
+                className="mr-1 mb-2" 
+                style={{ width: 200 }}
+                onChange={props.handleOrder}
+            >
+                <Option value="#newest">Webinar Terdekat</Option>
+                <Option value="#free">Gratis</Option>
+                {/* <Option value="newest">Terbaru</Option>
+                <Option value="popularity">Popularitas</Option> */}
+                <Option value="lowest_price">Harga Terendah</Option>
+                <Option value="highest_price">Harga Tertinggi</Option>
+            </Select>
+            <hr />
         </React.Fragment>
     );
 }

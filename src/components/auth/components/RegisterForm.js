@@ -57,8 +57,7 @@ const RegisterForm = (props) => {
             if (res) {
                 props.actionFormUpdate();
                 form.resetFields();
-                sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan verifikasi", true);
-            } else {
+                sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan Verifikasi", true);
             }
         }
     }

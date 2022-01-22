@@ -35,12 +35,13 @@ const paymentMethod = [
         key: "credit_card",
         has_children: false,
         data: card
-    },{
-        title: "E-Wallet",
-        description: "Pembayaran menggunakan E-Wallet",
-        key: "ewallet",
-        has_children: false,
-        data: eWallet
-    }
+    },
+    // {
+    //     title: "E-Wallet",
+    //     description: "Pembayaran menggunakan E-Wallet",
+    //     key: "ewallet",
+    //     has_children: false,
+    //     data: eWallet
+    // }
 ];
 export default paymentMethod

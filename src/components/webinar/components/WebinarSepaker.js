@@ -15,7 +15,7 @@ const WebinarSpeaker = (props) => {
                         <a href={`/speaker/review/${props.speaker.speaker_id}`}>
                             <Image 
                                 style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
-                                src={serverUrl}
+                                src={serverUrl + "/" + (props.speaker.organization_name === "" ? props.speaker.user_speaker_profile_picture : props.speaker.organization_speaker_profile_picture)}
                                 shape="square"
                                 preview={false}
                                 onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}

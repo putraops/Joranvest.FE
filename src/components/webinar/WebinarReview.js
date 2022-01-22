@@ -36,7 +36,7 @@ const WebinarReview = props => {
     }, []);
 
     const validateRecord = (id) => {
-        axiosApi.get(`/webinar_registration/getById/${id}`)
+        axiosApi.get(`/webinar_registration/getViewById/${id}`)
         .then(res => {
             var r = res.data;
             if (r.status) {

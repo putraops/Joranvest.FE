@@ -320,10 +320,10 @@ const Membership = props => {
             name: "Kartu Kredit",
             value: "credit_card",
         },
-        {
-            name: "gopay",
-            value: "gopay",
-        }
+        // {
+        //     name: "gopay",
+        //     value: "gopay",
+        // }
     ];
 
     const handleCardPayment = (payload) => {

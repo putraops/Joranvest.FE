@@ -1,6 +1,5 @@
-import Cookies from 'universal-cookie';
+import joranCookies from '../../../commons/joranCookies';
 
-const cookies = new Cookies();
 const initState = {
     isLogin: false,
     isLoading: false,
@@ -8,7 +7,7 @@ const initState = {
     authError: "", 
     errorMessage: "", 
     authStatus: false,
-    user: cookies.get('joranvestCookie') || null,
+    user: joranCookies.get(),
     username: "",
 }
 

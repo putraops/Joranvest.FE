@@ -173,7 +173,7 @@ const SpeakerReview = props => {
                                                         <Image
                                                             style={{width: "100px", height: "100px", borderRadius: "50px", border: "1px solid #ccc"}} 
                                                             preview={false}
-                                                            src={speakerRecord && speakerRecord.filepath ? serverUrl + "/" + speakerRecord.filepath_thumb: serverUrl + "/" + speakerRecord.filepath_thumb}
+                                                            src={speakerRecord && speakerRecord.filepath ? serverUrl + "/" + speakerRecord.filepath : serverUrl + "/" + speakerRecord.filepath}
                                                             onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
                                                         />
                                                     }

@@ -85,7 +85,6 @@ export const userLogin = (data) => (dispatch) => {
         dispatch({type: "CHANGE_LOADING", value: true});
         axiosApi.post(`/auth/login`, data
         ).then(res => {
-            console.log(res);
             var r = res.data;
             if (r.status) {
                 joranCookies.set(r.data);

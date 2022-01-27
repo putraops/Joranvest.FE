@@ -1,9 +1,10 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 
-import { Breadcrumb, List, Divider, Skeleton } from 'antd';
+import { Breadcrumb, Card, Button, List, Divider, Skeleton } from 'antd';
 import { Row, Col } from 'reactstrap';
 import './css/style.css'
+import { connect } from 'react-redux';
 import TechnicalFilter from './components/Filter';
 import axiosApi from '../../config/axiosConfig';
 
@@ -129,35 +130,94 @@ class Fundamental extends React.Component {
                     </div>
                     <SubNav title="Riset Analisa Fundamental" sub_title="Pilih beragam riset analisa fundamental sesuai strategi & timeframe kamu" />
                     <div className="container mt-3">
-                        <Row className="">
-                            <Col md="5" lg="4" xl="3" className="mb-3">
-                                <TechnicalFilter 
-                                    handleFilterTimeframe={this.handleFilterTimeframe} 
-                                    filtering={this.filtering} 
-                                />
-                            </Col>
-                            <Col md="7" lg="8" xl="9">
-                                <Divider dashed className="mt-0 mb-0" />
-                                <Skeleton active loading={this.state.loading} avatar paragraph={{ rows: 5 }}>
-                                    <List
-                                        itemLayout="vertical"  size="large"
-                                        pagination={{
-                                            onChange: page => {
-                                                this.handlePage(page);
-                                            },
-                                            pageSize: payload.size,
-                                            total: listData.total,
-                                            defaultCurrent: payload.page,
-                                            current: payload.page,
-                                        }}
-                                        dataSource={listData.data}
-                                        loading={isLoading.contentLoading}
-                                        // footer={}
-                                        renderItem={item => <FundamentalList obj={item} />}
-                                    />
-                                </Skeleton>
-                            </Col>
-                        </Row>
+                    {(() => {
+                            if (this.props.user === null) {
+                                return (
+                                    <Row className="justify-content-md-center">
+                                        <Col md="12">
+                                            <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
+                                                <Col lg="7" className="mb-4">
+                                                        <p className="font-weight-bold f-20 mb-2">Ooops...</p>
+                                                        <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum login. Silahkan login terlebih dahulu.</p>
+                                                    </Col>
+                                                <Row className="justify-content-md-center">
+                                                    <Col md="3" className="">
+                                                        <a href={`/login`}>
+                                                            <Button type="primary"  className="mb-2" block>
+                                                                Login
+                                                            </Button>
+                                                        </a>
+                                                    </Col>
+                                                    <Col md="3" className="">
+                                                        <a href={`/`}>
+                                                            <Button className="mb-2" block>
+                                                                Kembali ke Halaman Utama
+                                                            </Button>
+                                                        </a>
+                                                    </Col>
+                                                </Row>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                )
+                            } if (!this.props.user.is_membership) {
+                                return (
+                                    <Row className="justify-content-md-center">
+                                        <Col md="12">
+                                            <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
+                                                <Row className="justify-content-md-center text-center">
+                                                    <Col lg="7" className="mb-4">
+                                                        <p className="font-weight-bold f-20 mb-2">Ooops...</p>
+                                                        <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum terdaftar sebagai Member. Silahkan daftar Member terlebih dahulu untuk mendapatkan Analisa terbaik.</p>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="justify-content-md-center">
+                                                    <Col md="3" className="">
+                                                        <a href={`/`}>
+                                                            <Button className="mb-2" block>
+                                                                Kembali ke Halaman Utama
+                                                            </Button>
+                                                        </a>
+                                                    </Col>
+                                                </Row>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                )
+                            } else if (this.props.user.is_membership) {
+                                return (
+                                    <Row className="">
+                                        <Col md="5" lg="4" xl="3" className="mb-3">
+                                            <TechnicalFilter 
+                                                handleFilterTimeframe={this.handleFilterTimeframe} 
+                                                filtering={this.filtering} 
+                                            />
+                                        </Col>
+                                        <Col md="7" lg="8" xl="9">
+                                            <Divider dashed className="mt-0 mb-0" />
+                                            <Skeleton active loading={this.state.loading} avatar paragraph={{ rows: 5 }}>
+                                                <List
+                                                    itemLayout="vertical"  size="large"
+                                                    pagination={{
+                                                        onChange: page => {
+                                                            this.handlePage(page);
+                                                        },
+                                                        pageSize: payload.size,
+                                                        total: listData.total,
+                                                        defaultCurrent: payload.page,
+                                                        current: payload.page,
+                                                    }}
+                                                    dataSource={listData.data}
+                                                    loading={isLoading.contentLoading}
+                                                    // footer={}
+                                                    renderItem={item => <FundamentalList obj={item} />}
+                                                />
+                                            </Skeleton>
+                                        </Col>
+                                    </Row>
+                                );
+                            }
+                        })()}                          
                     </div>      
                     <Footer />
                 </section>
@@ -165,4 +225,9 @@ class Fundamental extends React.Component {
         );
     }
 }
-export default Fundamental;
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+export default connect(mapStateToProps, null)(Fundamental);

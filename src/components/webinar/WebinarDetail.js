@@ -1,7 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
 import moment from 'moment';
 import {
@@ -92,7 +92,6 @@ class WebinarDetail extends React.Component {
         axiosApi.get(`/webinar_speaker/getAll?webinar_id=${detailData.id}`)
         .then(res => {
             var r = res.data;
-            console.log("getSpeakers:: ", r);
             if (r.status) {
                 var webinar_speakers = "";
                 if (r.data && r.data.length > 0) {

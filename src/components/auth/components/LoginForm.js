@@ -44,9 +44,8 @@ const LoginForm = (props) => {
             return;
         }
         
-        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) { /* Do Nothing */ }
-        else { sideNotification.open("Gagal", "Silahkan masukkan Email yang benar.", false); return; }
-
+        // if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) { /* Do Nothing */ }
+        // else { sideNotification.open("Gagal", "Silahkan masukkan Email yang benar.", false); return; }
 
         const res = await props.userLogin({email, password})
             .catch(err => err);

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 const Logo = (props) => {
-    console.log(props);
     return (
         <Fragment>
             <div className="text-center">

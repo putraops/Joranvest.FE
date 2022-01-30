@@ -43,7 +43,7 @@ const RegisterForm = (props) => {
             .required('Password tidak boleh kosong.')
             .min(6, 'Password minimal 6 karakter'),
         repassword: Yup.string()
-            .required('ulangi Password tidak boleh kosong.').
+            .required('Ulangi Password tidak boleh kosong.').
             oneOf([Yup.ref('password'), null], 'Password dan Ulangi Password harus sama.'),
     });
 

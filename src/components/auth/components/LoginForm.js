@@ -58,13 +58,13 @@ const LoginForm = (props) => {
                 >
                 {({ errors, touched }) => (
                     <Form>
-                        <p className="mb-0 font-weight-bold">Email</p>
+                        <p className="mb-0 font-weight-bold text-joran">Email <span className="text-danger"> *</span></p>
                         <Field name="email" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Email" onKeyDown={handleKeyDown} />
                         {errors.email && touched.email ? (
                             <p className="text-danger mb-1 fw-500">{errors.email}</p>
                         ): <p className="mt-2 mb-1"></p>}
                         
-                        <p className="mb-0 font-weight-bold">Password</p>
+                        <p className="mb-0 font-weight-bold text-joran">Password <span className="text-danger"> *</span></p>
                         <Field type="password" name="password" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Password" onKeyDown={handleKeyDown} />
                         {errors.password && touched.password ? (
                             <p className="text-danger mb-1 fw-500">{errors.password}</p>
@@ -81,7 +81,7 @@ const LoginForm = (props) => {
                     </Form>
                 )}
             </Formik>
-            <Divider className="mt-2 mb-2" plain><a href="#" className="text-joran fw-500">Lupa password?</a></Divider>
+            <Divider className="mt-2 mb-2" plain><a href="/reset-password" className="text-joran fw-500">Lupa password?</a></Divider>
         </Fragment>
     );
 }

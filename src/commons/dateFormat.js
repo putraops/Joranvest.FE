@@ -74,13 +74,13 @@ const dateFormat = {
         return month_name
     },
     getDayNameID(dayName) {
-        if (dayName == "Monday") dayName = "Senin";
-        if (dayName == "Tuesday") dayName = "Selasa";
-        if (dayName == "Wednesday") dayName = "Rabu";
-        if (dayName == "Thursday") dayName = "Kamis";
-        if (dayName == "Friday") dayName = "Jumat";
-        if (dayName == "Saturday") dayName = "Sabtu";
-        if (dayName == "Sunday") dayName = "Minggu";
+        if (dayName === "Monday") dayName = "Senin";
+        if (dayName === "Tuesday") dayName = "Selasa";
+        if (dayName === "Wednesday") dayName = "Rabu";
+        if (dayName === "Thursday") dayName = "Kamis";
+        if (dayName === "Friday") dayName = "Jumat";
+        if (dayName === "Saturday") dayName = "Sabtu";
+        if (dayName === "Sunday") dayName = "Minggu";
         return dayName
     }
 }

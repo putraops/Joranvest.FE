@@ -1,7 +1,5 @@
 import React from 'react';
 import { Row,Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import baseUrl from '../config/baseUrl';
 
 class Home1 extends React.Component {
     render() {
@@ -14,18 +12,19 @@ class Home1 extends React.Component {
                             <div className="container">
                                 <Row className="align-items-center">
                                     <Col lg="6">
-                                        <div className="mt-40 home-2-content">
+                                        <div className="mt-40 home-2-content mb-1">
                                             <h2 className="text-white font-weight-normal home-2-title f-22 mb-0">Ambil Keputusan Investasi & Trading Lebih Cepat dan Lebih Mudah</h2>
-                                            <p className="text-white-70 mt-4 f-18 mb-0">Mulai dari 2,000 / hari, bisa akses sepuasnya tanpa batas. Temukan Rekomendasi, riset dan analisa saham pilihan dari berbagai analis teknikal dan fundamental berpengalaman di Pasar Modal</p>
+                                            <p className="text-white-70 mt-4 f-18 mb-0">Mulai dari 2,000/hari, bisa akses sepuasnya tanpa batas. Temukan Rekomendasi, riset, edukasi dan analisa saham, crypto, forex pilihan dari berbagai Analis berpengalaman.</p>
                                             {/* <div className="mt-5">
                                                 <Link to="#" className="btn btn-custom mr-4">Learn More</Link>
                                             </div> */}
+                                            <p className="text-white mt-4 f-18 mb-0">Yuk belajar bareng karena <span className="fw-500">#investasiuntuksemua</span></p>
                                         </div>
                                     </Col>
 
                                     <Col lg="6">
                                         <div className="mt-40 home-2-content position-relative">
-                                            {/* <img src="images/home-2-img.png" alt="" className="img-fluid mx-auto d-block home-2-img mover-img" /> */}
+                                            <img src="images/home-illustration.png" alt="" className="img-fluid mx-auto d-block home-2-img mover-img" />
                                             <div className="home-2-bottom-img">
                                                 <img src="images/homr-2-bg-bottom.png" alt="" className="img-fluid d-block mx-auto" />
                                             </div>

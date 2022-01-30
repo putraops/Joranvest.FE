@@ -9,7 +9,7 @@ import ArticleRecomendation from './ArticleRecomendation';
 import InfiniteScroll from 'react-infinite-scroller';
 import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
-import { Button, Breadcrumb, List, Spin, Skeleton  } from 'antd';
+import { Button, Breadcrumb, List, Spin } from 'antd';
 import SubNav from '../_nav/subNav'; 
 import { HomeOutlined } from '@ant-design/icons';
 
@@ -36,7 +36,6 @@ class Article extends React.Component {
 
     componentDidMount() {
         const { payload } = this.state;
-        let { existingData } = this.state;
         this.fetchData(res => {
             this.setState({
                 data: res.data.results,
@@ -60,8 +59,7 @@ class Article extends React.Component {
 
     loadList = callback =>
     {
-        let { existingData } = this.state;
-        const {listData, payload} = this.state; 
+        const {payload} = this.state; 
         axiosApi.post(`/article/getPagination`, payload).then(r => {
             console.log(r);
             if (r.data.total > 0) {
@@ -133,10 +131,7 @@ class Article extends React.Component {
     }
 
     render() {
-        const { listData, data, payload, existingData } = this.state;
-        const breadcrumb = {
-            fontWeight: '500'
-        }
+        const { existingData } = this.state;
         const dataTerpopuler = [
             {
                 no: 1,

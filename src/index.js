@@ -6,6 +6,8 @@ import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
 
 import Register from './components/auth/Register';
+import ResetPassword from './components/auth/ResetPassword';
+import RecoverPassword from './components/auth/RecoverPassword';
 import MyProfile from './components/profile/Profile';
 import RegisterVerification from './components/auth/RegisterVerification';
 
@@ -50,8 +52,10 @@ class Root extends React.Component {
                         <Navbar />
                         <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home}/>
                         {/* <Route path={`${process.env.PUBLIC_URL}/index-1`} component={Index1}/>   */}
-                        <Route path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
-                        <Route path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/login`} component={Login}/>  
+                        <Route exact path={`${process.env.PUBLIC_URL}/register`} component={Register}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/reset-password`} component={ResetPassword}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/recover-password/:user_id/:email`} component={RecoverPassword}/>
 
                         
                         <Route path={`${process.env.PUBLIC_URL}/j/:id/:profile_name`} component={Profile}/>

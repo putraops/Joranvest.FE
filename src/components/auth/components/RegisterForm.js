@@ -1,134 +1,128 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { Form, Input, Button, Divider, Alert, message } from 'antd';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Alert } from 'antd';
 
+import Logo from './Logo';
 import { connect } from 'react-redux';
 import { registerUser, actionFormUpdate, actionPasswordAndRepasswordNotMatch } from '../../../config/redux/action';
 import sideNotification from '../../../commons/sideNotification';
 
 const RegisterForm = (props) => {
-    const [values, setValues] = useState({
-		first_name: '',
-		last_name: '',
-		email: '',
-		password: '',
-        repassword: '',
-	});
-
     const { errorMessage, isLoading } = props;
-    const [form] = Form.useForm();
 
-    const onFinishFailed = () => {
-        //handleRegister();
-    };
-
-    const onFinish = () => {
-        handleRegister();
-    };
-
-
-    const onFill = () => {
-        form.setFieldsValue({
-            first_name: 'https://taobao.com/',
-        });
-    };
-
-    const handleChange = (event) => {
-        const target = event.target;
-        setValues({...values, [target.name]: target.value});
+    const handleKeyDown = (e) => {
         props.actionFormUpdate();
     }
 
-    const handleRegister = async (event) => {
+    const handleRegister = async (data, resetForm) => {
         var userData = {
-            first_name: values.first_name,
-            last_name: values.last_name,
-            email: values.email,
-            password: values.password,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            password: data.password,
         }
         
-        if (values.password != values.repassword) {
-            props.actionPasswordAndRepasswordNotMatch();
-        } else if (values.first_name != "" || values.last_name != "" && values.email != "" && values.password != "") {
-            const res = await props.registerUser(userData)
-            .catch(err => err);
-            
-            if (res) {
-                props.actionFormUpdate();
-                form.resetFields();
-                sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan Verifikasi", true);
-            }
+        const res = await props.registerUser(userData)
+        .catch(err => err);
+        
+        if (res) {
+            sideNotification.open("Register Berhasil", "Silahkan cek Email untuk melakukan Verifikasi", true);
+            resetForm();
         }
     }
-  return (
-    <Fragment>
-        {
-            errorMessage ? <Alert className="mb-3" message={errorMessage} type="error"showIcon  /> : null
-        }
-        <Form
-            name="basic"
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-            form = {form}
-        >
-            <Row>
-                <Col xs="12" md="6" lg="6">
-                    <Form.Item
-                        name="first_name"
-                        label="Nama Depan"  
-                        tooltip="Nama Depan tidak boleh kosong"
-                        rules={[{ required: true, message: 'Nama Depan tidak boleh kosong' }]}>
-                        <Input size="large" placeholder="Nama Depan" name="first_name" onChange={handleChange} />
-                    </Form.Item>
-                </Col>
-                <Col xs="12" md="6" lg="6">
-                    <Form.Item 
-                        name="last_name"
-                        label="Nama Belakang">
-                        <Input size="large" placeholder="Nama Belakang" name="last_name" onChange={handleChange} />
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Form.Item
-                name="email"
-                label="Email" 
-                tooltip="Email tidak boleh kosong" 
-                rules={[{ required: true,  message: 'Format Email masih salah', type: 'email' }]}
-                >
-                <Input size="large" placeholder="Email" name="email" onChange={handleChange} />
-            </Form.Item> 
+    const ValidationSchema = Yup.object().shape({
+        first_name: Yup.string()
+            .required('Nama Depan tidak boleh kosong.'),
+        email: Yup.string()
+            .required('Email tidak boleh kosong.')
+            .email('Format Email masih salah.'),
+        password: Yup.string()
+            .required('Password tidak boleh kosong.')
+            .min(6, 'Password minimal 6 karakter'),
+        repassword: Yup.string()
+            .required('ulangi Password tidak boleh kosong.').
+            oneOf([Yup.ref('password'), null], 'Password dan Ulangi Password harus sama.'),
+    });
 
-            <Form.Item
-                name="password"
-                label="Password"
-                tooltip="Password tidak boleh kosong" 
-                rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
-                <Input.Password size="large" placeholder="Password" name="password" onChange={handleChange} />
-            </Form.Item>
-
-            <Form.Item
-                name="repassword"
-                label="Ulangi Password"
-                tooltip="Ulangi Password tidak boleh kosong" 
-                rules={[{ required: true, message: 'Password tidak boleh kosong' }]}>
-                <Input.Password size="large" placeholder="Ulangi Password" name="repassword" id="retype-password" onChange={handleChange} />
-            </Form.Item>
-
-            <Form.Item className="mt-3">
-                <Button type="primary" size="medium" loading={isLoading} block htmlType="submit" >Register</Button> 
-            </Form.Item>   
-
-            <div className="text-center mt-4">
-                <Divider className="mt-2 mb-2" plain>Sudah punya akun? <Link to="/login">Login</Link></Divider>
+    return (
+        <Fragment>
+            <div className="d-xs-block d-sm-block d-md-none" style={{marginBottom: "30px"}}>
+                <Logo size="200px" />
             </div>
-        </Form>
-    </Fragment>
+
+            <h1 className="display-4 f-10 mb-4" style={{fontSize: "25px"}}>Daftar Akun</h1>
+
+            {errorMessage && (
+                <Alert className="mb-3" message={errorMessage} type="error"showIcon  />
+            )}
+
+            <Formik
+                initialValues={{
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    password: '',
+                    repassword: ''
+                }}
+                validationSchema={ValidationSchema}
+                onSubmit={(values, { resetForm }) => {
+                    console.log(values);
+                    handleRegister(values, resetForm);
+                }}
+                >
+                {({ errors, touched }) => (
+                    <Form>
+                        <Row>
+                            <Col md="6">
+                                <p className="mb-0 font-weight-bold text-joran">Nama Depan <span className="text-danger"> *</span></p>
+                                <Field name="first_name" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Nama Depan" onKeyDown={handleKeyDown} />
+                                {errors.first_name && touched.first_name ? (
+                                    <p className="text-danger mb-1 fw-500">{errors.first_name}</p>
+                                ): <p className="mt-2 mb-1"></p>}
+                            </Col>
+                            <Col md="6">
+                                <p className="mb-0 font-weight-bold text-joran">Nama Belakang</p>
+                                <Field name="last_name" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Nama Belakang" onKeyDown={handleKeyDown} />
+                                {errors.last_name && touched.last_name ? (
+                                    <p className="text-danger mb-1 fw-500">{errors.last_name}</p>
+                                ): <p className="mt-2 mb-1"></p>}
+                            </Col>
+                        </Row>
+
+                        <p className="mb-0 font-weight-bold text-joran">Email <span className="text-danger"> *</span></p>
+                        <Field name="email" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Email" onKeyDown={handleKeyDown} />
+                        {errors.email && touched.email ? (
+                            <p className="text-danger mb-1 fw-500">{errors.email}</p>
+                        ): <p className="mt-2 mb-1"></p>}
+                        
+                        
+                        <p className="mb-0 font-weight-bold text-joran">Password <span className="text-danger"> *</span></p>
+                        <Field type="password" name="password" className="form-control mb-0 mr-3 no-radius" placeholder="Masukkan Password" onKeyDown={handleKeyDown} />
+                        {errors.password && touched.password ? (
+                            <p className="text-danger mb-1 fw-500">{errors.password}</p>
+                        ): <p className="mt-2 mb-1"></p>}
+
+                        <p className="mb-0 font-weight-bold text-joran">Ulangi Password <span className="text-danger"> *</span></p>
+                        <Field type="password" name="repassword" className="form-control mb-0 mr-3 no-radius" placeholder="Ulangi Password" onKeyDown={handleKeyDown} />
+                        {errors.repassword && touched.repassword ? (
+                            <p className="text-danger mb-1 fw-500">{errors.repassword}</p>
+                        ): <p className="mt-2 mb-1"></p>}
+                        
+                        <button type="submit" 
+                            className="btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius"
+                            disabled={isLoading}>
+                            {isLoading ? 
+                                <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...</span>
+                                : <span>Register</span>
+                            }
+                        </button>
+                    </Form>
+                )}
+            </Formik>
+        </Fragment>
     );
 }
 

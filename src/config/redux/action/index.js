@@ -31,7 +31,7 @@ export const registerUser = (data) => (dispatch) => {
                 resolve(true);
             } else {
                 reject(false);
-                sideNotification.open(r.message);   
+                dispatch({type: "REGISTER_FAILED", value: r.message});
             }
         }).catch((error) => {
             sideNotification.open(error.message);
@@ -92,12 +92,11 @@ export const userLogin = (data) => (dispatch) => {
                 dispatch({type: "LOGIN_SUCCESS", user: r.data});
                 resolve(true);
             } else {
-                sideNotification.open("Login Gagal", r.message, false);
-                dispatch({type: "LOGIN_FAILED", errorMessage: r.message});
+                dispatch({type: "LOGIN_FAILED", value: r.message});
+                dispatch({type: "CHANGE_LOADING", value: false});
                 reject(false);
             }
             
-            dispatch({type: "CHANGE_LOADING", value: false});
         }).catch(error => {
             dispatch({type: "CHANGE_LOADING", value: false});
         });

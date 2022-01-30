@@ -45,9 +45,7 @@ class Technical extends React.Component {
 
     LoadData = () => {
         const { payload } = this.state; 
-        console.log("LoadData: ", this.props)
         axiosApi.post(`/technical_analysis/getPagination`, payload).then(r => {
-            console.log(r.data);
             if (r.data.total > 0) {
                 this.setState({...this.state, listData: r.data});
             } else {

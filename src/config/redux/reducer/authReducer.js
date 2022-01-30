@@ -21,7 +21,12 @@ const authReducer = (state = initState, res) => {
         case "LOGIN_FAILED":
             return {
                 ...state,
-                errorMessage: ""
+                errorMessage: res.value
+            }
+        case "REGISTER_FAILED":
+            return {
+                ...state,
+                errorMessage: res.value
             }
         case "CHANGE_USER":
             return {

@@ -27,13 +27,12 @@ const WebinarPending = props => {
                 setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
             }
         }).catch(function (error) {
-            console.log(error.toJSON());
             window.location.assign("/")
         });
     }
 
     return (
-        <section className="section home-1-bg" id="home">
+        <section className="section" id="home">
             <div className="home-8-bg-overlay"></div>
             <div className="home-center">
                 <div className="home-desc-center">
@@ -110,7 +109,7 @@ const WebinarPending = props => {
                                         />
                                     </Card>
                                     
-                                    <Row>
+                                    <Row className="mb-5">
                                         <Col md="12">
                                             <a href="/transaction">
                                                 <Button type="primary" block>

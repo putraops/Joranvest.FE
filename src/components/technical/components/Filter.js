@@ -41,7 +41,6 @@ class Filter extends React.Component {
             } else {
                 this.setState({...this.state, emitenData: []});
             }
-            console.log("result lookup: ", r);
         });
     }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
+import { Card, Alert, List, Modal, Breadcrumb } from 'antd';
 import moment from 'moment';
 import {
     HomeOutlined, 
@@ -166,7 +166,7 @@ class WebinarDetail extends React.Component {
 
         function registration() {
             if (detailData.price > 0) {
-                window.location.assign(baseUrl + "/webinar/payment/" + detailData.id);
+                window.location.assign(baseUrl + "/checkout/webinar/" + detailData.id);
             } else {
                 confirm({
                     title: "Apakah yakin ingin mendaftar?",
@@ -355,16 +355,23 @@ class WebinarDetail extends React.Component {
                                         }
                                     })()}
 
-                                    <Button className="font-weight-bold"
-                                        type="primary"
-                                        block
-                                        size='large'
-                                        disabled={isRegistered || isExpired}
-                                        loading={isLoading.register}
+                                    {/* <a href={`/checkout/webinar/${detailData.id}`} type="button" 
+                                        className={`btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius ${isRegistered || isExpired ? "disabled": ""}`}
+                                        onClick={user ? () => registration() : () => showLoginConfirm()}>
+                                        {isLoading.register ? 
+                                            <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                            : <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
+                                        }
+                                    </a> */}
+                                    <button type="button" 
+                                        className="btn btn-block btn-joran mt-0 p-2 pr-4 pl-4 no-radius"
                                         onClick={user ? () => registration() : () => showLoginConfirm()}
-                                        >
-                                        <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
-                                    </Button>
+                                        disabled={isRegistered || isExpired}>
+                                        {isLoading.register ? 
+                                            <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                            : <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
+                                        }
+                                    </button>
                                 </Card>
                             </Col>
                         </Row>

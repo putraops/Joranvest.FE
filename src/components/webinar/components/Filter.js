@@ -19,7 +19,6 @@ const Filter = props => {
             axiosApi.get(`/webinar_category/lookup?q=&page=1&field=${JSON.stringify(["name"])}`)
             .then(res => {
                 var r = res.data;
-                console.log(r);
                 const data = [];
                 if (r.status) {
                     if (r.data.results.length > 0) {
@@ -76,7 +75,7 @@ const Filter = props => {
     return (
         <React.Fragment>
             <strong>Pencarian: </strong>
-            <div class="w-100 mb-2 d-lg-none d-md-block"></div>
+            <div className="w-100 mb-2 d-lg-none d-md-block"></div>
             <Select
                 placeholder="Kategori"
                 className="mr-1 mb-2" 

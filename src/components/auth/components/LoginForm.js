@@ -36,7 +36,7 @@ const LoginForm = (props) => {
 
     return (
         <Fragment>
-            <div className="d-xs-block d-sm-block d-md-none" style={{marginBottom: "80px"}}>
+            <div className="d-xs-block d-sm-block d-md-none" style={{marginBottom: "30px"}}>
                 <Logo size="200px" />
             </div>
 

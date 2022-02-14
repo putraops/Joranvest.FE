@@ -11,20 +11,22 @@ const ArticleList = (props) => {
     }
     const articleTitle = {
         fontSize: '20px',
-        marginTop: '-5px'
+        marginTop: '-5px',
+        lineHeight: "30px"
     }
     const categoryStyle = {
         marginTop: "-5px",
     }
     const postedDate = {
-        marginTop: "-5px", 
+        marginTop: "0px", 
         fontSize: "13px",
+        lineHeight: "20px"
     }
     var articleDate = dateFormat.getLongDateTimeFormatID(props.obj.submitted_at.Valid ? props.obj.submitted_at.Time : props.obj.created_at.Time);
 
     return (
         <a href={`/article/detail/${props.obj.id}`}>
-            <List.Item key={props.obj.id}>
+            <List.Item key={props.obj.id} className="mb-3">
                 <List.Item.Meta
                     avatar={
                         <Image

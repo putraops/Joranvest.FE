@@ -27,7 +27,9 @@ import SpeakerReview from './components/speaker/review/SpeakerReview';
 import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
 
+import CheckoutPage from './components/checkout/CheckoutPage'
 import CheckoutMembership from './components/checkout/Membership'
+import CheckoutConfirmation from './components/checkout/PaymentGateway/Confirmation'
 import MembershipPayment from './components/payment/MembershipPayment'
 import WebinarPaymentStatus from './components/payment/WebinarPayment'
 
@@ -74,7 +76,9 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
-                        <Route path={`${process.env.PUBLIC_URL}/checkout/membership/:id`} component={CheckoutMembership}/>
+                        <Route path={`${process.env.PUBLIC_URL}/checkout/:product_category/:product_id`} component={CheckoutPage}/>
+                        <Route path={`${process.env.PUBLIC_URL}/payment/status/:payment_id`} component={CheckoutConfirmation}/>
+                        
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:status/:id`} component={WebinarPaymentStatus}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>

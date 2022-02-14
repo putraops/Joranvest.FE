@@ -61,7 +61,6 @@ class Article extends React.Component {
     {
         const {payload} = this.state; 
         axiosApi.post(`/article/getPagination`, payload).then(r => {
-            console.log(r);
             if (r.data.total > 0) {
                 callback(r);
             }

@@ -328,8 +328,8 @@ p {
 }
 
 .btn-outline {
-  color: #005bea;
-  border-color: #005bea;
+  color: #296d98;
+  border-color: #296d98;
 }
 
 .btn-outline:hover,
@@ -344,7 +344,7 @@ p {
   outline: none;
   text-decoration: none;
   color: #ffffff;
-  background: #005bea;
+  background: #296d98;
   -webkit-transform: translateY(-3px);
           transform: translateY(-3px);
   -webkit-box-shadow: 0 3px 20px -8px #000;
@@ -472,7 +472,7 @@ p {
 
 .home-2-bg {
   background-image: url("../images/home-2-bg.png");
-  background-color: #0e6cff;
+  background-color: #3792cb;
   position: relative;
   background-size: cover;
   height: 100vh;
@@ -1029,17 +1029,17 @@ p {
 }
 
 .pricing-box:hover .price, .pricing-box.active .price {
-  background-color: #005bea !important;
+  background-color: #296d98 !important;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  border-color: #005bea;
+  border-color: #3792cb;
 }
 
 .pricing-box:hover .price:after, .pricing-box.active .price:after {
-  background-color: #005bea !important;
+  background-color: #296d98 !important;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  border-color: #005bea;
+  border-color: #3792cb;
 }
 
 .pricing-box:hover .price h2,

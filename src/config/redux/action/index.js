@@ -151,10 +151,6 @@ export const userLoginWithGoogle = (data) => (dispatch) => {
                 const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
-
-                console.log(credential);
-                console.log(token);
-                console.log(user);
                 // ...
             }).catch((error) => {
                 // Handle Errors here.
@@ -175,7 +171,6 @@ export const updateUserPassword = (data) => (dispatch) => {
                 message: "Ganti Password Berhasil!",
             });
         }).catch((error) => {
-            console.log("ipdateUserPassword:", error);
             var errMsg = error.message;
             var errorResponse = "";
             if (errMsg.includes("auth/weak-password")) {
@@ -203,7 +198,6 @@ export const updateUserPasswordWithFirebase = (data) => (dispatch) => {
                 message: "Ganti Password Berhasil!",
             });
         }).catch((error) => {
-            console.log("ipdateUserPassword:", error);
             var errMsg = error.message;
             var errorResponse = "";
             if (errMsg.includes("auth/weak-password")) {
@@ -224,15 +218,7 @@ export const showUploadTransferModal = (data) => (dispatch) => {
         axiosApi.get(`/filemaster/getAll?record_id=${data.data.id}`)
         .then(res => {
             var r = res.data;
-            console.log("loadAttachments: ", r);
             if (r.status) {
-                // if (r.data.length > 0) {
-                //     this.setState({
-                //         ...this.state,
-                //         webinarCoverUrl: r.data[0].filepath
-                //     })
-                // }
-                //message.success("Success to save Webinar Speakers.");
                 if (r.data.length > 0) {
                     dispatch({type: "SHOW_UPLOAD_TRANSFER_MODAL", value: data, file: r.data[0]});
                 } else {

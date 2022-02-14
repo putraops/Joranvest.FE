@@ -49,11 +49,11 @@ const RegisterForm = (props) => {
 
     return (
         <Fragment>
-            <div className="d-xs-block d-sm-block d-md-none" style={{marginBottom: "30px"}}>
-                <Logo size="200px" />
+            <div className="d-xs-block d-sm-block d-md-none mb-4">
+                <Logo size="200px" isTagShow={false} />
             </div>
 
-            <h1 className="display-4 f-10 mb-4" style={{fontSize: "25px"}}>Daftar Akun</h1>
+            <h1 className="display-4 f-10 mb-4" style={{fontSize: "20px"}}>Daftar Akun</h1>
 
             {errorMessage && (
                 <Alert className="mb-3" message={errorMessage} type="error"showIcon  />
@@ -69,7 +69,6 @@ const RegisterForm = (props) => {
                 }}
                 validationSchema={ValidationSchema}
                 onSubmit={(values, { resetForm }) => {
-                    console.log(values);
                     handleRegister(values, resetForm);
                 }}
                 >

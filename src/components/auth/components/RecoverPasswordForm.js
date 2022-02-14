@@ -9,9 +9,6 @@ const RecoverPasswordForm = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log("props", props);
-        console.log("props", props.param.match.params.user_id);
-        console.log("props", props.param.match.params.email);
     }, []);
 
     const ValidationSchema = Yup.object().shape({

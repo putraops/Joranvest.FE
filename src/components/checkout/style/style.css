@@ -1,3 +1,20 @@
+.ant-list-item {
+    padding: 0px 20px 0px 8px !important;
+}
+
+.ant-list-item-meta-content {
+    z-index: 100;
+}
+
+.ant-list-item-meta-ewallet {
+    margin-left: -25px;
+}
+
+.payment-method-title {
+    margin-top: 12px;
+    margin-left: -30px;
+}
+
 #article-body {
     font-family: initial !important;
     font-size: initial !important;
@@ -24,4 +41,8 @@
 
 .ant-comment-actions svg {
     margin-top: -5px;
+}
+
+.membership-name {
+    font-weight: 700;
 }

@@ -10,12 +10,14 @@ import Footer from '../Footer';
 import { Collapse } from 'antd';
 import TransferModal from './components/Modals/Transfer'
 import CreditCardModal from './components/Modals/CreditCard'
+import EWalletModal from './components/Modals/EWalletModal';
 import actions from './actions/actions';
 import midtrans from './actions/midtrans';
 import paymentMethod from './payment-method';
 
 import sideNotification from '../../commons/sideNotification';
-import { showTransferModal, showCreditCardModal } from '../../config/redux/action/payment';
+import * as services from './actions/services';
+import { showEWalletModal, showTransferModal, showCreditCardModal } from '../../config/redux/action/payment';
 
 const { Panel } = Collapse;
 
@@ -29,10 +31,10 @@ const Webinar = props => {
     const [loading, setLoading] = useState({
         isSummaryLoading: true,
         isButtonPaymentLoading: false,
-        isButtonCardPaymentLoading: false,
     });
     const [modal, setModal] = useState({
-        gopayQRModal: false
+        gopayQRModal: false,
+        eWalletModal: true
     });
     const [gopayQRUrl, setGopayQRUrl] = useState('')
                                         
@@ -95,7 +97,6 @@ const Webinar = props => {
 
     const handlePayment = () => {
         const { user } = props
-        setLoading({...loading, isButtonCardPaymentLoading: false});
         if (!user) {
             sideNotification.open("Peringatan!", "Silahkan Login terlebih dahulu.", false)
             return;
@@ -107,9 +108,37 @@ const Webinar = props => {
             props.showCreditCardModal();
         } else if (paymentType == "gopay") {            
             handleGopayCharge();
+        } else if (paymentType.toUpperCase() === "OVO" || paymentType.toUpperCase() === "LINKAJA") {
+            handleEWalletCharge(paymentType);
         } else {
             sideNotification.open("Peringatan!", "Silahkan Pilih Tipe Pembayaran terlebih dahulu.", false)
         }
+    }
+
+    const handleEWalletCharge = async (paymentType) => {
+        // setAuth3dsUrl(r.data.redirect_url);
+        // setModal({...modal, cardModal: false, auth3dsModal: true})
+        setLoading({...loading, isButtonPaymentLoading: true});
+        services.CreateEWalletPayment({
+            amount: 100,
+            phone_number: "+6281340810046",
+            payment_type: "LINKAJA",
+            record_id: webinarRecord.id,
+            payment_request: "Webinar"
+        }).then(res => {
+            var r = res.data;
+            setLoading({...loading, isButtonPaymentLoading: false});
+
+            if (r.Status) {
+                if (paymentType === "LINKAJA") {
+                    window.location.replace(r.Data.actions.desktop_web_checkout_url)
+                    //setEWalletUrl(r.Data.actions.desktop_web_checkout_url);
+                    //setModal({...modal, eWalletModal: true});
+                }
+            }
+        }).catch(res => {
+            setLoading({...loading, isButtonPaymentLoading: false});
+        });
     }
 
     const handleGopayCharge = async () => {
@@ -154,10 +183,13 @@ const Webinar = props => {
         const listItems = paymentMethod.map((items) =>
             <Fragment key={items.key}>
                 {items.has_children ? (
-                    <Collapse accordion
+                    <Collapse 
+                        accordion={false} className='mb-1'
+                        defaultActiveKey={items.key}
                         key={items.key}>
-                        <Panel 
-                            header={<span className="font-weight-bold">Transfer Manual</span>}>
+                        <Panel
+                            key={items.key}
+                            header={<span className="font-weight-bold">{items.title}</span>}>
                             <List
                                 size="large"
                                 bordered
@@ -168,11 +200,14 @@ const Webinar = props => {
                                         actions={[<Radio className="pull-right" checked={true} value={item.value} style={{marginRight: "-10px"}}></Radio>]}
                                     >
                                         <List.Item.Meta
-                                        avatar={<Image
-                                            width={60}
-                                            preview={false} 
-                                            src={item.img} />
-                                        }
+                                            avatar={
+                                                <Image
+                                                    className="mt-1"
+                                                    width={item.width}
+                                                    preview={false} 
+                                                    src={item.img} />
+                                            }
+                                            title={<p className={`${items.key === "transfer_bank" ? "d-none" : "mt-1 mb-0"}`}>{item.name}</p>}
                                         />
                                     </List.Item>
                                 )}
@@ -180,7 +215,7 @@ const Webinar = props => {
                         </Panel>
                     </Collapse>
                 ) : (
-                    <List style={{marginTop: "5px"}}
+                    <List className='mb-1'
                         key={items.key}
                         size="large"
                         bordered
@@ -226,8 +261,10 @@ const Webinar = props => {
                             />
                         </div>
                     </Modal>
+
                     <CreditCardModal record_id={props.match.params.id} customer={customerDetails} product_name={webinarRecord.title} price={totalPrice} payment_type={paymentType} />
                     <TransferModal record_id={props.match.params.id} price={totalPrice} payment_type={paymentType} />
+                    <EWalletModal record_id={props.match.params.id} price={totalPrice} payment_type={paymentType} />
 
                     <Row>
                         <Col sm="12" className="mt-3 mb-4">
@@ -349,7 +386,16 @@ const Webinar = props => {
                                     </table>
                                 </Skeleton>
                                 <span className="f-13">Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.</span>
-                                <Button type="primary" className="mt-3" block disabled={isPaymentAvailable} loading={loading.isButtonPaymentLoading} onClick={() => handlePayment()} >Selesaikan Pembayaran</Button>
+                                            
+                                <button type="submit" 
+                                    className="btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius"
+                                    onClick={() => handlePayment()}
+                                    disabled={isPaymentAvailable || loading.isButtonPaymentLoading}>
+                                    {loading.isButtonPaymentLoading ? 
+                                        <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                        : <span>Selesaikan Pembayaran</span>
+                                    }
+                                </button>
                             </Card>
                         </Col>
                     </Row>
@@ -367,6 +413,7 @@ const reduxState = (state) => {
 }
 const reduxDispatch = (dispatch) => ({
     showTransferModal: () => dispatch(showTransferModal()),
+    showEWalletModal: () => dispatch(showEWalletModal()),
     showCreditCardModal: () => dispatch(showCreditCardModal()),
 })
 

@@ -120,7 +120,6 @@ const SpeakerReview = props => {
     }
 
     function callback(key) {
-        console.log(key);
     }
 
     return (

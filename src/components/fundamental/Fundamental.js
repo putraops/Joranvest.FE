@@ -136,10 +136,12 @@ class Fundamental extends React.Component {
                                     <Row className="justify-content-md-center">
                                         <Col md="12">
                                             <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
-                                                <Col lg="7" className="mb-4">
+                                                <Row className="justify-content-md-center">
+                                                    <Col lg="7" className="mb-4 text-center">
                                                         <p className="font-weight-bold f-20 mb-2">Ooops...</p>
                                                         <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum login. Silahkan login terlebih dahulu.</p>
                                                     </Col>
+                                                </Row>
                                                 <Row className="justify-content-md-center">
                                                     <Col md="3" className="">
                                                         <a href={`/login`}>
@@ -165,8 +167,8 @@ class Fundamental extends React.Component {
                                     <Row className="justify-content-md-center">
                                         <Col md="12">
                                             <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
-                                                <Row className="justify-content-md-center text-center">
-                                                    <Col lg="7" className="mb-4">
+                                                <Row className="justify-content-md-center">
+                                                    <Col lg="7" className="mb-4 text-center">
                                                         <p className="font-weight-bold f-20 mb-2">Ooops...</p>
                                                         <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum terdaftar sebagai Member. Silahkan daftar Member terlebih dahulu untuk mendapatkan Analisa terbaik.</p>
                                                     </Col>

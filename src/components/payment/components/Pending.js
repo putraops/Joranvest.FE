@@ -27,7 +27,6 @@ const Pending = props => {
                 setExpiredRecord(moment(r.data.payment_date_expired.Time,  "YYYY/MM/DD HH:mm").format('DD MMMM YYYY HH:mm'));
             }
         }).catch(function (error) {
-            console.log(error.toJSON());
             window.location.assign("/")
         });
     }

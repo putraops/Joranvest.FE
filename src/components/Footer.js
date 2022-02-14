@@ -6,8 +6,8 @@ class Footer extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="footer-bg mt-0 pb-0">
-                    <div className="container">
+                <section className="footer-bg mt-3 pt-4 pb-0" style={{borderTop: "1.5px solid #ddd"}}>
+                    <div className="container pb-4">
                         <Row>
                             <Col md="6" lg="6" className="mb-2">
                                 <div className="text-dark">
@@ -23,14 +23,9 @@ class Footer extends React.Component {
                                     </div>
                                     <div className="col-md-5 mb-3">
                                         <p className="text-uppercase text-dark footer-title mb-2">JORANVEST</p>
-                                        {/* <p className="text-muted mb-0">Blog </p> */}
                                         <p className="text-muted mb-0"><a href="/webinar" className="text-secondary">Webinar</a></p>
-                                        {/* <p className="text-muted mb-0">Jadi Member</p> */}
-                                        {/* <p className="text-muted mb-0">Karir</p> */}
-                                        {/* <p className="text-muted mb-0">Partnership</p> */}
                                     </div>
                                     <div className="col-md-5">
-                                        {/* <p class="text-muted mb-0">BANTUAN & PANDUAN</p> */}
                                         <p className="text-uppercase text-dark footer-title mb-2">Bantuan & Panduan</p>
                                         <p className="text-muted mb-0">Syarat & Ketentuan</p>
                                         <p className="text-muted mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>

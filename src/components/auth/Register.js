@@ -1,6 +1,7 @@
 import React from 'react';
 import './css/auth.css'
 import { Row, Col } from 'reactstrap';
+import { Divider } from 'antd';
 
 import { connect } from 'react-redux';
 import Logo from './components/Logo';
@@ -18,7 +19,7 @@ class Register extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="position-absolute mt-4 mr-4" style={{zIndex: "9999", right: "0"}}>
+                <div className="position-absolute mt-4 mr-4 text-right d-none d-md-block" style={{zIndex: "9999", right: "0"}}>
                     <a href="/login"><button className="btn btn-outline-joran p-2 pr-4 pl-4" style={{border: "2.2px solid"}}>Login</button></a>
                 </div>
                 <section className="section pb-0 pt-0"  style={{height: "100vh"}}>
@@ -40,6 +41,7 @@ class Register extends React.Component {
                                     <div>
                                         <div className="card-body">
                                             <RegisterForm />
+                                            <Divider className="mt-2 mb-2 d-sm-block d-md-none" plain>Sudah punya akun? Login <a href="/login" className="text-joran fw-500">disini</a></Divider>
                                         </div>
                                     </div>
                                 </div>

@@ -26,7 +26,6 @@ const WebinarTab = props => {
         if (props.user && props.user.id != "") {
             LoadWebinarUser();
         }
-        console.log("as", props);
     }, []);
 
     function onPageChange(page, pageSize){
@@ -51,8 +50,6 @@ const WebinarTab = props => {
         }
         axiosApi.post(`/webinar_registration/getPagination`, webinarPayload)
         .then(res => {
-
-            console.log("loadWebinarUser: ", res);
             var r = res.data;
 
             setTotalData(r.total);

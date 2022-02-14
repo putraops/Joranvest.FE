@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Image } from 'antd';
+import { Menu, Dropdown, Card, Image, List, Skeleton, Avatar } from 'antd';
 import { connect } from 'react-redux'
 import serverUrl from '../config/serverUrl';
 import baseUrl from '../config/baseUrl';
@@ -10,7 +10,38 @@ import axiosApi from '../config/axiosConfig'
 import sideNotification from '../commons/sideNotification';
 import joranCookies from '../commons/joranCookies';
 
+import {
+	BellOutlined,
+  } from '@ant-design/icons';
+
 const { Meta } = Card;
+
+const notifData = [
+	{
+		id:"1",
+		value: 'Racing car sprays burning fuel into crowd.'
+	},
+	{
+		id:"2",
+		value: 'Japanese princess to wed commoner.'
+	},
+	{
+		id:"3",
+		value: 'Australian walks 100km after outback crash.'
+	},
+	{
+		id:"4",
+		value: 'Man charged over missing wedding girl.'
+	},
+	{
+		id:"5",
+		value: 'Los Angeles battles huge wildfires.'
+	},
+	{
+		id:"6",
+		value: 'Man charged over missing wedding girl.'
+	}
+];
 
 class Navbar extends React.Component {
 	constructor( props ) {
@@ -43,6 +74,8 @@ class Navbar extends React.Component {
 			sideNotification.open("Error", error, false);
 		});
     }
+
+	
     
 	render() {
         let user = joranCookies.get();
@@ -108,6 +141,30 @@ class Navbar extends React.Component {
 				</Menu.Item>
             </Menu>
 		);
+
+		const notifications = (
+            <Menu style={{minWidth: "500px"}}>
+				<List
+					className="demo-loadmore-list"
+					//loading={initLoading}
+					itemLayout="horizontal"
+					//loadMore={loadMore}
+					dataSource={notifData}
+					renderItem={item => (
+					<Menu.Item key={item.id}>
+						<List.Item
+							actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
+						>
+							<Skeleton avatar title={false} loading={item.loading} active>
+								<div>{item.value}</div>
+							</Skeleton>
+						</List.Item>
+					</Menu.Item>
+					)}
+				/>
+            </Menu>
+		);
+
         return (
             <React.Fragment>
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
@@ -121,20 +178,22 @@ class Navbar extends React.Component {
 
 							<div className="collapse navbar-collapse" id="navbarCollapse">
 							<ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
-								<li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li>
+								{/* <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li> */}
 								<li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
 								<li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
-								{(() => {
-									if (user && user.is_membership) {
-										return (
-											<li className="nav-item">
-												<Dropdown overlay={analysisMenu}>
-													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>
-												</Dropdown>
-											</li>
-										)
-									}
-								})()}
+								<li className="nav-item">
+									<Dropdown overlay={analysisMenu}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>
+									</Dropdown>
+								</li>
+								{/* <li className="nav-item">
+									<Dropdown overlay={notifications}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  style={{marginTop: "-2px"}}  id="nav-profile" onClick={e => e.preventDefault()}>
+											<BellOutlined className="f-16"/>
+										</a>
+									</Dropdown>
+								</li> */}
+
 								{/* <li className="nav-item"><a href="#" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li> */}
 								{(() => {
 									if (user && user.id != "") {

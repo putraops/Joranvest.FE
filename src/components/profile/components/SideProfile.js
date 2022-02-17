@@ -80,8 +80,8 @@ const SideProfile = props => {
                 itemLayout="horizontal"
                 dataSource={data}
                 renderItem={item => (
-                    <List.Item className="mt-0 mb-0 pt-2 pb-2">
-                      <a href={item.url} style={{color: "black"}}>{item.title}</a>
+                    <List.Item >
+                      <a href={item.url} className="mt-2 mb-2" style={{color: "black"}}>{item.title}</a>
                     </List.Item>
                 )}
             />

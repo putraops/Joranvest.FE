@@ -36,7 +36,7 @@ const TechnicalList = (props) => {
             key={props.obj.id}
             actions={[
             ]}>
-            <List.Item.Meta className="mt-0"
+            <List.Item.Meta className="mt-4"
                 avatar={
                     <Image 
                         style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
@@ -91,7 +91,7 @@ const TechnicalList = (props) => {
                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                         <h5 className="f-15 box-title">Risk Reward</h5>
-                                        <p className="text-primary f-16 mb-0 emiten-price">{props.obj.start_ratio} : {props.obj.end_ratio}</p>
+                                        <p className="text-joran f-16 mb-0 emiten-price">{props.obj.start_ratio} : {props.obj.end_ratio}</p>
                                     </div>
                                 </div>
                             </Col>
@@ -102,7 +102,7 @@ const TechnicalList = (props) => {
                                         <p className="mb-0">
                                             {
                                                 <Fragment>
-                                                    <NumberFormat className="text-primary f-16 mb-0 emiten-price"
+                                                    <NumberFormat className="text-joran f-16 mb-0 emiten-price"
                                                         value={props.obj.start_buy}
                                                         displayType="text"
                                                         thousandSeparator={true}
@@ -112,8 +112,8 @@ const TechnicalList = (props) => {
                                                         if (props.obj.end_buy !== 0 && props.obj.start_buy !== props.obj.end_buy) {
                                                         return (
                                                             <Fragment>
-                                                                <span className="text-primary font-weight-bold"> - </span>
-                                                                <NumberFormat className="text-primary f-16 mb-0 emiten-price"
+                                                                <span className="text-joran font-weight-bold"> - </span>
+                                                                <NumberFormat className="text-joran f-16 mb-0 emiten-price"
                                                                     value={props.obj.end_buy}
                                                                     displayType="text"
                                                                     thousandSeparator={true}

@@ -21,7 +21,7 @@ import Webinar from './components/webinar/Webinar';
 import WebinarDetail from './components/webinar/WebinarDetail';
 import WebinarHistory from './components/webinar/WebinarHistory';
 import WebinarReview from './components/webinar/WebinarReview';
-import WebinarPayment from './components/payment/Webinar';
+// import WebinarPayment from './components/payment/Webinar';
 import SpeakerReview from './components/speaker/review/SpeakerReview';
 
 import Article from './components/article/Article';
@@ -31,7 +31,7 @@ import CheckoutPage from './components/checkout/CheckoutPage'
 import CheckoutMembership from './components/checkout/Membership'
 import CheckoutConfirmation from './components/checkout/PaymentGateway/Confirmation'
 import MembershipPayment from './components/payment/MembershipPayment'
-import WebinarPaymentStatus from './components/payment/WebinarPayment'
+import PaymentPage from './components/payment/PaymentPage'
 
 import Transaction from './components/transaction/Transaction';
 
@@ -80,8 +80,8 @@ class Root extends React.Component {
                         <Route path={`${process.env.PUBLIC_URL}/payment/status/:payment_id`} component={CheckoutConfirmation}/>
                         
                         <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
-                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:status/:id`} component={WebinarPaymentStatus}/>
-                        <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/payment/:status/:id`} component={PaymentPage}/>
+                        {/* <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/> */}
                         <Route exact path={`${process.env.PUBLIC_URL}/speaker/review/:id`} component={SpeakerReview}/>
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>

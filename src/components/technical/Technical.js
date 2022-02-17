@@ -182,10 +182,10 @@ class Technical extends React.Component {
                                             />
                                         </Col>
                                         <Col md="8" lg="9">
-                                            <Divider dashed className="mt-0 mb-0" />
                                             <Skeleton active loading={this.state.loading} avatar paragraph={{ rows: 5 }}>
                                                 <List
-                                                    itemLayout="vertical"  size="large"
+                                                    itemLayout="vertical" size="large"
+                                                    style={{marginTop: "-20px"}}
                                                     pagination={{
                                                         onChange: page => {
                                                             this.handlePage(page);

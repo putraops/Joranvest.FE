@@ -30,12 +30,12 @@ const FundamentalList = (props) => {
     var analysisDate = dateFormat.getInteractiveLongDateTimeFormatID(props.obj.submitted_at.Valid ? props.obj.submitted_at.Time : props.obj.created_at.Time);
 
     return (
-        <List.Item className="pl-0 pr-0 pb-0"
+        <List.Item className="pl-0 pr-0"
             key={props.obj.id}
             actions={[
             ]}>
             <List.Item.Meta 
-                className="mt-0"
+                className="mt-4"
                 key={`item-${props.obj.id}`} 
                 avatar={
                     <Image 

@@ -124,15 +124,11 @@ class Filter extends React.Component {
                             <Option value="Swing">Swing</Option>
                         </Select>
                     </Col>
-                    <Col lg="12" className="mb-2">
-                    <Button
-                        type="primary"
-                        block
-                        icon={<SearchOutlined />}
-                        // loading={loading[1]}
-                        onClick={() => this.props.filtering(this.state)}
-                    > Cari
-                    </Button>
+                    <Col lg="12">
+                        <button
+                            className="btn btn-joran btn-block btn-sm no-radius mt-1"
+                            onClick={() => this.props.filtering(this.state)}> Cari
+                        </button>
                     </Col>
                 </Row>
             </Card>

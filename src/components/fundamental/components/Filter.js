@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../../config/axiosConfig';
-import { Button, Card, Select, Typography } from 'antd';
+import { Button, Card, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -102,13 +102,10 @@ class Filter extends React.Component {
                         </Select>
                     </Col>
                     <Col lg="12" className="mb-2">
-                    <Button
-                        type="primary"
-                        block
-                        icon={<SearchOutlined />}
-                        onClick={() => this.props.filtering(this.state)}
-                    > Cari
-                    </Button>
+                        <button
+                            className="btn btn-joran btn-block btn-sm no-radius mt-1"
+                            onClick={() => this.props.filtering(this.state)}> Cari
+                        </button>
                     </Col>
                 </Row>
             </Card>

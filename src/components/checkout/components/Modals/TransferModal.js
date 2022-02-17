@@ -51,12 +51,13 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
         
         axiosApi.post(`/payment/webinarPayment`, payload)
         .then(res => {
-            setLoading({...loading, isSubmitLoading: false});
             var r = res.data;
             if (r.status) {
                 if (r.data.payment_status === 2) {
-                    window.location.assign("/webinar/payment/pending/" + r.data.id)
+                    window.location.assign("/payment/pending/" + r.data.id)
                 }
+            } else {
+                setLoading({...loading, isSubmitLoading: false});
             }
         });
     }
@@ -68,13 +69,7 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
                 centered
                 visible={isModalShow}
                 onCancel={setHide}
-                footer={[
-                    <Fragment key="fragment">
-                        <p className="f-13 mt-0 mb-1" key="terms" style={{float: "left"}}
-                            >Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.
-                        </p>
-                    </Fragment>
-                ]}
+                footer={null}
                 >
                 <Alert
                     message={
@@ -134,14 +129,22 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
                             <Fragment>
                                 <ol style={{marginLeft: "-15px"}}>
                                     <li>Masukkan masukkan nominal sesuai sampai digit terakhir untuk memudahkan verifikasi.</li>
-                                    <li>Masukkan info rekening sesuai pada buku tabungan / informasi rekening.</li>
                                     <li>Pembayaran melalui teller, informasi <strong>"Nomor Rekening"</strong> dengan nomor. Kemudian, isi <strong>"Nama Pemilik Rekening"</strong> dengan nama Anda.</li>
                                 </ol>
                             </Fragment>
                         }
                         type="warning"
                     />
-                    <Button key="pay" type="primary" htmlType="submit" loading={loading.isSubmitLoading} block>Submit</Button>
+                    <button type="submit" key="pay" className={`btn btn-joran btn-sm btn-block ${loading.isSubmitLoading ? "disabled" : ""}`}>
+                        {loading.isSubmitLoading ? 
+                            <span>
+                                <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+                                Sedang diproses...
+                            </span>
+                            : <span>Submit</span>
+                        }
+                    </button>
+                    {/* <Button key="pay" type="primary" htmlType="submit" loading={loading.isSubmitLoading} block></Button> */}
                 </Form >
             </Modal>
         </Fragment>

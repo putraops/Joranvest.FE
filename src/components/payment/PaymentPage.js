@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 
-import Pending from './components/WebinarPending';
+import PendingPage from './components/PendingPage';
 import Success from './components/WebinarSuccess';
 
-const WebinarPayment = props => {
+const PaymentPage = props => {
     useEffect(() => {
     }, []);
 
     if (props.match.params.status === "pending") {
         return (
-            <Pending record_id={props.match.params.id} />
+            <PendingPage record_id={props.match.params.id} />
         )
     } else {
         return (
@@ -23,4 +23,4 @@ const mapStateToProps = (state) => {
         user: state.auth.user,
     }
 }
-export default connect(mapStateToProps, null)(WebinarPayment);
+export default connect(mapStateToProps, null)(PaymentPage);

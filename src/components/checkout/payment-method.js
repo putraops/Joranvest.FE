@@ -30,13 +30,13 @@ const eWallet = [
         width: 90,
         marginLeft: "0px"
     },
-    {
-        name: "",
-        value: "QRIS",
-        img: "assets/img/payment/p-qris.png",
-        width: 80,
-        marginLeft: "25px"
-    }
+    // {
+    //     name: "",
+    //     value: "QRIS",
+    //     img: "assets/img/payment/p-qris.png",
+    //     width: 80,
+    //     marginLeft: "25px"
+    // }
 ]
 
 const paymentMethod = [,

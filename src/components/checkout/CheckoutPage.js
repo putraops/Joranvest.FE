@@ -17,8 +17,8 @@ import { WebinarSummary, MembershipSummary } from './components/Summary';
 
 // import { ApplicationMenuDeleteDialog } from "./form/ApplicationMenuDeleteDialog";
 
-import actions from './actions/actions';
-import midtrans from './actions/midtrans';
+// import actions from './actions/actions';
+// import midtrans from './actions/midtrans';
 import paymentMethod from './payment-method';
 
 import './style/style.css';
@@ -28,6 +28,7 @@ import * as services from './services/service';
 import { showEWalletModal, showTransferModal, showCreditCardModal } from '../../config/redux/action/payment';
 import baseUrl from '../../config/baseUrl';
 import { QRModal } from './components/Modals/QRModal';
+import { MembershipInformation } from './components/MembershipInformation';
 
 const { Panel } = Collapse;
 
@@ -322,7 +323,7 @@ const CheckoutPage = props => {
                         />
 
                     <Row>
-                        <Col sm="12" className="mt-3 mb-4">
+                        <Col sm="12" className="mt-3 mb-5">
                             {!props.user ? 
                                 <Alert
                                     message={<span style={{fontWeight: "500"}}>Silahkan login terlebih dahulu untuk melakukan Pembayaran.</span>}
@@ -340,15 +341,7 @@ const CheckoutPage = props => {
                                                 {(() => {
                                                     if (isUserRegisteredAsMember) {
                                                         return (
-                                                            <Alert
-                                                                message={<span style={{fontWeight: "500"}}>Kamu sudah terdaftar sebagai Member.</span>}
-                                                                description={
-                                                                    <Fragment>
-                                                                        <span className="f-14">Kembali ke halaman utama <a href="/" className="font-weight-bold">disini</a>.</span>
-                                                                    </Fragment>
-                                                                }
-                                                                type="warning"
-                                                            />
+                                                           <MembershipInformation record={membershipRecord} user={props.user} />
                                                         )
                                                     } else if (isWebinarRegistered) {
                                                         return (
@@ -376,10 +369,6 @@ const CheckoutPage = props => {
                                                         )
                                                     }
                                                 })()}   
-
-                                                
-                                                        
-                                               
                                             </Col>
                                             <Col md="7" className="mb-3">
                                                 <Row className="mb-4">
@@ -430,10 +419,10 @@ const CheckoutPage = props => {
                                                     <button type="submit" 
                                                         className="btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius"
                                                         onClick={() => handlePayment()}
-                                                        disabled={isWebinarRegistered || isUserRegisteredAsMember || loading.isButtonPaymentLoading}>
+                                                        disabled={isWebinarRegistered || loading.isButtonPaymentLoading}>
                                                         {loading.isButtonPaymentLoading ? 
                                                             <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
-                                                            : <span>Selesaikan Pembayaran</span>
+                                                            : <span>{isUserRegisteredAsMember ? "BAYAR" : "Selesaikan Pembayaran"}</span>
                                                         }
                                                     </button>
                                                 </Card>

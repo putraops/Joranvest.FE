@@ -80,7 +80,7 @@ export function MembershipSummary ({membershipRecord}) {
                 <tbody>
                     <tr>
                         <td>
-                            <p className="mb-0 f-18 membership-name">{membershipRecord ? membershipRecord.name : ""}</p>
+                            <p className="mb-0 f-20 membership-name">{membershipRecord ? membershipRecord.name : ""}</p>
                             <p className="mb-0">Durasi {membershipRecord ? membershipRecord.duration : "0"} Bulan</p>
                             <p className="mb-3">
                                 <NumberFormat

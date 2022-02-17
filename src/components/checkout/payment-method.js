@@ -21,12 +21,21 @@ const eWallet = [
         value: "OVO",
         img: "assets/img/payment/p-ovo-borderless.png",
         width: 90,
+        marginLeft: "0px"
     },
     {
         name: "LinkAja",
         value: "LINKAJA",
-        img: "assets/img/payment/p-linkaja-borderless.png",
+        img: "assets/img/payment/p-linkaja.png",
         width: 90,
+        marginLeft: "0px"
+    },
+    {
+        name: "",
+        value: "QRIS",
+        img: "assets/img/payment/p-qris.png",
+        width: 80,
+        marginLeft: "25px"
     }
 ]
 

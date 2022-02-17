@@ -18,6 +18,10 @@ export async function CreateEWalletPayment(payload){
     return axiosApi.post(`/payment/createEWalletPayment`, payload);
 }
 
+export async function CreateQRCode(payload){
+    return axiosApi.post(`/payment/createQRCode`, payload);
+}
+
 export function getEWalletPaymentStatusByReferenceId(id) {
     return axiosApi.get(`/payment/getEWalletPaymentStatusByReferenceId/${id}`);
 }

@@ -40,7 +40,7 @@ class ClientSection extends React.Component {
         return (
             <React.Fragment>
 
-                <section className="section bg-clients" id="clients">
+                <section className="section bg-clients pb-5 mb-5" id="clients">
                     <div className="bg-overlay"></div>
                     <div className="container">
                         <div className="row">

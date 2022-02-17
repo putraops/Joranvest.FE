@@ -41,7 +41,7 @@ class Footer extends React.Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-12 text-center">
-                                    <p className="copyright text-white f-14 font-weight-light mb-0"> {new Date().getFullYear()} copyright © 2021. PT Risambessy Konsultindo Mandiri</p>
+                                    <p className="copyright text-white f-14 font-weight-light mb-0">copyright © {new Date().getFullYear()}. PT Risambessy Konsultindo Mandiri</p>
                                 </div>
                             </div>
                         </div>

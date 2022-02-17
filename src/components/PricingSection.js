@@ -14,7 +14,7 @@ class PricingSection extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <section className="section bg-about bg-light-about bg-light" id="pricing">
+                <section className="section bg-about bg-light-about bg-light pb-5" id="pricing">
                     <div className="container">
                         <Row>
                             <Col lg="12">

@@ -27,6 +27,7 @@ import sideNotification from '../../commons/sideNotification';
 import * as services from './services/service';
 import { showEWalletModal, showTransferModal, showCreditCardModal } from '../../config/redux/action/payment';
 import baseUrl from '../../config/baseUrl';
+import { QRModal } from './components/Modals/QRModal';
 
 const { Panel } = Collapse;
 
@@ -42,6 +43,7 @@ const CheckoutPage = props => {
     const [membershipRecord, setMembershipRecord] = useState({})
     const [totalPrice, setTotalPrice] = useState(0);
     const [customerDetails, setCustomerDetails] = useState({});
+    const [qrCodeString, setQrCodeString] = useState("");
    
     const [loading, setLoading] = useState({
         isSummaryLoading: true,
@@ -49,7 +51,8 @@ const CheckoutPage = props => {
     });
     const [modal, setModal] = useState({
         eWalletModal: false,
-        transferModalShow: false
+        transferModalShow: false,
+        qrModalShow: false
     });
                                         
     const handlePaymentTypeChange = e => {
@@ -161,9 +164,44 @@ const CheckoutPage = props => {
             setModal({...modal, eWalletModal: true})
         } else if (paymentType.toUpperCase() === "LINKAJA") {
             handleEWalletCharge(null);
+        } else if (paymentType.toUpperCase() === "QRIS") {
+            handleQRPayment();
         } else {
             sideNotification.open("Peringatan!", "Silahkan Pilih Tipe Pembayaran terlebih dahulu.", false)
         }
+    }
+
+    const handleQRPayment = async () => {
+        setLoading({...loading, isButtonPaymentLoading: true});
+
+        let amount = 0;
+        if (productCategory === "webinar") { 
+            amount = webinarRecord.price - webinarRecord.discount;
+        } else {
+            amount = membershipRecord.price * membershipRecord.duration;
+        }
+
+        amount = 1500;
+
+        services.CreateQRCode({
+            amount: amount,
+            product_name: productCategory,
+            record_id: recordId,
+        }).then(res => {
+            var r = res.data;
+            console.log(r);
+
+            if (r.status) {
+                setQrCodeString(r.data.qr_string);
+                setModal({...modal, qrModalShow: true});
+            } else {
+                sideNotification.open("Gagal", r.message, false);
+            }
+            
+            setLoading({...loading, isButtonPaymentLoading: false});
+        }).catch(res => {
+            setLoading({...loading, isButtonPaymentLoading: false});
+        });
     }
 
     const handleEWalletCharge = async (phoneNumber) => {
@@ -226,6 +264,7 @@ const CheckoutPage = props => {
                                                 <Image
                                                     className="mt-1"
                                                     width={item.width}
+                                                    style={{marginLeft: `${item.marginLeft}`}}
                                                     preview={false} 
                                                     src={item.img} />
                                             }
@@ -274,6 +313,13 @@ const CheckoutPage = props => {
                         setHide={() => setModal({...modal, eWalletModal: false})}
                         isSubmitLoading={loading.isButtonPaymentLoading} 
                         handleCharge={handleEWalletCharge}/>
+
+                        
+                    <QRModal 
+                        isModalShow={modal.qrModalShow}
+                        setHide={() => setModal({...modal, qrModalShow: false})}
+                        qrString={qrCodeString}
+                        />
 
                     <Row>
                         <Col sm="12" className="mt-3 mb-4">

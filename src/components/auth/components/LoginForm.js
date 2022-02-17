@@ -8,6 +8,12 @@ import { userLogin, userLoginWithGoogle, actionFormUpdate } from '../../../confi
 import baseUrl from '../../../config/baseUrl';
 import Logo from './Logo';
 
+import '../css/auth.css';
+
+import { 
+    GoogleOutlined 
+} from '@ant-design/icons';
+
 const LoginForm = (props) => {
     const { errorMessage, isLoading } = props;
 
@@ -25,6 +31,10 @@ const LoginForm = (props) => {
             console.log(errorMessage);
         }
     }
+
+    // const handleLoginWithGoogle = () => {
+    //     props.userLoginWithGoogle({});
+    // }
 
     const ValidationSchema = Yup.object().shape({
         email: Yup.string()
@@ -81,6 +91,18 @@ const LoginForm = (props) => {
                     </Form>
                 )}
             </Formik>
+            {/* <button type="button" 
+                className="btn btn-joran-default btn-block btn-joran mt-2 p-2 pr-4 pl-4 no-radius"
+                onClick={handleLoginWithGoogle}
+                disabled={isLoading}>
+                {isLoading ? 
+                    <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...</span>
+                    : 
+                    <>
+                        <img id="google-icon" className="mr-2" src="/assets/img/google-icon.png" /> <span>Login dengan GOOGLE</span>
+                    </>
+                }
+            </button> */}
             <Divider className="mt-2 mb-2" plain><a href="/reset-password" className="text-joran fw-500">Lupa password?</a></Divider>
         </Fragment>
     );

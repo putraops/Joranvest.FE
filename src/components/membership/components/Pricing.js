@@ -39,7 +39,7 @@ class Pricing extends React.Component {
        
         return (
             <React.Fragment>
-                <Row id="joranvest-pricing">
+                <Row id="joranvest-pricing" className="pb-5">
                     <Skeleton active={true} loading={isSkeletionPricing} paragraph={true} row="5">
                         {pricings.map((item, index) => {
                             return  <Col xs="12" sm="6" md="6" lg="4" xl="3" key={index}>

@@ -18,7 +18,9 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
     const [uniqueNumber, setUniqueNumber] = useState(0);
      
     useEffect(() => {
-        GetUniqueNumber();
+        if (user) {
+            GetUniqueNumber();
+        }
     }, []);
     
     function GetUniqueNumber(){

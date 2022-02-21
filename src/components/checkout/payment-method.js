@@ -19,7 +19,7 @@ const eWallet = [
     {
         name: "OVO",
         value: "OVO",
-        img: "assets/img/payment/p-ovo-borderless.png",
+        img: "assets/img/payment/p-ovo.png",
         width: 90,
         marginLeft: "0px"
     },
@@ -27,6 +27,20 @@ const eWallet = [
         name: "LinkAja",
         value: "LINKAJA",
         img: "assets/img/payment/p-linkaja.png",
+        width: 90,
+        marginLeft: "0px"
+    },
+    // {
+    //     name: "ShopeePay",
+    //     value: "SHOPEEPAY",
+    //     img: "assets/img/payment/p-shopeepay.png",
+    //     width: 90,
+    //     marginLeft: "0px"
+    // },
+    {
+        name: "DANA",
+        value: "DANA",
+        img: "assets/img/payment/p-dana.png",
         width: 90,
         marginLeft: "0px"
     },

@@ -2,9 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../config/axiosConfig';
-import { Button, Card, Alert, Radio, List, Skeleton, Modal } from 'antd';
-import { Image, message  } from 'antd';
-import NumberFormat from "react-number-format";
+import { Image, Card, Alert, Radio, List, Skeleton } from 'antd';
 import { connect } from 'react-redux';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
@@ -40,14 +38,13 @@ const CheckoutPage = props => {
     const [isWebinarRegistered, setIsWebinarRegistered] = useState(false);
     const [isUserRegisteredAsMember, setIsUserRegisteredAsMember] = useState(false);
 
-    const [webinarRecord, setWebinarRecord] = useState({})
-    const [membershipRecord, setMembershipRecord] = useState({})
+    const [webinarRecord, setWebinarRecord] = useState(null)
+    const [membershipRecord, setMembershipRecord] = useState(null)
     const [totalPrice, setTotalPrice] = useState(0);
     const [customerDetails, setCustomerDetails] = useState({});
     const [qrCodeString, setQrCodeString] = useState("");
    
     const [loading, setLoading] = useState({
-        isSummaryLoading: true,
         isButtonPaymentLoading: false,
     });
     const [modal, setModal] = useState({
@@ -105,7 +102,6 @@ const CheckoutPage = props => {
                     services.getWebinarById(recordId).then(res => {
                         var r = res.data;
                         setWebinarRecord(r.data);
-                        setLoading({...loading, isSummaryLoading: false});
 
                         if (r.status) {
                             //-- Set Price for Webinar
@@ -122,7 +118,6 @@ const CheckoutPage = props => {
                     services.getMembershipById(recordId).then(res => {
                         var r = res.data;
                         setMembershipRecord(r.data);
-                        setLoading({...loading, isSummaryLoading: false});
 
                         if (r.status) {
                             //-- Set Price for Membership
@@ -163,7 +158,7 @@ const CheckoutPage = props => {
             props.showCreditCardModal();
         } else if (paymentType.toUpperCase() === "OVO") {
             setModal({...modal, eWalletModal: true})
-        } else if (paymentType.toUpperCase() === "LINKAJA") {
+        } else if (paymentType.toUpperCase() === "LINKAJA" || paymentType.toUpperCase() === "DANA" ||paymentType.toUpperCase() === "SHOPEEPAY") {
             handleEWalletCharge(null);
         } else if (paymentType.toUpperCase() === "QRIS") {
             handleQRPayment();
@@ -224,12 +219,17 @@ const CheckoutPage = props => {
             success_redirect_url: baseUrl + "/payment/status"
         }).then(res => {
             var r = res.data;
-
+            console.log(r);
             if (r.status) {
                 if (paymentType === "OVO") {
                     window.location.replace(baseUrl + "/payment/status/" + r.data.metadata.record_id);
-                } else {             
+                } else if (paymentType === "DANA" || paymentType === "LINKAJA") {             
                     window.location.replace(r.data.actions.desktop_web_checkout_url);
+                } else if (paymentType === "SHOPEEPAY") {
+                    window.location.replace(r.data.actions.mobile_deeplink_checkout_url);
+                } else {
+                    sideNotification.open("Gagal", "Tipe Pembayaran tidak terdaftar.", false);
+                    setLoading({...loading, isButtonPaymentLoading: false});
                 }
             } else {
                 setLoading({...loading, isButtonPaymentLoading: false});
@@ -300,7 +300,7 @@ const CheckoutPage = props => {
         <Fragment>
             <section className="section ">
                 <div className="container mt-4">
-                    <CreditCardModal record_id={props.match.params.recordId} customer={customerDetails} product_name={webinarRecord.title} price={totalPrice} payment_type={paymentType} />
+                    {/* <CreditCardModal record_id={props.match.params.recordId} customer={customerDetails} product_name={webinarRecord.title} price={totalPrice} payment_type={paymentType} /> */}
                     <TransferModal 
                         isModalShow={modal.transferModalShow}
                         setHide={() => setModal({...modal, transferModalShow: false})}
@@ -324,7 +324,7 @@ const CheckoutPage = props => {
 
                     <Row>
                         <Col sm="12" className="mt-3 mb-5">
-                            {!props.user ? 
+                            {!props.user ?
                                 <Alert
                                     message={<span style={{fontWeight: "500"}}>Silahkan login terlebih dahulu untuk melakukan Pembayaran.</span>}
                                     description={
@@ -333,104 +333,103 @@ const CheckoutPage = props => {
                                         </Fragment>
                                     }
                                     type="warning"
-                                /> : 
+                                /> :
                                 <>
-                                    {isDataFound ?
-                                        <Row>
-                                            <Col md="12" className="mb-4">
-                                                {(() => {
-                                                    if (isUserRegisteredAsMember) {
-                                                        return (
-                                                           <MembershipInformation record={membershipRecord} user={props.user} />
-                                                        )
-                                                    } else if (isWebinarRegistered) {
-                                                        return (
-                                                            <Alert
-                                                                message={<span style={{fontWeight: "500"}}>Kamu sudah terdaftar dalam Webinar.</span>}
-                                                                description={
-                                                                    <Fragment>
-                                                                        <span className="f-14">Kembali ke halaman utama <a href="/" className="font-weight-bold">disini</a>.</span>
-                                                                    </Fragment>
-                                                                }
-                                                                type="warning"
-                                                            />
-                                                        )
-                                                    } else {
-                                                        return (
-                                                            <Alert
-                                                                message={<span style={{fontWeight: "500"}}>Silahkan Pilih Tipe Pembayaran untuk melakukan pembayaran.</span>}
-                                                                description={
-                                                                    <Fragment>
-                                                                        <span className="f-14">Setiap jenis pembayaran menggunakan <strong>Kartu</strong> akan dilakukan verifikasi.</span>
-                                                                    </Fragment>
-                                                                }
-                                                                type="info"
-                                                            />
-                                                        )
-                                                    }
-                                                })()}   
-                                            </Col>
-                                            <Col md="7" className="mb-3">
-                                                <Row className="mb-4">
-                                                    <Col lg="12 mb-4">
-                                                        <div className="title-heading">
-                                                            <h3 className="text-dark font-weight-bold mb-0 f-17">Pilih Jenis Pembayaran</h3>
-                                                            <div className="title-border-simple position-relative"></div>
-                                                        </div>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col xs="12" md="12" lg="12">
-                                                        <Radio.Group onChange={handlePaymentTypeChange}  name="radiogroup" defaultValue={paymentType} style={{width: "100%"}}>
-                                                            {(() => {
-                                                                if (paymentMethod) {
-                                                                    return sectionPaymentMethod(paymentMethod);
-                                                                }
-                                                            })()}
-                                                        </Radio.Group>
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-                                            <Col md="5" className="mb-2">
-                                                <Card className="borderShadow5">
-                                                    <Row className="mb-4">
-                                                        <Col lg="12 mb-4">
-                                                            <div className="title-heading">
-                                                                <h3 className="text-dark font-weight-bold mb-0 f-20">Ringkasan</h3>
-                                                                <div className="title-border-simple position-relative"></div>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                    <Skeleton loading={loading.isSummaryLoading} active paragraph={{ rows: 4 }}>
-                                                        {(() => {
-                                                            if (productCategory === "webinar") {
-                                                                return (
-                                                                    <WebinarSummary webinarRecord={webinarRecord}/>
-                                                                )
-                                                            } else {
-                                                                return (
-                                                                    <MembershipSummary membershipRecord={membershipRecord}/>
-                                                                )
-                                                            }
-                                                        })()}
-                                                    </Skeleton>
-                                                    <span className="f-13">Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.</span>
-                                                                
-                                                    <button type="submit" 
-                                                        className="btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius"
-                                                        onClick={() => handlePayment()}
-                                                        disabled={isWebinarRegistered || loading.isButtonPaymentLoading}>
-                                                        {loading.isButtonPaymentLoading ? 
-                                                            <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
-                                                            : <span>{isUserRegisteredAsMember ? "BAYAR" : "Selesaikan Pembayaran"}</span>
-                                                        }
-                                                    </button>
-                                                </Card>
-                                            </Col>
-                                        </Row>
-                                        : <NotFound />
+                                    {!isWebinarRegistered && !isUserRegisteredAsMember &&
+                                        <Alert
+                                            message={<span style={{fontWeight: "500"}}>Silahkan Pilih Tipe Pembayaran untuk melakukan pembayaran.</span>}
+                                            description={
+                                                <Fragment>
+                                                    <span className="f-14">Setiap jenis pembayaran menggunakan <strong>Kartu</strong> akan dilakukan verifikasi.</span>
+                                                </Fragment>
+                                            }
+                                            type="info"
+                                        />
                                     }
                                 </>
+                            }
+
+                            {isDataFound ?
+                                <Row>
+                                    <Col md="12" className="mb-4">
+                                        {(() => {
+                                            if (isUserRegisteredAsMember) {
+                                                return (
+                                                    <MembershipInformation record={membershipRecord} user={props.user} />
+                                                )
+                                            } else if (isWebinarRegistered) {
+                                                return (
+                                                    <Alert
+                                                        message={<span style={{fontWeight: "500"}}>Kamu sudah terdaftar dalam Webinar.</span>}
+                                                        description={
+                                                            <Fragment>
+                                                                <span className="f-14">Kembali ke halaman utama <a href="/" className="font-weight-bold">disini</a>.</span>
+                                                            </Fragment>
+                                                        }
+                                                        type="warning"
+                                                    />
+                                                )
+                                            }
+                                        })()}   
+                                    </Col>
+                                    <Col md="7" className="mb-3">
+                                        <Row className="mb-4">
+                                            <Col lg="12 mb-4">
+                                                <div className="title-heading">
+                                                    <h3 className="text-dark font-weight-bold mb-0 f-17">Pilih Jenis Pembayaran</h3>
+                                                    <div className="title-border-simple position-relative"></div>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="12" lg="12">
+                                                <Radio.Group onChange={handlePaymentTypeChange}  name="radiogroup" defaultValue={paymentType} style={{width: "100%"}}>
+                                                    {(() => {
+                                                        if (paymentMethod) {
+                                                            return sectionPaymentMethod(paymentMethod);
+                                                        }
+                                                    })()}
+                                                </Radio.Group>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col md="5" className="mb-2">
+                                        <Card className="borderShadow5">
+                                            <Row className="mb-4">
+                                                <Col lg="12 mb-4">
+                                                    <div className="title-heading">
+                                                        <h3 className="text-dark font-weight-bold mb-0 f-20">Ringkasan</h3>
+                                                        <div className="title-border-simple position-relative"></div>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            
+                                            {(() => {
+                                                if (productCategory === "webinar") {
+                                                    return (
+                                                        <WebinarSummary webinarRecord={webinarRecord}/>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <MembershipSummary membershipRecord={membershipRecord}/>
+                                                    )
+                                                }
+                                            })()}
+                                            <span className="f-13">Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.</span>
+                                                        
+                                            <button type="submit" 
+                                                className="btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius"
+                                                onClick={() => handlePayment()}
+                                                disabled={isWebinarRegistered || loading.isButtonPaymentLoading}>
+                                                {loading.isButtonPaymentLoading ? 
+                                                    <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                                    : <span>{isUserRegisteredAsMember ? "BAYAR" : "Selesaikan Pembayaran"}</span>
+                                                }
+                                            </button>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                : <NotFound />
                             }
                         </Col>
                     </Row>

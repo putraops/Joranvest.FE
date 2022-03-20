@@ -45,12 +45,10 @@ const WebinarRecordingDetailPage = (props) => {
     const getByPathUrl = (path_url) => {
         getMemberships();
         setisInitLoading(true);
-        // setIsPlayerLoading(true);
 
         services.getByPathUrl(path_url)
         .then(res => {
             var r = res.data;
-            console.log("getByPathUrl", r);
             if (r.status) {
                 setRecord(r.data);
                 if (r.data.price <= 0 || (props?.user && props?.user.is_membership)) {

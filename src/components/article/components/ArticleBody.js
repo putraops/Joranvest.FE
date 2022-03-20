@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import { Card } from 'antd';
 import "../style/style.css"
@@ -9,22 +9,22 @@ import { connect } from 'react-redux'
 
 
 const ArticleBody = (props) => {
-    console.log("user: ", props.user);
     const [isArticlePremium] = useState(props.isArticlePremium);
+    const [articleBody] = useState(props.children);
+    const [totalContent, setTotalContent] = useState(0);
 
-    const { children, user } = props;
-    var totalContent = totalContent = React.Children.count(children);
-    if (isArticlePremium && user && !user.is_membership) {
-        totalContent = (React.Children.count(children) * 0.3);
-    }
+    useEffect(() => {
+        setTotalContent(React.Children.count(props.children));
 
-    if (totalContent == 0) totalContent = 1;
+        if ((!props.user && isArticlePremium ) || (props.user && isArticlePremium && !props.user.is_membership)) {
+            setTotalContent(React.Children.count(props.children) * 0.2);
+        }
+    }, []);
     
     const premiumSection = () => {
-        if ((!props.user && isArticlePremium ) || 
-            (props.user && isArticlePremium && !props.user.is_membership)) {
+        if ((!props.user && isArticlePremium ) || (props.user && isArticlePremium && !props.user.is_membership)) {
             return (
-                <Row>
+                <Row className="mt-5">
                     <Col sm="12" md="12">
                         <Card 
                             className="text-white" 
@@ -46,7 +46,7 @@ const ArticleBody = (props) => {
     return (
         <Fragment>
             <div className="mt-3" id="article-body">
-                {React.Children.map(children, (child, i) => {
+                {React.Children.map(articleBody, (child, i) => {
                     if (i < totalContent) {
                         return child;
                     }
@@ -62,5 +62,4 @@ const mapStateToProps = (state) => {
         user: state.auth.user,
     }
 }
-
 export default  connect(mapStateToProps)(ArticleBody);

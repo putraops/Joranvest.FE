@@ -68,7 +68,7 @@ class MembershipTab extends React.Component {
                 <Fragment>
                     <p className="text-muted mb-2">Belum terdaftar sebagai Member.</p>
                     <div className="mb-0">
-                        <a href="/"><Button type="primary">Daftar Sekarang</Button></a>
+                        <a href="/" className="btn btn-joran btn-sm">Daftar Sekarang</a>
                     </div>
                 </Fragment>
             )

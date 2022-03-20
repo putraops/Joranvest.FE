@@ -3,12 +3,14 @@ import 'antd/dist/antd.css';
 import { List, Image, Divider, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
-import serverUrl from '../../../config/serverUrl';
 import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
+
+import baseUrl from '../../../config/baseUrl';
+import serverUrl from '../../../config/serverUrl';
+
 import { 
     DownloadOutlined, 
-    CheckCircleOutlined 
 } from '@ant-design/icons';
 
 const FundamentalList = (props) => {
@@ -28,16 +30,16 @@ const FundamentalList = (props) => {
     var analysisDate = dateFormat.getInteractiveLongDateTimeFormatID(props.obj.submitted_at.Valid ? props.obj.submitted_at.Time : props.obj.created_at.Time);
 
     return (
-        <List.Item className="pl-0 pr-0 pb-0"
+        <List.Item className="pl-0 pr-0"
             key={props.obj.id}
             actions={[
             ]}>
             <List.Item.Meta 
-                className="mt-0"
+                className="mt-4"
                 key={`item-${props.obj.id}`} 
                 avatar={
                     <Image 
-                        style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
+                        style={{width: "50px", height: "50px", borderRadius: "50px", border: "1px solid #ccc"}} 
                         src={props.obj ? serverUrl + "/" + props.obj.analysis_profile_picture_filepath : null}
                         shape="circle"
                         preview={false}
@@ -46,19 +48,26 @@ const FundamentalList = (props) => {
                     }
                 title={
                     <Fragment>
-                        <a href='#' className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <a href={`/j/${props.obj.created_by}/${props.obj.created_by_fullname}`} className="text-dark mr-1">{props.obj.created_by_fullname}</a> 
                         <Popover content="Verified">
-                            <CheckCircleOutlined className="verified-user" />
+                            <img src={baseUrl + "/assets/icons/verified.svg"} />
                         </Popover>
                     </Fragment>
                 }
                 description={
                     <div className="row">
-                        <div className= "col-md-12 form-inline">
-                            <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
-                        </div>
+                        {(() => {
+                            if (props.obj.user_create_title !== "") {
+                                return (
+                                    <div className= "col-md-12 form-inline mt-n1">
+                                        <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
+                                    </div>
+                                )
+                            }
+                        })()}
                     </div>
-                } />
+                } 
+            />
             {
                 <Row className="ml-2 mr-2 mb-4">
                     <Col md="12">
@@ -142,6 +151,7 @@ const FundamentalList = (props) => {
                                             <div>
                                                 <p className="mb-1 font-weight-bold">File: {item.filename}</p>
                                                 <a className="btn btn-primary btn-block btn-xs pt-2 pb-2" href={`${serverUrl}/${item.filepath}`} target="_blank"><DownloadOutlined /> Download</a>
+                                                {/* <a href={`/fundamental-review/` + props.obj.emiten_code.toLowerCase() + `/` + props.obj.id + '/' + item.id} className="btn btn-primary btn-block btn-xs pt-2 pb-2" target="_blank"><DownloadOutlined /> Download</a> */}
                                             </div>
                                         }>
                                             <img src="/images/gallery/icon/iconPDF.png" className="mr-4" key={item.id} style={{width: "40px", cursor: "pointer"}}/>

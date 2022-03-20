@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { List, Tag } from 'antd';
 import axiosApi from '../../../config/axiosConfig';
 
@@ -15,7 +14,7 @@ class ArticleTag extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.articleId != this.props.articleId) {
+        if (prevProps.articleId !== this.props.articleId) {
             let articleId = this.props.articleId;
             this.setState({recordId: this.props.articleId});
             axiosApi.get(`/article_tag/getAll?article_id=${articleId}`).then(r => {

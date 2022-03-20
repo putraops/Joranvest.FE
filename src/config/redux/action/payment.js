@@ -25,3 +25,17 @@ export const hideCreditCardModal = () => (dispatch) => {
         resolve(true);
     })
 }
+
+export const showEWalletModal = () => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "SHOW_EWALLET_MODAL"});
+        resolve(true);
+    })
+}
+
+export const hideEWalletModal = () => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch({type: "HIDE_EWALLET_MODAL"});
+        resolve(true);
+    })
+}

@@ -1,0 +1,62 @@
+.section {
+    padding-bottom: 0px;
+}
+
+.border-bottom-joran-white {
+    border-bottom: 2px solid white;
+}
+
+#payment-verifying-label, #payment-danger-label {
+    line-height: 30px;
+}
+
+#right-logo {
+    margin-bottom: 40px;
+}
+
+#check-icon, #payment-verifying-label, #payment-success-label, #payment-label, #payment-amount {
+    color: #3792cb;
+}
+
+#check-icon {
+    border: 8px solid #3792cb;
+    border-radius: 1000px;
+    padding: 22px;
+    font-size: 7em;
+    margin-bottom: 30px;
+}
+
+#not-found-icon {
+    border: 8px solid rgb(233, 4, 4);
+    color: rgb(233, 4, 4);
+    border-radius: 1000px;
+    padding: 22px;
+    font-size: 7em;
+    margin-bottom: 30px;
+}
+
+#payment-verifying-label, #payment-success-label {
+    font-weight: 700;
+}
+
+#payment-danger-label {
+    color: rgb(233, 4, 4);
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+#payment-danger-label-sub {
+    color: rgb(233, 4, 4);
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+#payment-label {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+#payment-amount {
+    font-size: 1.5em;
+    font-weight: 700;
+}

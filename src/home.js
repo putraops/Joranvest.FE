@@ -11,7 +11,6 @@ import PricingSection from './components/PricingSection';
 // import BlogSection from './components/BlogSection';
 // import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import FooterAlt from './components/FooterAlt';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -55,9 +54,6 @@ class Home extends React.Component {
 
         {/* Footer Menu */}
         <Footer />
-
-        {/* FooterAlt Menu */}
-        <FooterAlt />
 
       </React.Fragment>
 

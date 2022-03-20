@@ -1,8 +1,8 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col } from 'reactstrap';
-import { connect } from 'react-redux'
-import { Card, Alert, Button, List, Modal, Breadcrumb } from 'antd';
+import { connect } from 'react-redux';
+import { Card, Alert, List, Modal, Breadcrumb } from 'antd';
 import moment from 'moment';
 import {
     HomeOutlined, 
@@ -149,7 +149,7 @@ class WebinarDetail extends React.Component {
             var r = res.data;
             if (r.status) {
                 if (r.status) {
-                    window.location.assign(baseUrl + "/webinar/payment/success/" + r.data.id);
+                    window.location.assign(baseUrl + "/registrasi/webinar-gratis/" + r.data.id);
                 }
             }
         });
@@ -166,7 +166,7 @@ class WebinarDetail extends React.Component {
 
         function registration() {
             if (detailData.price > 0) {
-                window.location.assign(baseUrl + "/webinar/payment/" + detailData.id);
+                window.location.assign(baseUrl + "/checkout/webinar/" + detailData.id);
             } else {
                 confirm({
                     title: "Apakah yakin ingin mendaftar?",
@@ -203,7 +203,7 @@ class WebinarDetail extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="section home-1-bg">         
+                <section className="section">         
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
                             <Breadcrumb className="pt-1">
@@ -355,16 +355,23 @@ class WebinarDetail extends React.Component {
                                         }
                                     })()}
 
-                                    <Button className="font-weight-bold"
-                                        type="primary"
-                                        block
-                                        size='large'
-                                        disabled={isRegistered || isExpired}
-                                        loading={isLoading.register}
+                                    {/* <a href={`/checkout/webinar/${detailData.id}`} type="button" 
+                                        className={`btn btn-block btn-joran mt-3 p-2 pr-4 pl-4 no-radius ${isRegistered || isExpired ? "disabled": ""}`}
+                                        onClick={user ? () => registration() : () => showLoginConfirm()}>
+                                        {isLoading.register ? 
+                                            <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                            : <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
+                                        }
+                                    </a> */}
+                                    <button type="button" 
+                                        className="btn btn-block btn-joran mt-0 p-2 pr-4 pl-4 no-radius"
                                         onClick={user ? () => registration() : () => showLoginConfirm()}
-                                        >
-                                        <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
-                                    </Button>
+                                        disabled={isRegistered || isExpired}>
+                                        {isLoading.register ? 
+                                            <span><span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Sedang diproses...</span>
+                                            : <span>{isRegistered ? "Sudah Terdaftar" : (isExpired ? "Telah Berakhir" : "Daftar Sekarang") }</span>
+                                        }
+                                    </button>
                                 </Card>
                             </Col>
                         </Row>

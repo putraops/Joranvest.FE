@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
 
-import { Card, Avatar, Rate } from 'antd';
+import { Card, Image, Rate } from 'antd';
+
+import serverUrl from '../../../config/serverUrl';
 const { Meta } = Card;
 
 const WebinarSpeaker = (props) => {
@@ -9,17 +11,27 @@ const WebinarSpeaker = (props) => {
         <Fragment>
             <Card className="mb-3">
                 <Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{width: "50px", height: "50px"}} />}
+                    avatar={
+                        <a href={`/speaker/review/${props.speaker.speaker_id}`}>
+                            <Image 
+                                style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
+                                src={serverUrl + "/" + (props.speaker.organization_name === "" ? props.speaker.user_speaker_profile_picture : props.speaker.organization_speaker_profile_picture)}
+                                shape="square"
+                                preview={false}
+                                onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
+                            />
+                        </a>
+                    }
                     title={
                         <div style={{marginTop: (props.speaker.speaker_title ? "-5px" : "0px" )}}>
-                            <span className="f-17">{props.speaker.organization_name !== "" ? props.speaker.organization_name : props.speaker.speaker_full_name}</span>
+                            <a href={`/speaker/review/${props.speaker.speaker_id}`} className="f-17 text-dark">{props.speaker.organization_name !== "" ? props.speaker.organization_name : props.speaker.speaker_full_name}</a>
                         </div>
                     }
                     description={
                         <Fragment>
                             <p className="f-13 text-muted" style={{marginTop: "-13px", marginBottom: "5px"}}>{props.speaker.speaker_title}</p>
                             <div style={{marginTop: "-12px"}}>
-                                <Rate allowHalf disabled defaultValue={0} className="mr-2" /> <strong>(0 Ulasan)</strong> 
+                                <Rate allowHalf disabled value={props.speaker.rating} className="mr-2" /> <strong>({props.speaker.total_rating} Ulasan)</strong> 
                             </div>
                         </Fragment>
                     }

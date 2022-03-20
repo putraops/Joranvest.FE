@@ -17,9 +17,7 @@ class Pricing extends React.Component {
     }
 
     componentDidMount(){
-        // const { user } = this.props;
-		const element = document.getElementById("joranvest-pricing");
-		// element.scrollIntoView({behavior: 'smooth'});
+		//const element = document.getElementById("joranvest-pricing");
     }
 
     componentWillMount() {
@@ -41,10 +39,10 @@ class Pricing extends React.Component {
        
         return (
             <React.Fragment>
-                <Row id="joranvest-pricing">
+                <Row id="joranvest-pricing" className="pb-5">
                     <Skeleton active={true} loading={isSkeletionPricing} paragraph={true} row="5">
                         {pricings.map((item, index) => {
-                            return  <Col lg="3" md="4" sm="6" xs="12" key={index}>
+                            return  <Col xs="12" sm="6" md="6" lg="4" xl="3" key={index}>
                                         <div className={item.is_default ? "pricing-box borderShadow5 active mt-4" : "pricing-box borderShadow5 mt-4"}>
                                             <div className="price bg-light position-relative p-4 p">
                                                 <div className="float-left">

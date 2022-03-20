@@ -4,3 +4,13 @@
 .ant-col.ant-form-item-label {
     padding-bottom: 0px !important;
 }
+
+.page-title {
+    color: #3792cb;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+#google-icon {
+    width: 15px;
+}

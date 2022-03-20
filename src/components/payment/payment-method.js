@@ -2,7 +2,8 @@ const bank_transfer = [
     {
         name: "BCA",
         value: "transfer_bca",
-        img: "assets/img/bca-icon.png",
+        img: "assets/img/bca.png",
+        width: 60,
     }
 ];
 
@@ -16,13 +17,27 @@ const card = [
 
 const eWallet = [
     {
-        name: "gopay",
-        value: "gopay",
-        img: "",
+        name: "OVO",
+        value: "OVO",
+        img: "assets/img/ovo.png",
+        width: 30
+    },
+    {
+        name: "LinkAja",
+        value: "LINKAJA",
+        img: "assets/img/linkaja.png",
+        width: 30
     }
 ]
 
-const paymentMethod = [
+const paymentMethod = [,
+    {
+        title: "E-Wallet",
+        description: "Pembayaran menggunakan E-Wallet",
+        key: "ewallet",
+        has_children: true,
+        data: eWallet
+    },
     {
         title: "Transfer Bank",
         description: "",
@@ -35,12 +50,6 @@ const paymentMethod = [
         key: "credit_card",
         has_children: false,
         data: card
-    },{
-        title: "E-Wallet",
-        description: "Pembayaran menggunakan E-Wallet",
-        key: "ewallet",
-        has_children: false,
-        data: eWallet
     }
 ];
 export default paymentMethod

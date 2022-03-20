@@ -1,16 +1,14 @@
 import axios from 'axios'
-import Cookies from 'universal-cookie';
+import joranCookies from '../commons/joranCookies';
 import sideNotification from '../commons/sideNotification';
 
-const cookies = new Cookies();
-var user = cookies.get('joranvestCookie') || null;
+var baseURL = "";
+let user = joranCookies.get();
 var protocol = window.location.protocol;
 var hostname = window.location.hostname;
 
-var baseURL = "";
 if (hostname.includes("localhost")) {
     baseURL = protocol + "//" + hostname + ":10000/api";
-    // baseURL = "https://dev.api.joranvest.com/api"
 } else if (hostname.includes("dev")) {
     baseURL = protocol + "//dev.api.joranvest.com/api"
 } else {

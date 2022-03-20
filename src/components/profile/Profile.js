@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
@@ -7,11 +7,9 @@ import Footer from '../Footer';
 import axiosApi from '../../config/axiosConfig';
 import { Card, Breadcrumb, Skeleton, Tabs } from 'antd';
 import { connect } from 'react-redux'
-import Main from './components/SettingProfile';
 import SubNav from '../_nav/subNav';
 import InformationTab from './components/InformationTab';
 import MembershipTab from './components/MembershipTab';
-import WebinarTab from './components/WebinarTab';
 import SideProfile from './components/SideProfile';
 
 import { 
@@ -25,7 +23,6 @@ const Profile = props => {
         isContentLoading: true,
     });
     useEffect(() => {
-        // getWebinarRegistrationById(props.record_id);
         setUserRecord(props.user);
         if (props.user) {
             LoadData(props.user.id);
@@ -33,21 +30,14 @@ const Profile = props => {
     }, []);
 
     const LoadData = (userId) => {
-        // const { user } = this.props;
         axiosApi.get(`/application_user/getViewById/${userId}`)
         .then(res => {
             var r = res.data;
             var user = {};
-            console.log("loadUser:", r);
             if (r.status) {
                 user = r.data;
             } 
             setLoading({...loading, isContentLoading: false})
-            // this.setState({
-            //     ...this.state, 
-            //     loading: false,
-            //     user: user,
-            // });
             window.scrollTo(0, 0);
         });
     }
@@ -93,9 +83,6 @@ const Profile = props => {
             </section>
         </React.Fragment>
     );
-        // const { user } = this.state;
-        // console.log("user Profile: ", user);
- 
 }
 
 const reduxState = (state) => ({

@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
-import { List, Image, Tag, Popover } from 'antd';
+import { Card, Button, List, Image, Tag, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
-import serverUrl from '../../../config/serverUrl';
 import { Link } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
 import dateFormat from '../../../commons/dateFormat'
-import { 
-    CheckCircleOutlined 
-} from '@ant-design/icons';
+
+import ReactHtmlParser from 'react-html-parser';
+
+import { connect } from 'react-redux';
+import baseUrl from '../../../config/baseUrl';
+import serverUrl from '../../../config/serverUrl';
 
 const TechnicalList = (props) => {
     const gridAnalysis = {
@@ -17,8 +18,8 @@ const TechnicalList = (props) => {
         right: 0,
         // margin: '0 0px',
         padding: '15px',
-        WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-        boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
+        WebkitBoxShadow: '0 0 3px 0px rgb(0 0 0 / 15%)',
+        boxShadow: '0 0 3px 0px rgb(0 0 0 / 15%)',
         borderRadius: '0px',
         top: '-25px',
         WebkitTransition: 'all 0.5s',
@@ -32,7 +33,7 @@ const TechnicalList = (props) => {
             key={props.obj.id}
             actions={[
             ]}>
-            <List.Item.Meta className="mt-0"
+            <List.Item.Meta className="mt-4"
                 avatar={
                     <Image 
                         style={{width: "50px", height: "50px", border: "1px solid #f0f0f0", borderRadius: "50px"}} 
@@ -44,31 +45,29 @@ const TechnicalList = (props) => {
                 }
                 title={
                     <Fragment>
-                        <a href='#' className="mr-1">{props.obj.created_by_fullname}</a> 
+                        <a href={`/j/${props.obj.created_by}/${props.obj.created_by_fullname}`} className="mr-1">{props.obj.created_by_fullname}</a> 
                         <Popover content="Verified">
-                            <CheckCircleOutlined className="verified-user" />
+                            <img src={baseUrl + "/assets/icons/verified.svg"} />
                         </Popover>
                     </Fragment>
                 }
                 description={
                     <div className="row">
-                        <div className= "col-md-12">
-                            <span className="font-weight-bold">{props.obj.user_create_title === "" ? "" : props.obj.user_create_title}</span>
-                        </div>
+                        {(() => {
+                            if (props.obj.user_create_title !== "") {
+                                return (
+                                    <div className= "col-md-12 form-inline mt-n1">
+                                        <span className="font-weight-bold">{props.obj.user_create_title == "" ? "" : props.obj.user_create_title}</span>
+                                    </div>
+                                )
+                            }
+                        })()}
                     </div>
                 } />
-            {
+
                 <Row className="ml-2 mr-2 mb-4">
                     <Col md="12">
                         <Row>
-                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
-                                <div className="blog"  style={{borderRadius: "0px"}}>
-                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
-                                        <h5 className="f-15 box-title">Signal</h5>
-                                        <p className={props.obj.signal === "Uptrend" ? "signal-technical signal-uptrend mb-0" : props.obj.signal === "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{props.obj.signal}</p>
-                                    </div>
-                                </div>
-                            </Col>
                             <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                 <div className="blog" style={{borderRadius: "0px"}}>
                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
@@ -80,8 +79,16 @@ const TechnicalList = (props) => {
                             <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                 <div className="blog"  style={{borderRadius: "0px"}}>
                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
+                                        <h5 className="f-15 box-title">Signal</h5>
+                                        <p className={props.obj.signal === "Uptrend" ? "signal-technical signal-uptrend mb-0" : props.obj.signal === "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{props.obj.signal}</p>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
+                                <div className="blog"  style={{borderRadius: "0px"}}>
+                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                         <h5 className="f-15 box-title">Risk Reward</h5>
-                                        <p className="text-primary f-16 mb-0 emiten-price">{props.obj.start_ratio} : {props.obj.end_ratio}</p>
+                                        <p className="text-joran f-16 mb-0 emiten-price">{props.obj.start_ratio} : {props.obj.end_ratio}</p>
                                     </div>
                                 </div>
                             </Col>
@@ -92,7 +99,7 @@ const TechnicalList = (props) => {
                                         <p className="mb-0">
                                             {
                                                 <Fragment>
-                                                    <NumberFormat className="text-primary f-16 mb-0 emiten-price"
+                                                    <NumberFormat className="text-joran f-16 mb-0 emiten-price"
                                                         value={props.obj.start_buy}
                                                         displayType="text"
                                                         thousandSeparator={true}
@@ -102,8 +109,8 @@ const TechnicalList = (props) => {
                                                         if (props.obj.end_buy !== 0 && props.obj.start_buy !== props.obj.end_buy) {
                                                         return (
                                                             <Fragment>
-                                                                <span className="text-primary font-weight-bold"> - </span>
-                                                                <NumberFormat className="text-primary f-16 mb-0 emiten-price"
+                                                                <span className="text-joran font-weight-bold"> - </span>
+                                                                <NumberFormat className="text-joran f-16 mb-0 emiten-price"
                                                                     value={props.obj.end_buy}
                                                                     displayType="text"
                                                                     thousandSeparator={true}
@@ -237,9 +244,13 @@ const TechnicalList = (props) => {
                         </p>
                     </Col>
                 </Row>
-            }
-        </List.Item>
+            </List.Item>
         )
 }
 
-export default TechnicalList
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+export default connect(mapStateToProps, null)(TechnicalList)

@@ -15,19 +15,13 @@ const Success = props => {
         isContentLoading: true,
     });
     useEffect(() => {
-        console.log("pending page", props);
-     
         getPaymentById(props.record_id)
         .then(paymentRes => {
-            console.log("paymentRes:", paymentRes);
             getUserDetail(paymentRes.created_by)
             .then(res => {
-                console.log("membership value: ", res);
             }).catch(function (error){
-                console.log("catch membership:", error);
             })
         }).catch(function (error) {
-            console.log("catch payment:", error);
             //window.location.assign("/");
         })
     }, []);
@@ -37,7 +31,6 @@ const Success = props => {
             axiosApi.get(`/payment/getById/${id}`)
             .then(res => {
                 var r = res.data;
-                console.log("/payment/getById: ", r);
                 if (r.status) {
                     setLoading({...loading, isContentLoading: false})
                     setRecord(r.data)
@@ -58,7 +51,6 @@ const Success = props => {
             axiosApi.get(`/application_user/getViewById/${user_id}`)
             .then(res => {
                 var r = res.data;
-                console.log("/membershop", r);
                 if (r.status) {
                     joranCookies.set(r.data);
                     resolve(true);

@@ -1,6 +1,7 @@
 const initState = {
     isTransferModalShow: false,
     isGopayModalVisible: false,
+    isEWalletModalShow: false,
     isCreditCardModalVisible: false,
 }
 
@@ -25,6 +26,16 @@ const paymentReducer = (state = initState, res) => {
             return {
                 ...state,
                 isCreditCardModalVisible: false,
+            }
+        case "SHOW_EWALLET_MODAL":
+            return {
+                ...state,
+                isEWalletModalShow: true,
+            }
+        case "HIDE_EWALLET_MODAL":
+            return {
+                ...state,
+                isEWalletModalShow: false,
             }
         default: 
             return state

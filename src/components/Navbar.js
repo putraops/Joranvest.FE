@@ -1,19 +1,47 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Avatar, Image, Badge } from 'antd';
+import { Menu, Dropdown, Card, Image, List, Skeleton, Avatar } from 'antd';
 import { connect } from 'react-redux'
 import serverUrl from '../config/serverUrl';
-import Cookies from 'universal-cookie';
 import baseUrl from '../config/baseUrl';
-import { Comment, Tooltip } from 'antd';
+import { Comment } from 'antd';
 import "./_nav/navbar.css"
-import { NotificationOutlined } from '@ant-design/icons';
 import axiosApi from '../config/axiosConfig'
 import sideNotification from '../commons/sideNotification';
 import joranCookies from '../commons/joranCookies';
 
+import {
+	BellOutlined,
+  } from '@ant-design/icons';
+
 const { Meta } = Card;
+
+const notifData = [
+	{
+		id:"1",
+		value: 'Racing car sprays burning fuel into crowd.'
+	},
+	{
+		id:"2",
+		value: 'Japanese princess to wed commoner.'
+	},
+	{
+		id:"3",
+		value: 'Australian walks 100km after outback crash.'
+	},
+	{
+		id:"4",
+		value: 'Man charged over missing wedding girl.'
+	},
+	{
+		id:"5",
+		value: 'Los Angeles battles huge wildfires.'
+	},
+	{
+		id:"6",
+		value: 'Man charged over missing wedding girl.'
+	}
+];
 
 class Navbar extends React.Component {
 	constructor( props ) {
@@ -28,11 +56,7 @@ class Navbar extends React.Component {
 	}
 
 	handleLogout = () => {
-		const cookies = new Cookies();
-		cookies.remove('joranvestCookie')
-		cookies.remove('joranvestCookie', {
-			domain: "joranvest.com"
-		})
+		joranCookies.remove();
 		window.location.assign(baseUrl);
 	}
 
@@ -50,10 +74,11 @@ class Navbar extends React.Component {
 			sideNotification.open("Error", error, false);
 		});
     }
+
+	
     
 	render() {
-		const cookies = new Cookies();
-        let user = cookies.get('joranvestCookie') || null;
+        let user = joranCookies.get();
 		if (user) {
 			this.getUserDetail(user.id);
 		}
@@ -68,13 +93,23 @@ class Navbar extends React.Component {
 				</Menu.Item>
             </Menu>
 		);
+		const educationsMenu = (
+            <Menu style={{minWidth: "200px"}}>
+				<Menu.Item key="fundamental">
+					<a rel="noopener noreferrer" href="/edukasi/modul-pembelajaran">Modul Pembelajaran</a>
+				</Menu.Item>
+				<Menu.Item key="teknikal">
+					<a rel="noopener noreferrer" href="/edukasi/webinar-recording">Webinar Recording</a>
+				</Menu.Item>
+            </Menu>
+		);
         const menu = (
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="member_status">
 					<Meta className="mt-1"
 							avatar={
 								<Image 
-									style={{width: "50px", height: "50px"}} 
+									style={{width: "50px", height: "50px", borderRadius: "200px", border: "1px solid #ccc"}} 
 									src={user ? serverUrl + "/" + user.filepath : null}
 									shape="square"
 									preview={false}
@@ -116,6 +151,30 @@ class Navbar extends React.Component {
 				</Menu.Item>
             </Menu>
 		);
+
+		const notifications = (
+            <Menu style={{minWidth: "500px"}}>
+				<List
+					className="demo-loadmore-list"
+					//loading={initLoading}
+					itemLayout="horizontal"
+					//loadMore={loadMore}
+					dataSource={notifData}
+					renderItem={item => (
+					<Menu.Item key={item.id}>
+						<List.Item
+							actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
+						>
+							<Skeleton avatar title={false} loading={item.loading} active>
+								<div>{item.value}</div>
+							</Skeleton>
+						</List.Item>
+					</Menu.Item>
+					)}
+				/>
+            </Menu>
+		);
+
         return (
             <React.Fragment>
                 <nav id="main_navbar" className="navbar navbar-expand-lg  fixed-top navbar-custom sticky sticky-dark">
@@ -129,20 +188,27 @@ class Navbar extends React.Component {
 
 							<div className="collapse navbar-collapse" id="navbarCollapse">
 							<ul className="navbar-nav ml-auto navbar-center" id="mySidenav">
-								<li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li>
+								{/* <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li> */}
 								<li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
 								<li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
-								{(() => {
-									if (user && user.is_membership) {
-										return (
-											<li className="nav-item">
-												<Dropdown overlay={analysisMenu}>
-													<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>
-												</Dropdown>
-											</li>
-										)
-									}
-								})()}
+								<li className="nav-item">
+									<Dropdown overlay={educationsMenu}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Edukasi</a>
+									</Dropdown>
+								</li>
+								<li className="nav-item">
+									<Dropdown overlay={analysisMenu}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>
+									</Dropdown>
+								</li>
+								{/* <li className="nav-item">
+									<Dropdown overlay={notifications}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  style={{marginTop: "-2px"}}  id="nav-profile" onClick={e => e.preventDefault()}>
+											<BellOutlined className="f-16"/>
+										</a>
+									</Dropdown>
+								</li> */}
+
 								{/* <li className="nav-item"><a href="#" className="nav-link text-white font-weight-bold mr-4">Jadi Member</a></li> */}
 								{(() => {
 									if (user && user.id != "") {
@@ -158,7 +224,7 @@ class Navbar extends React.Component {
 																className="p-0 m-0"
 																src={user ? serverUrl + "/" + user.filepath : null}
 																preview={false}
-																style={{width: "30px", height: "30px", marginTop: "-45px"}} 
+																style={{width: "30px", height: "30px", marginTop: "-45px", borderRadius: "200px", border: "1px solid #ccc"}} 
 																onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/avatar-default.png?t=9999"}}
 															/>
 														}

@@ -4,8 +4,6 @@ import axiosApi from '../../../config/axiosConfig';
 
 export const SignIn = (credentials) => {
     return (dispatch, getState, api) => {
-        //console.log("getState: ", getState);
-       // console.log("api: ", api);
          var data = {
             username: credentials.username,
             email: credentials.email,
@@ -14,7 +12,6 @@ export const SignIn = (credentials) => {
         axiosApi.post(`/auth/login`, 
             data
         ).then(res => {
-            console.log(res);
             var r = res.data;
             if (r.status) {
                 sessionService.saveSession(res.data)  

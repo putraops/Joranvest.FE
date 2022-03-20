@@ -13,7 +13,7 @@ import {
 const Privacy = () => {
     return (
         <React.Fragment>
-            <section className="section" id="home">
+            <section className="section pb-0" id="home">
                 <div className="container-fluid mt-2 mb-2 pr-0 pl-0">
                     <div className="container">
                         <Breadcrumb className="pt-1">

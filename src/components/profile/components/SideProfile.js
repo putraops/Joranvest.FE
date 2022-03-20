@@ -24,7 +24,7 @@ const SideProfile = props => {
         },
         {
             title: 'Daftar Webinar',
-            url: '/webinar/registration'
+            url: '/my-webinar'
         },
     ];
 
@@ -36,7 +36,7 @@ const SideProfile = props => {
                         src={profilePicture.thumbnail}
                         shape="square"
                         preview={false}
-                        style={{width: "50px", height: "50px"}}
+                        style={{width: "50px", height: "50px", borderRadius: "200px",  border: "1px solid #ccc"}}
                         onError={(e)=>{e.target.onerror = null; e.target.src="assets/img/No-Image-Square.jpg?t=9999"}}
                     />
                 }
@@ -80,8 +80,8 @@ const SideProfile = props => {
                 itemLayout="horizontal"
                 dataSource={data}
                 renderItem={item => (
-                    <List.Item className="mt-0 mb-0 pt-2 pb-2">
-                      <a href={item.url} style={{color: "black"}}>{item.title}</a>
+                    <List.Item >
+                      <a href={item.url} className="mt-2 mb-2" style={{color: "black"}}>{item.title}</a>
                     </List.Item>
                 )}
             />

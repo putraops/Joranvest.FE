@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axiosApi from '../../config/axiosConfig'
 import { Row, Col } from 'reactstrap';
-import { Button, Image, Alert, message, Breadcrumb, Modal, Pagination, List, Select, notification, Card } from 'antd';
+import { Breadcrumb, Pagination, List, Alert, Select, Card } from 'antd';
 import { connect } from 'react-redux'
 
 import SubNav from '../_nav/subNav';
@@ -10,11 +10,7 @@ import WebinarHistoryItem from './components/WebinarHistoryItem'
 
 import { 
     HomeOutlined, 
-    ScheduleOutlined,
 } from '@ant-design/icons';
-
-const { Meta } = Card;
-const { Option } = Select;
 
 const WebinarHistory = props => { 
     const [listData, setlistData] = useState([{}]);
@@ -34,7 +30,6 @@ const WebinarHistory = props => {
         if (props.user && props.user.id != "") {
             LoadWebinarUser();
         }
-        console.log("as", props);
     }, []);
 
     function onPageChange(page, pageSize){
@@ -51,7 +46,7 @@ const WebinarHistory = props => {
             size: payload.size,
             filter: [
                 {
-                    "field": "created_by",
+                    "field": "application_user_id",
                     "operator": "=",
                     "value": props.user.id,
                 },
@@ -59,8 +54,6 @@ const WebinarHistory = props => {
         }
         axiosApi.post(`/webinar_registration/getPagination`, webinarPayload)
         .then(res => {
-
-            console.log("loadWebinarUser: ", res);
             var r = res.data;
 
             setTotalData(r.total);
@@ -92,29 +85,27 @@ const WebinarHistory = props => {
                 </div>
                 <SubNav title="Daftar Webinar" sub_title="" />
 
-                <div className="container mt-4">
+                <div className="container mt-4" style={{minHeight: "180px"}}>
                     <Row>
                         <Col md="12" lg="12">
-                            {totalData > 0 ? 
-                                <Fragment>
-                                    {/* <p className="font-weight-bold f-14 mb-1">Total Webinar: {totalData}</p> */}
-                                    <List
-                                        itemLayout="vertical"  size="large"
-                                        dataSource={listData}
-                                        loading={loading.isPagingLoading}
-                                        renderItem={item => <WebinarHistoryItem obj={item} />}
-                                        />
-                                    <Pagination
-                                        onChange={onPageChange}
-                                        current={payload.page}
-                                        className="float-right" 
-                                        total={totalData}
-                                        responsive={true}
-                                        />
-                                </Fragment>
-                            : 
-                            <p className="text-muted mb-2">Tidak ada daftar Webinar</p>
-                        }
+                            <Fragment>
+                                <List
+                                    itemLayout="vertical"  size="large"
+                                    dataSource={listData}
+                                    loading={loading.isPagingLoading}
+                                    locale={{emptyText: 
+                                        <Alert message={<p className="mb-0 pt-2 pb-2 f-16 font-weight-bold">Tidak ada Webinar yang kamu ikuti</p>}type="info" />
+                                    }}
+                                    renderItem={item => <WebinarHistoryItem obj={item} />}
+                                />
+                                <Pagination
+                                    onChange={onPageChange}
+                                    current={payload.page}
+                                    className={`float-right ${listData.length == 0 ? "d-none" : ""}`} 
+                                    total={totalData}
+                                    responsive={true}
+                                />
+                            </Fragment>
                         </Col>
                     </Row>
                 </div>

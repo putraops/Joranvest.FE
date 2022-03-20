@@ -11,6 +11,7 @@ import IframeComm from 'react-iframe-comm';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
 import actions from '../payment/actions/actions';
+import paymentMethod from '../payment/payment-method';
 
 import {
     InfoCircleOutlined,
@@ -120,7 +121,7 @@ const Membership = props => {
                 setPayloadManualPayment({
                     ...payloadManualPayment,
                     record_id: membershipRecord.id,
-                    order_number: "JORANVEST/TRF/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
+                    order_number: "JORAN/TRF/" + today.getFullYear() + "/" + today.getMonth() + "/" + today.getDate() + "" + today.getHours() + "" + today.getMinutes() + "" + today.getSeconds(),
                     payment_type: payment_type,
                     price: membershipRecord.price * membershipRecord.duration,
                     unique_number: r.data,
@@ -208,7 +209,6 @@ const Membership = props => {
                 axiosApi.post(`/payment/createTokenByCard`, payload)
                 .then(res => {
                     var r = res.data
-                    console.log(r);
                     if (r.status) {
                         resolve(r.data);
                     } else {
@@ -277,7 +277,6 @@ const Membership = props => {
         axiosApi.post(`/payment/charge`, payload)
         .then(res => {
             var r = res.data
-            console.log("payment/charge", r);
             if (r.status || 
                 (r.data.status_code === "201" && (r.data.payment_type === "credit_card" || r.data.payment_type === "gopay"))) {
                 if (paymentType === "credit_card") {
@@ -320,17 +319,16 @@ const Membership = props => {
             name: "Kartu Kredit",
             value: "credit_card",
         },
-        {
-            name: "gopay",
-            value: "gopay",
-        }
+        // {
+        //     name: "gopay",
+        //     value: "gopay",
+        // }
     ];
 
     const handleCardPayment = (payload) => {
         axiosApi.post(`/payment/membershipPayment`, payload)
         .then(res => {
             var r = res.data;
-            console.log("handleCardPayment: ", r);
             if (r.status) {
                 if (r.data.payment_status === 200) {
                     sideNotification.open('Transaksi Berhasil', 'Terima kasih telah melakukan pembelian membership.');
@@ -346,7 +344,6 @@ const Membership = props => {
     const onReceiveMessage = (e) => {
         // payment_type: "credit_card"
         // transaction_time: "2021-11-09 01:13:54"
-        console.log(e);
         if (e.data.status_code === "200") {
             // status_message: "Success, Credit Card transaction is successful"
             var cardExpiry = (cardRecord.expiry).replace(/\s/g, '').split("/");
@@ -454,7 +451,7 @@ const Membership = props => {
                                 <p className="f-13 mt-0 mb-1" key="terms" style={{float: "left"}}
                                     >Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.
                                 </p>
-                                <Button key="pay" type="primary" loading={false} block onClick={handleCardToken} loading={loading.isButtonCardPaymentLoading}>Bayar</Button>
+                                <Button key="pay" type="primary" block onClick={handleCardToken} loading={loading.isButtonCardPaymentLoading}>Bayar</Button>
                             </Fragment>
                         ]}
                         >
@@ -715,6 +712,7 @@ const Membership = props => {
                                 </Skeleton>
                                 <span className="f-13">Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.</span>
                                 <Button type="primary" className="mt-3" block disabled={isPaymentAvailable} loading={loading.isButtonPaymentLoading} onClick={() => handlePayment()} >Selesaikan Pembayaran</Button>
+                            
                             </Card>
                         </Col>
                     </Row>

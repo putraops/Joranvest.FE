@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card, Alert, Radio, List } from 'antd';
 import { connect } from 'react-redux';
 
-import Pending from './components/Pending';
+import Pending from './components/PendingPage';
 import Success from './components/Success';
 
 const MembershipPayment = props => {

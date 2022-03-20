@@ -1,6 +1,5 @@
-import Cookies from 'universal-cookie';
+import joranCookies from '../../../commons/joranCookies';
 
-const cookies = new Cookies();
 const initState = {
     isLogin: false,
     isLoading: false,
@@ -8,7 +7,7 @@ const initState = {
     authError: "", 
     errorMessage: "", 
     authStatus: false,
-    user: cookies.get('joranvestCookie') || null,
+    user: joranCookies.get(),
     username: "",
 }
 
@@ -22,7 +21,12 @@ const authReducer = (state = initState, res) => {
         case "LOGIN_FAILED":
             return {
                 ...state,
-                errorMessage: ""
+                errorMessage: res.value
+            }
+        case "REGISTER_FAILED":
+            return {
+                ...state,
+                errorMessage: res.value
             }
         case "CHANGE_USER":
             return {

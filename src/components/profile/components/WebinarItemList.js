@@ -15,7 +15,6 @@ const WebinarItemList = (props) => {
     const [isWebinarOver, setIsWebinarOver] = useState(false);
     var startDate, startTime, endTime = "";
     var isOneDay = false;
-    console.log(props);
     if (props.obj.webinar_start_date && props.obj.webinar_start_date.Valid && props.obj.webinar_end_date && props.obj.webinar_end_date.Valid) {
         startTime = moment(props.obj.webinar_start_date.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');
         endTime = moment(props.obj.webinar_end_date.Time,  "YYYY/MM/DD HH:mm").format('HH:mm');

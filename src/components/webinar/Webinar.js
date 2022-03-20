@@ -2,14 +2,16 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
+import axiosApi from '../../config/axiosConfig';
+import { List, Pagination, Breadcrumb } from 'antd';
+
 import WebinarList from './components/WebinarList';
 import SubNav from '../_nav/subNav';
+import NoDataCard from '../NoDataCard';
 import Filter from './components/Filter';
 import Footer from '../Footer';
-import axiosApi from '../../config/axiosConfig';
-import { List, Card, Breadcrumb } from 'antd';
-import sideNotification from '../../commons/sideNotification'
 
+import sideNotification from '../../commons/sideNotification'
 import { 
     HomeOutlined, 
 } from '@ant-design/icons';
@@ -49,7 +51,11 @@ const Webinar = props => {
                 return;
             }
             setListData(r || { total: 0, data: []});
-
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
         });
     }
 
@@ -102,26 +108,23 @@ const Webinar = props => {
                             <Filter webinarCategoryChange={handleCategoryChange} handleOrder={handleOrder} />
                         </Col>
                         <Col md="12">
-                            {listData.total > 0 ? (
-                                <List
-                                    itemLayout="vertical"  size="large"
-                                    pagination={{
-                                        onChange: page => {
-                                            handlePage(page);
-                                        },
-                                        pageSize: payload.size,
-                                        total: listData.total
-                                    }}
-                                    loading={isLoading.contentLoading}
-                                    dataSource={listData.data}
-                                    // footer={}
-                                    renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
-                                />
-                            ) : <Card>
-                                    <p className="text-center f-16 mb-0">Tidak ada Webinar tersedia.</p>
-                                </Card>
-                            }
-                        
+                            <List
+                                itemLayout="vertical"  size="large"
+                                locale={{emptyText: 
+                                    <NoDataCard title={<p className="mb-0" style={{fontSize: "1.4em"}}>Oopss... Tidak ada Webinar yang bisa ditampilkan.</p>} />
+                                }}
+                                loading={isLoading.contentLoading}
+                                dataSource={listData.data}
+                                renderItem={item => <WebinarList title={item.title} price={item.price} obj={item} />}
+                            />
+                            
+                            <Pagination
+                                onChange={handlePage}
+                                current={payload.page}
+                                className={`float-right ${listData.length == 0 ? "d-none" : ""}`} 
+                                total={listData.total}
+                                responsive={true}
+                            />  
                         </Col>
                     </Row>
                 </div>      

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import 'antd/dist/antd.css';
-import { List, Image, Tag, Popover } from 'antd';
+import { Card, Button, List, Image, Tag, Popover } from 'antd';
 import { Row, Col } from 'reactstrap';
 import NumberFormat from "react-number-format";
 import { Link } from 'react-router-dom';
@@ -8,12 +8,9 @@ import dateFormat from '../../../commons/dateFormat'
 
 import ReactHtmlParser from 'react-html-parser';
 
+import { connect } from 'react-redux';
 import baseUrl from '../../../config/baseUrl';
 import serverUrl from '../../../config/serverUrl';
-
-import { 
-    CheckCircleOutlined 
-} from '@ant-design/icons';
 
 const TechnicalList = (props) => {
     const gridAnalysis = {
@@ -21,8 +18,8 @@ const TechnicalList = (props) => {
         right: 0,
         // margin: '0 0px',
         padding: '15px',
-        WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-        boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
+        WebkitBoxShadow: '0 0 3px 0px rgb(0 0 0 / 15%)',
+        boxShadow: '0 0 3px 0px rgb(0 0 0 / 15%)',
         borderRadius: '0px',
         top: '-25px',
         WebkitTransition: 'all 0.5s',
@@ -67,23 +64,23 @@ const TechnicalList = (props) => {
                         })()}
                     </div>
                 } />
-            {
+
                 <Row className="ml-2 mr-2 mb-4">
                     <Col md="12">
                         <Row>
-                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
-                                <div className="blog"  style={{borderRadius: "0px"}}>
-                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
-                                        <h5 className="f-15 box-title">Signal</h5>
-                                        <p className={props.obj.signal === "Uptrend" ? "signal-technical signal-uptrend mb-0" : props.obj.signal === "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{props.obj.signal}</p>
-                                    </div>
-                                </div>
-                            </Col>
                             <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
                                 <div className="blog" style={{borderRadius: "0px"}}>
                                     <div className="text-center bg-white box-analysis" style={gridAnalysis}>
                                         <h5 className="f-15 box-title">Emiten</h5>
                                         <p className="text-muted f-18 mb-0 emiten-code">{props.obj.emiten_code}</p>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col className="pr-0 pl-0" xs="6" sm="6" md="6" lg="4" xl="4" >
+                                <div className="blog"  style={{borderRadius: "0px"}}>
+                                    <div className="text-center bg-white box-analysis" style={gridAnalysis}>
+                                        <h5 className="f-15 box-title">Signal</h5>
+                                        <p className={props.obj.signal === "Uptrend" ? "signal-technical signal-uptrend mb-0" : props.obj.signal === "Downtrend" ? "signal-technical signal-downtrend mb-0" : "signal-technical signal-netral mb-0" }>{props.obj.signal}</p>
                                     </div>
                                 </div>
                             </Col>
@@ -247,9 +244,13 @@ const TechnicalList = (props) => {
                         </p>
                     </Col>
                 </Row>
-            }
-        </List.Item>
+            </List.Item>
         )
 }
 
-export default TechnicalList
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+    }
+}
+export default connect(mapStateToProps, null)(TechnicalList)

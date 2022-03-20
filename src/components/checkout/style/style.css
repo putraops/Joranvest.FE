@@ -1,4 +1,4 @@
-.ant-list-item {
+#payment-type-list > div > div > ul > .ant-list-item {
     padding: 0px 20px 0px 8px !important;
 }
 

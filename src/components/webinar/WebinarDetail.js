@@ -149,7 +149,7 @@ class WebinarDetail extends React.Component {
             var r = res.data;
             if (r.status) {
                 if (r.status) {
-                    window.location.assign(baseUrl + "/webinar/payment/success/" + r.data.id);
+                    window.location.assign(baseUrl + "/registrasi/webinar-gratis/" + r.data.id);
                 }
             }
         });
@@ -203,7 +203,7 @@ class WebinarDetail extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="section home-1-bg">         
+                <section className="section">         
                     <div className="container-fluid mt-3 pr-0 pl-0">
                         <div className="container mb-3">
                             <Breadcrumb className="pt-1">

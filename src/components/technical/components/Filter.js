@@ -3,8 +3,7 @@ import 'antd/dist/antd.css';
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../../config/axiosConfig';
-import { Button, Card, Select } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Card, Select } from 'antd';
 
 const { Option } = Select;
 
@@ -72,7 +71,7 @@ class Filter extends React.Component {
             <Card size="small" title="Filter" className="borderShadow5">
                 <Row>
                     <Col lg="12" className="mb-2">
-                        <p className="font-weight-bold f-14 mb-1">Emiten</p>
+                        <p className="fw-600 f-14 mb-1">Emiten</p>
                         <Select
                             //mode="multiple"
                             showSearch
@@ -101,9 +100,9 @@ class Filter extends React.Component {
                         </Select>
                     </Col>
                     <Col lg="12" className="mb-2">
-                        <p className="font-weight-bold f-14 mb-1">Signal</p>
+                        <p className="fw-600 f-14 mb-1">Signal</p>
                         <Select className="mr-1 filter-form" 
-                            showSearch
+                            showSearch={false}
                             allowClear
                             placeholder="Pilih Signal"
                             onChange={this.handleFilterSignal}>
@@ -113,9 +112,9 @@ class Filter extends React.Component {
                         </Select>
                     </Col>
                     <Col lg="12" className="mb-2">
-                        <p className="font-weight-bold f-14 mb-1">Timeframe</p>
+                        <p className="fw-600 f-14 mb-1">Timeframe</p>
                         <Select className="mr-1 filter-form" 
-                            showSearch
+                            showSearch={false}
                             allowClear
                             placeholder="Pilih Timeframe"
                             onChange={this.handleFilterTimeframe}

@@ -33,9 +33,10 @@ const ResetPasswordForm = (props) => {
                     axiosApi.post(`/application_user/resetPassword?email=` + values.email)
                     .then(res => {
                         var r = res.data
+
                         resetForm();
                         setIsLoading(false);
-                        sideNotification.open("Reset Password", r.Status ? "Reset Password telah dikirim ke Email kamu." : r.Message, r.Status);
+                        sideNotification.open("Reset Password", r.status ? "Reset Password telah dikirim ke Email kamu." : r.message, r.status);
                     });
                 }}
                 >

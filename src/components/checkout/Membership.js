@@ -451,7 +451,7 @@ const Membership = props => {
                                 <p className="f-13 mt-0 mb-1" key="terms" style={{float: "left"}}
                                     >Dengan menyelesaikan pembelian, Anda menyetujui <a href="/terms" className="font-weight-bold">Ketentuan Layanan</a> ini.
                                 </p>
-                                <Button key="pay" type="primary" loading={false} block onClick={handleCardToken} loading={loading.isButtonCardPaymentLoading}>Bayar</Button>
+                                <Button key="pay" type="primary" block onClick={handleCardToken} loading={loading.isButtonCardPaymentLoading}>Bayar</Button>
                             </Fragment>
                         ]}
                         >

@@ -251,6 +251,7 @@ const CheckoutPage = props => {
                             key={items.key}
                             header={<span className="font-weight-bold">{items.title}</span>}>
                             <List
+                                id="payment-type-list"
                                 size="large"
                                 bordered
                                 dataSource={items.data}

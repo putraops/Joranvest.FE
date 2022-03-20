@@ -22,6 +22,7 @@ import WebinarDetail from './components/webinar/WebinarDetail';
 import WebinarHistory from './components/webinar/WebinarHistory';
 import WebinarReview from './components/webinar/WebinarReview';
 // import WebinarPayment from './components/payment/Webinar';
+import FreeWebinarRegistrationSuccess from './components/checkout/FreeWebinarRegistrationSuccess';
 import SpeakerReview from './components/speaker/review/SpeakerReview';
 
 import Article from './components/article/Article';
@@ -33,7 +34,14 @@ import CheckoutConfirmation from './components/checkout/PaymentGateway/Confirmat
 import MembershipPayment from './components/payment/MembershipPayment'
 import PaymentPage from './components/payment/PaymentPage'
 
+import EducationPage from './components/education/module/EducationPage';
+import EducationDetailPage from './components/education/module/EducationDetailPage';
+import WebinarRecordingPage from './components/education/webinar-recording/WebinarRecordingPage';
+import WebinarRecordingDetailPage from './components/education/webinar-recording/WebinarRecordingDetailPage';
+
 import Transaction from './components/transaction/Transaction';
+
+// import JoranPlayer from './components/demo/JoranPlayer';
 
 import Privacy from './components/Privacy';
 import ContactUs from './components/ContactUs';
@@ -73,18 +81,25 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/my-webinar`} component={WebinarHistory}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/webinar/review/:id`} component={WebinarReview}/>
 
+                        <Route exact path={`${process.env.PUBLIC_URL}/edukasi/modul-pembelajaran`} component={EducationPage}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/edukasi/modul-pembelajaran/:path_url`} component={EducationDetailPage}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/edukasi/webinar-recording`} component={WebinarRecordingPage}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/edukasi/webinar-recording/:path_url`} component={WebinarRecordingDetailPage}/>
+
                         <Route exact path={`${process.env.PUBLIC_URL}/article`} component={Article}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/article/detail/:id`} component={ArticleDetail}/>
 
-                        <Route path={`${process.env.PUBLIC_URL}/checkout/:product_category/:product_id`} component={CheckoutPage}/>
-                        <Route path={`${process.env.PUBLIC_URL}/payment/status/:payment_id`} component={CheckoutConfirmation}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/checkout/:product_category/:product_id`} component={CheckoutPage}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/payment/status/:payment_id`} component={CheckoutConfirmation}/>
                         
-                        <Route path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/membership/payment/:status/:id`} component={MembershipPayment}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/payment/:status/:id`} component={PaymentPage}/>
-                        {/* <Route exact path={`${process.env.PUBLIC_URL}/webinar/payment/:id`} component={WebinarPayment}/> */}
+                        <Route exact path={`${process.env.PUBLIC_URL}/registrasi/webinar-gratis/:id`} component={FreeWebinarRegistrationSuccess}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/speaker/review/:id`} component={SpeakerReview}/>
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/transaction`} component={Transaction}/>
+                        
+                        {/* <Route exact path={`${process.env.PUBLIC_URL}/demo-player`} component={JoranPlayer}/> */}
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/privacy`} component={Privacy}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>

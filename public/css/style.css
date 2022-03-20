@@ -1593,3 +1593,22 @@ p {
 .ant-pagination.mini .ant-pagination-next {
   margin-top: -5px !important;
 }
+
+@media (max-width: 600px) {
+  .ops-drawer > .ant-drawer-content-wrapper {
+    width: 100% !important;
+  }
+}
+@media (min-width: 600px) {
+  .ops-drawer > .ant-drawer-content-wrapper {
+    width: 600px !important;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.ant-card-bordered {
+  border: 1px solid #dfdfdf !important;
+}

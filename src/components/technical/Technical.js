@@ -7,6 +7,7 @@ import './css/style.css'
 
 import TechnicalFilter from './components/Filter';
 import TechnicalList from './components/TechnicalList';
+import { PricingComponents } from '../membership/components/PricingComponents';
 import SubNav from '../_nav/subNav'
 import Footer from '../Footer';
 
@@ -23,8 +24,11 @@ class Technical extends React.Component {
             loading: true,
             isLoading: {
                pageLoading: false,
+               pricingLoading: false,
                contentLoading: true,
             },
+            isDrawerShow: false,
+            pricings: [],
             payload: {
                 page: 1,
                 size: 10,
@@ -44,23 +48,53 @@ class Technical extends React.Component {
     }
 
     LoadData = () => {
-        const { payload } = this.state; 
-        axiosApi.post(`/technical_analysis/getPagination`, payload).then(r => {
-            if (r.data.total > 0) {
-                this.setState({...this.state, listData: r.data});
-            } else {
-                this.setState({...this.state, listData: []});
-            }
+        if (this.props.user === null || !this.props.user.is_membership) {
             this.setState({
                 ...this.state, 
                 loading: false,
                 isLoading: {
+                    pricingLoading: true,
                     pageLoading: false,
                     contentLoading: false,
                 }
             });
-            window.scrollTo(0, 0);
-        });
+            if (!this.props.user?.is_membership) {
+                axiosApi.get(`/membership/getAll`)
+                .then(res => {
+                    var r = res.data;
+                    console.log(r);
+                    if (r.status) {
+                        this.setState({
+                            ...this.state, 
+                            pricings: r.data,
+                            isLoading: {
+                                pricingLoading: false,
+                                pageLoading: false,
+                                contentLoading: false,
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            const { payload } = this.state; 
+            axiosApi.post(`/technical_analysis/getPagination`, payload).then(r => {
+                if (r.data.total > 0) {
+                    this.setState({...this.state, listData: r.data});
+                } else {
+                    this.setState({...this.state, listData: []});
+                }
+                this.setState({
+                    ...this.state, 
+                    loading: false,
+                    isLoading: {
+                        pageLoading: false,
+                        contentLoading: false,
+                    }
+                });
+                window.scrollTo(0, 0);
+            });
+        }
     }
 
     handlePage = event => {
@@ -81,22 +115,16 @@ class Technical extends React.Component {
         });
         this.LoadData();
     }
+
+    handleDrawerShow = (value) => {
+        this.setState({
+            ...this.state, 
+            isDrawerShow: value
+        });
+    }
     
     render() {
-        const { listData, payload, isLoading } = this.state;
-
-        const gridAnalysis = {
-            left: 0,
-            right: 0,
-            // margin: '0 0px',
-            padding: '15px',
-            WebkitBoxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            boxShadow: '0 0 5px 0px rgb(0 0 0 / 15%)',
-            borderRadius: '0px',
-            top: '-25px',
-            WebkitTransition: 'all 0.5s',
-            transition: 'all 0.5s'
-        }
+        const { listData, payload, isLoading, pricings, isDrawerShow } = this.state;
 
         return (
             <React.Fragment>
@@ -114,74 +142,43 @@ class Technical extends React.Component {
                             </Breadcrumb>
                         </div>
                     </div>
-                    <SubNav title="Riset Analisa Teknikal" sub_title="Pilih beragam riset analisa teknikal sesuai strategi & timeframe kamu" />
-                    <div className="container mt-3">
-                        {(() => {
-                            if (this.props.user === null) {
-                                return (
-                                    <Row className="justify-content-md-center">
-                                        <Col md="12">
-                                        <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
-                                                <Row className="justify-content-md-center">
-                                                    <Col lg="7" className="mb-4 text-center">
-                                                        <p className="font-weight-bold f-20 mb-2">Ooops...</p>
-                                                        <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum login. Silahkan login terlebih dahulu.</p>
-                                                    </Col>
-                                                </Row>
-                                                <Row className="justify-content-md-center">
-                                                    <Col md="3" className="">
-                                                        <a href={`/login`}>
-                                                            <Button type="primary"  className="mb-2" block>
-                                                                Login
-                                                            </Button>
-                                                        </a>
-                                                    </Col>
-                                                    <Col md="3" className="">
-                                                        <a href={`/`}>
-                                                            <Button className="mb-2" block>
-                                                                Kembali ke Halaman Utama
-                                                            </Button>
-                                                        </a>
-                                                    </Col>
-                                                </Row>
-                                            </Card>
-                                        </Col>
-                                    </Row>
-                                )
-                            } if (!this.props.user.is_membership) {
-                                return (
-                                    <Row className="justify-content-md-center">
-                                        <Col md="12">
-                                            <Card size="small" className="borderShadow5 p-3 pt-2 pb-2">
-                                                <Row className="justify-content-md-center">
-                                                    <Col lg="7" className="mb-4 text-center">
-                                                        <p className="font-weight-bold f-20 mb-2">Ooops...</p>
-                                                        <p className="font-weight-bold f-18 mb-0" style={{lineHeight: "30px"}}>Kamu belum terdaftar sebagai Member. Silahkan daftar Member terlebih dahulu untuk mendapatkan Analisa terbaik.</p>
-                                                    </Col>
-                                                </Row>
-                                                <Row className="justify-content-md-center">
-                                                    <Col md="3" className="">
-                                                        <a href={`/`}>
-                                                            <Button className="mb-2" block>
-                                                                Kembali ke Halaman Utama
-                                                            </Button>
-                                                        </a>
-                                                    </Col>
-                                                </Row>
-                                            </Card>
-                                        </Col>
-                                    </Row>
-                                )
-                            } else if (this.props.user.is_membership) {
-                                return (
-                                    <Row className="">
-                                        <Col md="4" lg="3" className="mb-3">
-                                            <TechnicalFilter 
-                                                handleFilterTimeframe={this.handleFilterTimeframe} 
-                                                filtering={this.filtering} 
-                                            />
-                                        </Col>
-                                        <Col md="8" lg="9">
+                    <SubNav title="Riset Analisa Teknikal" sub_title="Pilih beragam Riset Analisa Teknikal sesuai Strategi & Timeframe kamu" />
+                    <PricingComponents
+                        pricings={pricings}
+                        isShow={isDrawerShow}
+                        isLoading={isLoading.pricingLoading}
+                        setHide={() => this.handleDrawerShow(false)} />
+                    
+                    
+                    <div className="container mt-4">
+                        <Row className="">
+                            <Col md="4" lg="3" className="mb-3">
+                                <TechnicalFilter 
+                                    handleFilterTimeframe={this.handleFilterTimeframe} 
+                                    filtering={this.filtering} 
+                                />
+                            </Col>
+                            <Col md="8" lg="9">
+                                {(() => {
+                                    if (this.props.user === null || !this.props.user.is_membership) {
+                                        return (
+                                            <Row className="justify-content-md-center">
+                                                <Col md="12">
+                                                    <Card size="small" className="borderShadow4 p-2">
+                                                        <Row className="justify-content-md-center">
+                                                            <Col lg="12" className="mb-2 text-center">
+                                                                {this.props.user === null ? 
+                                                                    <p className="fw-600 f-14 mb-0" style={{lineHeight: "30px"}}>Untuk bisa mendapatkan Analisa terbaik dari kami.<br />Silahkan login terlebih dahulu <a href="/login" >disini</a>.</p>
+                                                                    : <p className="fw-600 f-14 mb-0" style={{lineHeight: "30px"}}>Kamu belum terdaftar sebagai Member untuk bisa mendapatkan Analisa terbaik dari kami.<br />Silahkan daftar Member terlebih dahulu <span className="text-joran" style={{cursor: "pointer"}} onClick={() => this.handleDrawerShow(true)}>disini</span>.</p>
+                                                                }
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+                                                </Col>
+                                            </Row>
+                                        )
+                                    } else {
+                                        return (
                                             <Skeleton active loading={this.state.loading} avatar paragraph={{ rows: 5 }}>
                                                 <List
                                                     itemLayout="vertical" size="large"
@@ -200,11 +197,11 @@ class Technical extends React.Component {
                                                     renderItem={item => <TechnicalList obj={item} />}
                                                 />
                                             </Skeleton>
-                                        </Col>
-                                    </Row>
-                                );
-                            }
-                        })()}                        
+                                        )
+                                    }
+                                })()}
+                            </Col>
+                        </Row>
                     </div>      
                     <Footer />
                 </section>

@@ -93,6 +93,16 @@ class Navbar extends React.Component {
 				</Menu.Item>
             </Menu>
 		);
+		const educationsMenu = (
+            <Menu style={{minWidth: "200px"}}>
+				<Menu.Item key="fundamental">
+					<a rel="noopener noreferrer" href="/edukasi/modul-pembelajaran">Modul Pembelajaran</a>
+				</Menu.Item>
+				<Menu.Item key="teknikal">
+					<a rel="noopener noreferrer" href="/edukasi/webinar-recording">Webinar Recording</a>
+				</Menu.Item>
+            </Menu>
+		);
         const menu = (
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="member_status">
@@ -181,6 +191,11 @@ class Navbar extends React.Component {
 								{/* <li className="nav-item"><a href="/" className="nav-link text-white font-weight-bold mr-3">Home</a></li> */}
 								<li className="nav-item"><a href="/article" className="nav-link text-white font-weight-bold mr-3">Article</a></li>
 								<li className="nav-item"><a href="/webinar" className="nav-link text-white font-weight-bold mr-3">Webinar</a></li>
+								<li className="nav-item">
+									<Dropdown overlay={educationsMenu}>
+										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Edukasi</a>
+									</Dropdown>
+								</li>
 								<li className="nav-item">
 									<Dropdown overlay={analysisMenu}>
 										<a className="ant-dropdown-link nav-link text-white font-weight-bold"  onClick={e => e.preventDefault()}>Analisa</a>

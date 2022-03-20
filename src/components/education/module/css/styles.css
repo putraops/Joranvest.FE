@@ -1,0 +1,128 @@
+.card-education > .ant-card-body{
+    padding: 10px 3px 10px 10px !important;
+    /* //border: 1px solid #c1c1c1 !important; */
+}
+.section-education-header {
+    margin-top: -8px;
+    height: 70px !important;
+}
+
+.descriptions-content > .ant-descriptions-header {
+    margin-bottom: 0px !important;
+}
+
+.tag-rounded {
+    border-radius: 100px;
+}
+
+.section-education-header > .title {
+    padding-top: 2px;
+    font-weight: 500 !important;
+    line-height: 22px !important;
+}
+
+.section-education-header > .sub-title {
+    font-weight: 400 !important;
+    font-size: 13px;
+}
+
+.cover-image-education {
+    width: 100% !important;
+    border: 1px solid #dfdfdf;
+    padding: 2px;
+    height: 160px !important;
+}
+
+
+/* Detail */
+#card-education-detail-information > .ant-card-body {
+    padding: 1px !important;
+}
+
+.card-player > .ant-card-body {
+    padding: 0px !important;
+}
+
+#playlist-video > div > div > ul > li {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#playlist-video .ant-list-item-meta-title {
+    font-weight: 400 !important;    
+}
+
+
+#card-education-detail-cover-image > .ant-card-body {
+    padding: 1px !important;
+    margin-bottom: -5px;
+}
+
+.card-education-detail-information-title {
+    line-height: 30px !important;
+}
+
+#section-player {
+    width: auto;
+    height: 300px;
+    background-color: transparent;
+}
+
+
+@media only screen and (max-width: 1200px) {
+    .cover-image-education {
+        height: 140px !important;
+    }
+}
+@media only screen and (max-width: 1100px) {
+    .cover-image-education {
+        height: 130px !important;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    .cover-image-education {
+        height: 120px !important;
+    }
+}
+@media only screen and (max-width: 992px) {
+    .cover-image-education {
+        height: 180px !important;
+    }
+}
+@media only screen and (max-width: 700px) {
+    .cover-image-education {
+        height: 150px !important;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .cover-image-education {
+        height: 200px !important;
+    }
+}
+
+.ytp-pause-overlay {
+    display: none !important;
+}
+
+.ytp-pause-overlay.ytp-scroll-min {
+    display: none !important;
+}
+
+.sub-menu,
+.sub-menu > a {
+    letter-spacing: 0.5px;
+    padding-bottom: 3px;
+    cursor: pointer;
+    color: black;
+}
+
+
+.sub-menu:hover {
+    border-bottom: 3px solid #3792cb;
+}
+
+.sub-menu-active {
+    border-bottom: 3px solid #3792cb;
+    color: #3792cb;
+}
+

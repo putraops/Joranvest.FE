@@ -31,9 +31,13 @@ export function YoutubePlaylist({user, hasAccess, record}){
                                                             )
                                                         } else {
                                                             return(
-                                                                user ? 
-                                                                    <h6 className='mt-3 text-muted'>Rekaman ini hanya bisa diakses oleh Peserta Webinar atau Member Premium.</h6> :
-                                                                    <h6 className='mt-2 text-muted'>Jika kamu adalah Member Premium. Silahkan login terlebih dahulu <a href="/login" className="text-joran">disini</a>.</h6>
+                                                                <>
+                                                                    <h6 className='mt-3 text-muted'>Rekaman ini hanya bisa diakses oleh Peserta Webinar atau Member Premium.</h6>
+                                                                    {!user && (
+
+                                                                        <h6 className='mt-2 text-muted'>Jika kamu adalah Member Premium. Silahkan login terlebih dahulu <a href="/login" className="text-joran">disini</a>.</h6>
+                                                                    )}
+                                                                </>
                                                             )
                                                         }
                                                     })()}

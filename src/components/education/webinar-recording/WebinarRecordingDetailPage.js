@@ -49,12 +49,15 @@ const WebinarRecordingDetailPage = (props) => {
         services.getByPathUrl(path_url)
         .then(res => {
             var r = res.data;
+            console.log(r);
             if (r.status) {
                 setRecord(r.data);
                 if (r.data.price <= 0 || (props?.user && props?.user.is_membership)) {
                     setHasAccessVideo(true);
-                } else {
+                } else if (r.data.price > 0 && props?.user) {
                     isWebinarRegistered(r.data.webinar_id);
+                } else {
+                    setHasAccessVideo(false);
                 }
             }
             setisInitLoading(false);

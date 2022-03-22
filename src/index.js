@@ -52,6 +52,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { store } from './config/redux/index'
 import { Provider } from 'react-redux';
+import JCSPage from './components/jcs/JCSPage';
 
 class Root extends React.Component {
     render() {
@@ -70,6 +71,7 @@ class Root extends React.Component {
                         
                         <Route path={`${process.env.PUBLIC_URL}/j/:id/:profile_name`} component={Profile}/>
 
+                        <Route path={`${process.env.PUBLIC_URL}/joran-chart-system`} component={JCSPage}/>
                         <Route path={`${process.env.PUBLIC_URL}/technical`} component={Technical}/>
                         <Route path={`${process.env.PUBLIC_URL}/fundamental`} component={Fundamental}/>
                         <Route path={`${process.env.PUBLIC_URL}/fundamental-review/:emiten_code/:id/:filemaster_id`} component={FundamentalAnalysis}/>

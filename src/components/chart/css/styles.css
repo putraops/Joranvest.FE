@@ -1,0 +1,139 @@
+#img-background {
+    width: 60% !important;
+}
+
+.page-header {
+    font-size: 27pt;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.page-subheader {
+    font-size: 20pt;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.content-header {
+    font-size: 20pt;
+    font-weight: 800;
+    line-height: normal;
+}
+
+
+.content {
+    font-size: 14pt;
+    /* font-weight: 500; */
+    line-height: 35px;
+}
+
+.pricing-title {
+    font-size: 16pt;
+}
+
+@media only screen and (max-width: 1200px) {
+    #img-background {
+        width: 70% !important;
+    }
+}
+
+
+
+@media only screen and (max-width: 1150px) {
+    .pricing-title {
+        font-size: 16pt;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .pricing-title {
+        font-size: 15pt;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    #img-background {
+        width: 80% !important;
+    }
+    .pricing-title {
+        font-size: 15pt;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    .page-header {
+        font-size: 24pt;
+    }
+    .page-subheader {
+        font-size: 18pt;
+    }
+
+    .pricing-price {
+        font-size: 20pt;
+    }
+    .pricing-title {
+        font-size: 12pt;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    .pricing-price {
+        font-size: 18pt;
+    }
+    .pricing-title {
+        font-size: 11pt;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    .pricing-price {
+        font-size: 40pt;
+    }
+    .pricing-title {
+        font-size: 20pt;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .page-header {
+        font-size: 22pt;
+    }
+    .page-subheader {
+        font-size: 16pt;
+    }
+
+    .pricing-price {
+        font-size: 30pt;
+    }
+    .pricing-title {
+        font-size: 18pt;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .pricing-price {
+        font-size: 25pt;
+    }
+    .pricing-title {
+        font-size: 16pt;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .pricing-price {
+        font-size: 22pt;
+    }
+    .pricing-title {
+        font-size: 14pt;
+    }
+}
+
+
+@media only screen and (max-width: 500px) {
+    .pricing-price {
+        font-size: 20pt;
+    }
+    .pricing-title {
+        font-size: 13pt;
+    }
+}

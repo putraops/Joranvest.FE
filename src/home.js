@@ -1,5 +1,5 @@
 import React from 'react';
-// import Preloader from './components/Preloader';
+import Preloader from './components/Preloader';
 // import Navbar from './components/Navbar';
 import Home1 from './components/Home1';
 // import AboutSection from './components/AboutSection';
@@ -10,6 +10,7 @@ import ClientSection from './components/ClientSection';
 import PricingSection from './components/PricingSection';
 // import BlogSection from './components/BlogSection';
 // import ContactSection from './components/ContactSection';
+
 import Footer from './components/Footer';
 
 class Home extends React.Component {

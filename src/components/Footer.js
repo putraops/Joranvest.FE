@@ -6,14 +6,14 @@ class Footer extends React.Component {
 
         return (
             <React.Fragment>
-                <section className="footer-bg mt-3 pt-4 pb-0" style={{borderTop: "1.5px solid #ddd"}}>
+                <section className="footer-bg mt-3 pt-4 pb-0" style={{borderTop: "3px solid #3792cb"}}>
                     <div className="container pb-4">
                         <Row>
                             <Col md="6" lg="6" className="mb-2">
                                 <div className="text-dark">
-                                    <p className="text-uppercase text-dark footer-title mb-2">PT. RISAMBESSY KONSULTINDO MANDIRI</p>
-                                    <p className="text-muted mb-0">Jl. Tenggilis Timur Dalam 3th Floor, Tenggilis Mejoyo</p>
-                                    <span className="text-muted mb-1">Surabaya 60292</span>
+                                    <p className="text-uppercase text-dark footer-title mb-2 fw-700">PT. RISAMBESSY KONSULTINDO MANDIRI</p>
+                                    <p className="fw-500 mb-0">Jl. Tenggilis Timur Dalam 3th Floor, Tenggilis Mejoyo</p>
+                                    <span className="fw-500 mb-1">Surabaya 60292</span>
                                 </div>
                             </Col>
                             
@@ -22,16 +22,16 @@ class Footer extends React.Component {
                                     <div className="col-md-2">
                                     </div>
                                     <div className="col-md-5 mb-3">
-                                        <p className="text-uppercase text-dark footer-title mb-2">JORANVEST</p>
-                                        <p className="text-muted mb-0"><a href="/webinar" className="text-secondary">Webinar</a></p>
+                                        <p className="text-uppercase text-joran footer-title mb-2 fw-700">JORANVEST</p>
+                                        <p className="fw-500 mb-0"><a href="/webinar" className="text-secondary">Webinar</a></p>
                                     </div>
                                     <div className="col-md-5">
-                                        <p className="text-uppercase text-dark footer-title mb-2">Bantuan & Panduan</p>
-                                        <p className="text-muted mb-0">Syarat & Ketentuan</p>
-                                        <p className="text-muted mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>
-                                        <p className="text-muted mb-0"><a href="/disclaimer" className="text-secondary">Disclaimer</a></p>
-                                        <p className="text-muted mb-0"><a href="/about-us" className="text-secondary">Tentang Kami</a></p>
-                                        <p className="text-muted mb-0"><a href="/contact-us" className="text-secondary">Hubungi Kami</a></p>
+                                        <p className="text-uppercase text-dark footer-title mb-2 fw-700">Bantuan & Panduan</p>
+                                        <p className="fw-500 mb-0">Syarat & Ketentuan</p>
+                                        <p className="fw-500 mb-0"><a href="/privacy" className="text-secondary">Kebijakan Privasi</a></p>
+                                        <p className="fw-500 mb-0"><a href="/disclaimer" className="text-secondary">Disclaimer</a></p>
+                                        <p className="fw-500 mb-0"><a href="/about-us" className="text-secondary">Tentang Kami</a></p>
+                                        <p className="fw-500 mb-0"><a href="/contact-us" className="text-secondary">Hubungi Kami</a></p>
                                     </div>
                                 </div>
                             </Col>

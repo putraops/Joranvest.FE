@@ -65,7 +65,7 @@ class Navbar extends React.Component {
 		const servicesMenu = (
             <Menu style={{minWidth: "200px"}}>
 				<Menu.Item key="jcs">
-					<a rel="noopener noreferrer" href="/joran-chart-system" className='fw-500'>Joran Chart System</a>
+					<a rel="noopener noreferrer" href="/chart-system">Joranvest Chart System</a>
 				</Menu.Item>
             </Menu>
 		);

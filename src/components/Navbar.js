@@ -97,7 +97,7 @@ class Navbar extends React.Component {
 							}
 							description={
 								<div style={{marginTop: "-5px"}}>
-									{user && !user.is_membership && (
+									{user && user.is_membership && (
 										<Tag color="magenta" className='fw-600'>Member</Tag>
 									)}
 									{user && user.has_jcs_access && (

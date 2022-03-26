@@ -41,8 +41,8 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
             id: "",
             application_user_id: user.id,
             record_id: recordId,
-            order_number: actions.generateOrderNumber(paymentType),
-            payment_date: null,
+            // order_number: actions.generateOrderNumber(paymentType),
+            // payment_date: null,
             payment_type: paymentType,
             payment_status: 2,
             account_name: values.account_name,
@@ -51,7 +51,7 @@ export function TransferModal({isModalShow, setHide, user, recordId, paymentType
             unique_number: uniqueNumber
         }
         
-        axiosApi.post(`/payment/webinarPayment`, payload)
+        axiosApi.post(`/payment/createTransferPayment`, payload)
         .then(res => {
             var r = res.data;
             if (r.status) {

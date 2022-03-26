@@ -35,6 +35,11 @@ const ListTransaction = props => {
                 "value": "",
             },
             {
+                "field": "product_id",
+                "operator": "",
+                "value": "",
+            },
+            {
                 "field": "payment_status",
                 "operator": "=",
                 "value": "",
@@ -114,7 +119,7 @@ const ListTransaction = props => {
     };
 
     function handlePaymentStatusChange(e) {
-        payload.filter[3].value = "";
+        payload.filter[4].value = "";
         var payment_status = "";
         if (e === "pending") {
             payment_status = "2";
@@ -123,19 +128,26 @@ const ListTransaction = props => {
         } else if (e === "failed") {
             payment_status = "3";
         }
-        payload.filter[3].value = payment_status;
+        payload.filter[4].value = payment_status;
         loadPagination();
     }
 
     function handleTypeChange(e) {
         payload.filter[1].value = "";
         payload.filter[2].value = "";
+        payload.filter[3].value = "";
         if (e === "membership") {
             payload.filter[1].value = "IS NOT NULL";
             payload.filter[2].value = "";
+            payload.filter[3].value = "";
         } else if (e === "webinar") {
             payload.filter[1].value = "";
             payload.filter[2].value = "IS NOT NULL";
+            payload.filter[3].value = "";
+        } else if (e === "jcs") {
+            payload.filter[1].value = "";
+            payload.filter[2].value = "";
+            payload.filter[3].value = "IS NOT NULL";
         }
         loadPagination();
     }
@@ -251,6 +263,7 @@ const ListTransaction = props => {
                             <Option value="all">Semua Tipe</Option>
                             <Option value="membership">Membership</Option>
                             <Option value="webinar">Webinar</Option>
+                            <Option value="jcs">Joranvest Chart System</Option>
                         </Select>
                     </Card>
                 </Col>

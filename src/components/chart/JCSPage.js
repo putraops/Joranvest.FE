@@ -1,18 +1,63 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Image } from 'antd';
+import { Image, Spin } from 'antd';
 import NumberFormat from "react-number-format";
 
 import Footer from '../Footer';
+import * as services from './services/ProductServices';
 import "./css/styles.css";
+import sideNotification from '../../commons/sideNotification';
+
+import { LoadingOutlined } from '@ant-design/icons';
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 class JCSPage extends React.Component {
+	constructor(props) {
+        super(props);
+        this.state = {
+            // pricings: [],
+			productRecord: {},
+            isInitLoading: true,
+        };
+    }
+
 	componentDidMount() {
 		document.getElementById("main_navbar").classList.add("navbar-light");
 		document.getElementById("main_navbar").classList.remove("d-none");
+
+		this.getByProductType();
 	}
 
+	getByProductType = () => {
+		this.setState({
+			...this.state, 
+			isInitLoading: true
+		});
+
+        services.getByProductType("Joranvest Chart System")
+        .then(res => {
+            var r = res.data;
+            if (r.status) {
+				this.setState({
+					...this.state, 
+					productRecord: r.data
+				});
+            } else {
+                sideNotification.open("Gagal memuat data membership")
+            }
+
+			this.setState({
+				...this.state, 
+				isInitLoading: false
+			});
+        }).catch(res => {
+			sideNotification.open("Terjadi kesalahan...", res.message, false);
+        });
+    }
+
 	render() {
+        const { isInitLoading, productRecord } = this.state;
+
 		return (
 			<React.Fragment>
 				<section className="section" id="home" style={{backgroundImage: "linear-gradient(#3792cb 80%, #ffffff 0%)"}}>
@@ -82,35 +127,37 @@ class JCSPage extends React.Component {
 							</div>
 						</Col>
 						<Col md="5">
-							<div className={"pricing-box borderShadow5 mt-4 active"}>
-								<div className="price bg-light position-relative p-4 p">
-									<div className="float-left">
-										<h5 className="text-dark pricing-title title mt-2 font-weight-normal mb-0">Joranvest Chart System</h5>
+							<Spin indicator={antIcon} spinning={isInitLoading}>
+								<div className={"pricing-box borderShadow5 mt-4 active"}>
+									<div className="price bg-light position-relative p-4 p">
+										<div className="float-left">
+											<h5 className="text-dark pricing-title title mt-2 font-weight-normal mb-0">{productRecord?.name || ""}</h5>
+										</div>
+										<div className="">
+											<h2 className="text-dark font-weight-normal text-right mb-0">
+												<NumberFormat
+													className='pricing-price'
+													value={productRecord?.price || 0}
+													displayType="text"
+													thousandSeparator={true}
+													prefix=""
+												/>
+											</h2>
+										</div>
+										<div className="text-right">
+											<span className="text-white">per bulan</span>
+										</div>
 									</div>
-									<div className="">
-										<h2 className="text-dark font-weight-normal text-right mb-0">
-											<NumberFormat
-												className='pricing-price'
-												value={40000}
-												displayType="text"
-												thousandSeparator={true}
-												prefix=""
-											/>
-										</h2>
+									<div className="pt-2 pb-2 pr-4 pl-4 pricing-list">
+										<ul className="list-unstyled mb-0">
+											<li className="text-muted f-14 mb-0 fw-500">{productRecord?.description || ""}</li>
+										</ul>
 									</div>
-									<div className="text-right">
-										<span className="text-white">per bulan</span>
+									<div className="pl-4 pr-4 mb-4">
+										<a href={productRecord?.id ? `/checkout/joranvest-chart-system/${productRecord?.id}` : "" } className={`btn btn-joran btn-sm btn-block btn-pricing mt-2 mb-3`} >Beli Sekarang</a>
 									</div>
 								</div>
-								<div className="pt-2 pb-2 pr-4 pl-4 pricing-list">
-									<ul className="list-unstyled mb-0">
-										<li className="text-muted f-14 mb-0 fw-500">*Hanya untuk Akses Chart dan Alert</li>
-									</ul>
-								</div>
-								<div className="pl-4 pr-4 mb-4">
-									<a href={`/checkout/jcs/23`} className={`btn btn-joran btn-sm btn-block btn-pricing mt-2 mb-3`} >Beli Sekarang</a>
-								</div>
-							</div>
+							</Spin>
 						</Col>
 					</Row>
 				</div>

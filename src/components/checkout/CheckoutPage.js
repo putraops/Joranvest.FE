@@ -2,16 +2,16 @@ import React, { Fragment, useState, useEffect } from 'react'
 
 import { Row, Col } from 'reactstrap';
 import axiosApi from '../../config/axiosConfig';
-import { Image, Card, Alert, Radio, List, Skeleton } from 'antd';
+import { Image, Card, Alert, Radio, List } from 'antd';
 import { connect } from 'react-redux';
 import Footer from '../Footer';
 import { Collapse } from 'antd';
 
 import NotFound from '../main/NotFound';
 import { TransferModal } from './components/Modals/TransferModal'
-import CreditCardModal from './components/Modals/CreditCard'
+// import CreditCardModal from './components/Modals/CreditCard'
 import { EWalletModal } from './components/Modals/EWalletModal';
-import { WebinarSummary, MembershipSummary } from './components/Summary';
+import { WebinarSummary, MembershipSummary, JCSSummary } from './components/Summary';
 
 // import { ApplicationMenuDeleteDialog } from "./form/ApplicationMenuDeleteDialog";
 
@@ -40,6 +40,7 @@ const CheckoutPage = props => {
 
     const [webinarRecord, setWebinarRecord] = useState(null)
     const [membershipRecord, setMembershipRecord] = useState(null)
+    const [jcsRecord, setJcsRecord] = useState(null)
     const [totalPrice, setTotalPrice] = useState(0);
     const [customerDetails, setCustomerDetails] = useState({});
     const [qrCodeString, setQrCodeString] = useState("");
@@ -99,7 +100,8 @@ const CheckoutPage = props => {
         if (recordId && productCategory) {
             if (services.isServiceAvailable(productCategory)) {
                 if (productCategory === "webinar") {
-                    services.getWebinarById(recordId).then(res => {
+                    services.getWebinarById(recordId)
+                    .then(res => {
                         var r = res.data;
                         setWebinarRecord(r.data);
 
@@ -115,7 +117,8 @@ const CheckoutPage = props => {
                         setLoading({...loading, isButtonPaymentLoading: false});
                     });
                 } else if (productCategory === "membership") {
-                    services.getMembershipById(recordId).then(res => {
+                    services.getMembershipById(recordId)
+                    .then(res => {
                         var r = res.data;
                         setMembershipRecord(r.data);
 
@@ -123,6 +126,21 @@ const CheckoutPage = props => {
                             //-- Set Price for Membership
                             setTotalPrice(r.data.price * r.data.duration);
                             setIsUserRegisteredAsMember(props.user.is_membership)
+                        }
+                        if (!r.status && (r.message).toLowerCase() === "record not found") {
+                            setIsDataFound(false);
+                        }
+                    }).catch(res => {
+                        setLoading({...loading, isButtonPaymentLoading: false});
+                    });
+                } else if (productCategory === "joranvest-chart-system") {
+                    // alert();
+                    services.getProductById(recordId)
+                    .then(res => {
+                        var r = res.data;
+                        if (r.status) {
+                            setJcsRecord(r.data);
+                            setTotalPrice(r.data.price * r.data.duration);
                         }
                         if (!r.status && (r.message).toLowerCase() === "record not found") {
                             setIsDataFound(false);
@@ -173,8 +191,10 @@ const CheckoutPage = props => {
         let amount = 0;
         if (productCategory === "webinar") { 
             amount = webinarRecord.price - webinarRecord.discount;
-        } else {
+        } else if (productCategory === "membership") {
             amount = membershipRecord.price * membershipRecord.duration;
+        } else if (productCategory === "joranvest-chart-system") {
+            amount = jcsRecord.price * jcsRecord.duration;
         }
 
         amount = 1500;
@@ -185,8 +205,6 @@ const CheckoutPage = props => {
             record_id: recordId,
         }).then(res => {
             var r = res.data;
-            console.log(r);
-
             if (r.status) {
                 setQrCodeString(r.data.qr_string);
                 setModal({...modal, qrModalShow: true});
@@ -206,8 +224,10 @@ const CheckoutPage = props => {
         let amount = 0;
         if (productCategory === "webinar") { 
             amount = webinarRecord.price - webinarRecord.discount;
-        } else {
+        } else if (productCategory === "membership") {
             amount = membershipRecord.price * membershipRecord.duration;
+        } else if (productCategory === "joranvest-chart-system") {
+            amount = jcsRecord.price * jcsRecord.duration;
         }
 
         services.CreateEWalletPayment({
@@ -219,7 +239,6 @@ const CheckoutPage = props => {
             success_redirect_url: baseUrl + "/payment/status"
         }).then(res => {
             var r = res.data;
-            console.log(r);
             if (r.status) {
                 if (paymentType === "OVO") {
                     window.location.replace(baseUrl + "/payment/status/" + r.data.metadata.record_id);
@@ -410,9 +429,13 @@ const CheckoutPage = props => {
                                                     return (
                                                         <WebinarSummary webinarRecord={webinarRecord}/>
                                                     )
-                                                } else {
+                                                } else if (productCategory === "membership"){
                                                     return (
                                                         <MembershipSummary membershipRecord={membershipRecord}/>
+                                                    )
+                                                } else if (productCategory === "joranvest-chart-system") {
+                                                    return (
+                                                        <JCSSummary jcsRecord={jcsRecord}/>
                                                     )
                                                 }
                                             })()}

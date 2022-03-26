@@ -1,6 +1,6 @@
 ﻿import axiosApi from "../../../config/axiosConfig"
 
-var services = ["webinar", "membership"];
+var services = ["webinar", "membership", "joranvest-chart-system"];
 
 export function getWebinarById(id) {
     return axiosApi.get(`/webinar/getById/${id}`);
@@ -8,6 +8,14 @@ export function getWebinarById(id) {
 
 export function getMembershipById(id) {
     return axiosApi.get(`/membership/getById/${id}`);
+}
+
+export function getProductById(id) {
+    return axiosApi.get(`/product/getViewById/${id}`);
+}
+
+export function getProductByRecordId(record_id) {
+    return axiosApi.get(`/product/getProductByRecordId/${record_id}`);
 }
 
 export function getPaymentById(id) {

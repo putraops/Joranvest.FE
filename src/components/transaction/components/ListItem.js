@@ -90,12 +90,18 @@ const ListItem = (props) => {
                                             </p>
                                     </Fragment>
                                 )
-                            } else {
+                            } else if (props.obj.webinar_title !== ""){
                                 return (
                                     <p className="f-14 mt-1 mb-0 font-weight-bold" style={{marginTop: "-5px"}}>
                                             <Tag color="red">Webinar</Tag>{props.obj.webinar_title}
                                     </p>
                                     // <p className="f-14 mt-1 mb-0 font-weight-bold"><Tag className="f-15 mb-1 font-weight-bold" color={props.obj.membership_name !== "" ? "green" : "red"}>{props.obj.membership_name !== "" ? "Membership" : "Webinar"}</Tag> {props.obj.webinar_title}</p>
+                                )
+                            } else {
+                                return (
+                                    <p className="f-14 mt-1 mb-0 font-weight-bold" style={{marginTop: "-5px"}}>
+                                            <Tag color="purple">{props.obj.product_name}</Tag>
+                                    </p>
                                 )
                             }
                         })()}

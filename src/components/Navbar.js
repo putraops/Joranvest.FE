@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col } from 'reactstrap';
-import { Menu, Dropdown, Card, Image } from 'antd';
+import { Menu, Dropdown, Card, Image, Tag } from 'antd';
 import { connect } from 'react-redux'
 import serverUrl from '../config/serverUrl';
 import baseUrl from '../config/baseUrl';
@@ -27,9 +27,6 @@ class Navbar extends React.Component {
 	handleLogout = () => {
 		joranCookies.remove();
 		window.location.assign(baseUrl);
-	}
-
-	handlerError = (event) => {
 	}
 
 	getUserDetail = (user_id) => {
@@ -99,30 +96,37 @@ class Navbar extends React.Component {
 								</div>
 							}
 							description={
-								<div style={{marginTop: "-7px"}}>
-									{(() => {
-										if (user && user.is_membership) {
-											return (
-												<span className="badge bg-warning text-dark mr-2 p-1 pr-4 pl-4" style={{ fontWeight: "700" }}>Member</span>
-
-											)
+								<div style={{marginTop: "-5px"}}>
+									{user && !user.is_membership && (
+										<Tag color="magenta" className='fw-600'>Member</Tag>
+									)}
+									{user && user.has_jcs_access && (
+										<Tag color="purple" className='fw-600'>JCS</Tag>
+									)}
+									{/* {(() => {
+										if (user) {
+											if (!user.is_membership) {
+												return (
+													<Tag color="magenta" className='fw-600'>Member</Tag>
+												)
+											} 
 										}
-									})()}
+									})()} */}
 								</div>
 							}
 						/>
 				</Menu.Item>
 				<Menu.Divider />
 				<Menu.Item key="profile">
-					<a  rel="noopener noreferrer" href="/profile">Profile Saya</a>
+					<a  rel="noopener noreferrer" href="/profile" className='fw-500'>Profile Saya</a>
 				</Menu.Item>
 				<Menu.Item key="webinar_history">
-					<a  rel="noopener noreferrer" href="/my-webinar">Riwayat Webinar</a>
+					<a  rel="noopener noreferrer" href="/my-webinar" className='fw-500'>Riwayat Webinar</a>
 				</Menu.Item>
 				<Menu.Item key="transaction_history">
-					<a  rel="noopener noreferrer" href="/transaction">Riwayat Transaksi</a>
+					<a  rel="noopener noreferrer" href="/transaction" className='fw-500'>Riwayat Transaksi</a>
 				</Menu.Item>
-				<Menu.Item key="logout" onClick={() => this.handleLogout()}>
+				<Menu.Item key="logout" onClick={() => this.handleLogout()} className='fw-500'>
 					Logout
 				</Menu.Item>
             </Menu>

@@ -73,9 +73,7 @@ export function WebinarSummary ({webinarRecord}) {
 }
 
 export function MembershipSummary ({membershipRecord}) {
-    
     useEffect(() => {
-        console.log(membershipRecord);
     }, []);
     
     return (
@@ -119,6 +117,64 @@ export function MembershipSummary ({membershipRecord}) {
                             <th className="text-right">
                                 <p className="font-weight-bold mb-0"><NumberFormat
                                                     value={membershipRecord ? membershipRecord.price * membershipRecord.duration : 0}
+                                                    displayType="text"
+                                                    thousandSeparator={true}
+                                                    prefix="Rp "
+                                                    /></p>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </Skeleton>
+        </Fragment>
+    );
+}
+
+export function JCSSummary ({jcsRecord}) {
+    useEffect(() => {
+    }, []);
+    
+    return (
+        <Fragment>
+            <Skeleton loading={jcsRecord ? false : true} active paragraph={{ rows: 4 }}>
+                <table style={{width: "100%"}}>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p className="mb-0 f-20 membership-name">{jcsRecord ? jcsRecord.name : ""}</p>
+                                <p className="mb-0">Durasi {jcsRecord ? jcsRecord.duration : "0"} Bulan</p>
+                                <p className="mb-3">
+                                    <NumberFormat
+                                        value={jcsRecord ? jcsRecord.total_saving : 0}
+                                        displayType="text"
+                                        thousandSeparator={true}
+                                        prefix="Hemat Rp "
+                                    />
+                                </p>
+                            </td>
+                            <td className="text-right align-top">
+                                <p className="mb-0">
+                                    <NumberFormat
+                                        value={jcsRecord ? jcsRecord.price : 0}
+                                        displayType="text"
+                                        thousandSeparator={true}
+                                        prefix="Rp "
+                                        suffix='/bulan'
+                                    />
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2" style={{borderTop: "1px solid #f0f0f0"}}>
+                            </td>
+                        </tr>
+                        <tr style={{fontSize: "23px"}}>
+                            <th>
+                                <p className="font-weight-bold mb-0">TOTAL</p>
+                            </th>
+                            <th className="text-right">
+                                <p className="font-weight-bold mb-0"><NumberFormat
+                                                    value={jcsRecord ? jcsRecord.price * jcsRecord.duration : 0}
                                                     displayType="text"
                                                     thousandSeparator={true}
                                                     prefix="Rp "

@@ -1,15 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col } from 'reactstrap';
-import { Button, Card, Image, Skeleton, message } from 'antd';
-import NumberFormat from "react-number-format";
 import axiosApi from '../../config/axiosConfig';
 import Footer from '../Footer';
 import sideNotification from '../../commons/sideNotification';
 
 const FreeWebinarRegistrationSuccess = props => {
-    const [webinarRegistrationRecord, setWebinarRegistrationRecord] = useState({});
-    const [paymentRecord, setPaymentRecord] = useState({});
-    const [recordId, setRecordId] = useState("");
     const [loading, setLoading] = useState({
         isContentLoading: true,
     });

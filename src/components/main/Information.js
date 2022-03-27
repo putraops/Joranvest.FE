@@ -15,15 +15,6 @@ import sideNotification from '../../commons/sideNotification';
 
 import ReactHtmlParser from 'react-html-parser';
 
-// import '../st'
-
-// import SubNav from '../_nav/subNav';
-import { Breadcrumb, List, Divider, Skeleton } from 'antd';
-
-import { 
-    HomeOutlined, 
-} from '@ant-design/icons';
-
 const Information = (props) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [userRecord, setUserRecord] = useState(null);

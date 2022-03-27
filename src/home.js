@@ -1,5 +1,5 @@
 import React from 'react';
-import Preloader from './components/Preloader';
+// import Preloader from './components/Preloader';
 // import Navbar from './components/Navbar';
 import Home1 from './components/Home1';
 // import AboutSection from './components/AboutSection';

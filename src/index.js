@@ -29,7 +29,7 @@ import Article from './components/article/Article';
 import ArticleDetail from './components/article/ArticleDetail';
 
 import CheckoutPage from './components/checkout/CheckoutPage'
-import CheckoutMembership from './components/checkout/Membership'
+// import CheckoutMembership from './components/checkout/Membership'
 import CheckoutConfirmation from './components/checkout/PaymentGateway/Confirmation'
 import MembershipPayment from './components/payment/MembershipPayment'
 import PaymentPage from './components/payment/PaymentPage'

@@ -73,7 +73,7 @@ class Pricing extends React.Component {
                                                         {
                                                             <Text className="text-muted f-14">
                                                                 <NumberFormat
-                                                                    value={item.total_saving == 0 ? "-" : item.total_saving}
+                                                                    value={item.total_saving === 0 ? "-" : item.total_saving}
                                                                     displayType="text"
                                                                     thousandSeparator={true}
                                                                     prefix="Hemat Rp "

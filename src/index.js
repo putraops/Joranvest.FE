@@ -47,6 +47,7 @@ import Privacy from './components/Privacy';
 import ContactUs from './components/ContactUs';
 import Disclaimer from './components/Disclaimer';
 import AboutUs from './components/AboutUs';
+import Calendar from './components/Calendar';
 
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -107,6 +108,7 @@ class Root extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/disclaimer`} component={Disclaimer}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/about-us`} component={AboutUs}/>
                         <Route exact path={`${process.env.PUBLIC_URL}/contact-us`} component={ContactUs}/>
+                        <Route exact path={`${process.env.PUBLIC_URL}/calendar`} component={Calendar}/>
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/register-verification/:id`} component={RegisterVerification}/>
                         
